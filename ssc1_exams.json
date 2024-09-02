@@ -1,0 +1,95 @@
+{
+  "subjects": [
+    {
+      "subject_name": "Mathematics",
+      "date": "11-09-2024",
+      "day": "Wednesday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Islamiyat",
+      "date": "13-09-2024",
+      "day": "Friday",
+      "time": "09:00 - 11:30",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Physics",
+      "date": "19-09-2024",
+      "day": "Thursday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "English",
+      "date": "21-09-2024",
+      "day": "Saturday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Chemistry",
+      "date": "24-09-2024",
+      "day": "Tuesday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Urdu",
+      "date": "26-09-2024",
+      "day": "Thursday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Pakistan Studies",
+      "date": "28-09-2024",
+      "day": "Saturday",
+      "time": "09:00 - 11:30",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Biology",
+      "date": "01-10-2024",
+      "day": "Tuesday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Computer Science",
+      "date": "01-10-2024",
+      "day": "Tuesday",
+      "time": "09:00 - 12:00",
+      "Examination": "2nd Annual"
+    },
+    {
+      "subject_name": "Chemistry",
+      "date": "03-10-2024",
+      "day": "Thursday",
+      "time": "14:00 - 14:45",
+      "Examination": "2nd Annual(PBA)"
+    },
+    {
+      "subject_name": "Computer Science",
+      "date": "05-10-2024",
+      "day": "Saturday",
+      "time": "09:00 - 09:45",
+      "Examination": "2nd Annual(PBA)"
+    },
+    {
+      "subject_name": "Biology",
+      "date": "05-10-2024",
+      "day": "Saturday",
+      "time": "09:00 - 09:45",
+      "Examination": "2nd Annual(PBA)"
+    },
+    {
+      "subject_name": "Physics",
+      "date": "07-10-2024",
+      "day": "Monday",
+      "time": "09:00 - 09:45",
+      "Examination": "2nd Annual(PBA)"
+    }
+  ]
+}
