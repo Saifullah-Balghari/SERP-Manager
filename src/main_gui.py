@@ -1,5 +1,6 @@
 # Disclaimer:
 # Icons are not designed by me, sourced from www.flaticon.com
+
 # This is a simple GUI Application that can be used as an Examinations, Results and Paper Manager.
 # As of now this project is a personal side project and is not intended for commercial use or distribution.
 
@@ -8,9 +9,6 @@ import customtkinter as ctk
 from tkinter import messagebox, filedialog      # tk
 from pdf2image import convert_from_path
 from PIL import Image, ImageTk                  # pillow
-
-# Local imports
-from src.login_win import LoginGui
 
 # Inbuilt imports
 import platform
@@ -22,18 +20,7 @@ import os
 
 # Set the default path as "..\..\..\..\..\..\SERP-Manager"
 base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
-
-# Configure logging to write to a log file
-logging.basicConfig(
-    filename=f"{base_path}/app_log.txt",  # Log file name
-    level=logging.WARNING,   # Log level
-    format='%(asctime)s - %(levelname)s - %(message)s',
-)
-
-def custom_warning_handler(message, category, filename, lineno, file=None, line=None):
-    logging.warning(f'{filename}:{lineno}: {category.__name__}: {message}')
-
-warnings.showwarning = custom_warning_handler
+path = "/home/sbalghari/Documents/GitHub/SERP-Manager/current_role.txt"
 
 # Default settings
 ctk.set_appearance_mode("light")
@@ -87,15 +74,22 @@ text_fg = "#53389E"
 WIDTH = 1366
 HEIGHT = 768
 
-class SERPManagerGUI:
-    def __init__(self, role):
+class SERPManagerGUI():
+    def __init__(self):
+
         try:
             if not os.path.exists(CACHE_FOLDER_PATH):
                 os.makedirs(CACHE_FOLDER_PATH)
 
             # Variables declarations
             self.selected_button = None
-            self.role = role.lower()
+            self.role = "student"
+
+            # Load the current role from the file
+            with open(path, 'r') as f:
+                self.role = f.read().strip().lower()
+                if self.role not in ["student", "admin"]:
+                    raise ValueError("Invalid role")
 
             # Converts and resize the PNG to ctkimage for buttons
             self.refresh_pdfs_button_icon = ctk.CTkImage(Image.open(REFRESH_ICON_PATH).resize((18, 18), Image.LANCZOS))
@@ -111,7 +105,7 @@ class SERPManagerGUI:
             self.logout_button_icon = ctk.CTkImage(Image.open(LOGOUT_ICON_PATH).resize((18, 18), Image.LANCZOS))
 
             try:
-                # Initialize the main window
+                # Create the main application window
                 self.root = ctk.CTk()
 
                 # Window configurations
@@ -129,14 +123,16 @@ class SERPManagerGUI:
                 # Create the main frame
                 self.create_main_frame()
 
-                # Run the main event loop   
+                # Run the main loop
                 self.root.mainloop()
 
             except Exception as e:
-                print(e)
                 messagebox.showerror("Error", f"Failed to initialize the application: {e}")
+                print(e)
         except Exception as e:
-            logging.exception("An exception occurred: %s", e)
+            messagebox.showerror( "Error", f"An exception occurred in the Constructor: {e}")
+            print(e)
+
 
     def create_header_frame(self):
 
@@ -164,69 +160,69 @@ class SERPManagerGUI:
 
         # Home button
         self.home_button = ctk.CTkButton(
-            button_frame, 
-            text="Home", 
-            text_color=text_fg, 
-            font=("Helvetica", 22, "bold"), 
-            hover_color=btn_hvr, 
+            button_frame,
+            text="Home",
+            text_color=text_fg,
+            font=("Helvetica", 22, "bold"),
+            hover_color=btn_hvr,
             width=15,
-            height=40, 
-            image=self.HOME_ICON, 
-            compound="left", 
-            anchor="center", 
+            height=40,
+            image=self.HOME_ICON,
+            compound="left",
+            anchor="center",
             command=self.show_home
         )
         self.home_button.grid(padx=(10,5), pady=10, row=0, column=0, sticky="nsew")
 
-        # Exams button   
+        # Exams button
         self.exams_button = ctk.CTkButton(
-            button_frame, 
-            text="Exams", 
-            font=("Helvetica", 22, "bold"), 
-            hover_color=btn_hvr, 
+            button_frame,
+            text="Exams",
+            font=("Helvetica", 22, "bold"),
+            hover_color=btn_hvr,
             width=15,
-            height=40, 
-            image=self.EXAM_ICON, 
-            compound="left", 
-            text_color=text_fg, 
-            anchor="center", 
+            height=40,
+            image=self.EXAM_ICON,
+            compound="left",
+            text_color=text_fg,
+            anchor="center",
             command=self.show_examinations
         )
         self.exams_button.grid(padx=(5,5), pady=10, row=0, column=1, sticky="nsew")
-        
+
         # Results button
         self.results_button = ctk.CTkButton(
-            button_frame, 
-            text="Results", 
-            font=("Helvetica", 22, "bold"), 
+            button_frame,
+            text="Results",
+            font=("Helvetica", 22, "bold"),
             hover_color=btn_hvr,
             width=15,
-            height=40, 
-            image=self.RESULT_ICON, 
-            compound="left", 
-            anchor="center", 
-            text_color=text_fg, 
+            height=40,
+            image=self.RESULT_ICON,
+            compound="left",
+            anchor="center",
+            text_color=text_fg,
             command=self.show_results
         )
         self.results_button.grid(padx=(5,5), pady=10, row=0, column=2, sticky="nsew")
 
         # Papers button
         self.papers_button = ctk.CTkButton(
-            button_frame, 
-            text="Papers", 
-            font=("Helvetica", 22, "bold"), 
+            button_frame,
+            text="Papers",
+            font=("Helvetica", 22, "bold"),
             hover_color=btn_hvr, width=15,
-            height=40, 
-            image=self.PAPERS_ICON, 
-            compound="left", 
-            anchor="center", 
-            text_color=text_fg, 
+            height=40,
+            image=self.PAPERS_ICON,
+            compound="left",
+            anchor="center",
+            text_color=text_fg,
             command=self.show_papers
         )
         self.papers_button.grid(padx=(5,10), pady=10, row=0, column=3, sticky="nsew")
 
-    def create_main_frame(self):    
-    
+    def create_main_frame(self):
+
         # Create the main frame
         self.main_frame = ctk.CTkFrame(self.root, fg_color=bg, corner_radius=0)
         self.main_frame.grid(padx=0, pady=0, row=1, column=0, sticky="nsew")
@@ -243,8 +239,8 @@ class SERPManagerGUI:
 
         # Reset the button state
         for button in [self.home_button, self.exams_button, self.results_button, self.papers_button]:
-            button.configure(fg_color="transparent", text_color=text_fg) 
-        
+            button.configure(fg_color="transparent", text_color=text_fg)
+
         # Set the selected button state
         selected_button.configure(text_color=text_fg_2, fg_color=btn_active)
 
@@ -288,18 +284,18 @@ class SERPManagerGUI:
 
         # Title Label
         logo_label = ctk.CTkLabel(
-            wellcome_message_frame, 
-            text="Welcome To SERP-Manager", 
-            text_color=text_fg, 
+            wellcome_message_frame,
+            text="Welcome To SERP-Manager",
+            text_color=text_fg,
             font=("Helvetica", 36, "bold")
         )
         logo_label.pack(side="top", fill="x")
 
         # Introduction Label
         intro_label = ctk.CTkLabel(
-            wellcome_message_frame, 
-            text="Manage examinations, results, and much more...", 
-            text_color=text_fg, 
+            wellcome_message_frame,
+            text="Manage examinations, results, and much more...",
+            text_color=text_fg,
             font=("Helvetica", 16)
         )
         intro_label.pack(side="top", fill="x")
@@ -319,31 +315,31 @@ class SERPManagerGUI:
         img = Image.open(PAPER_SHORTCUT_ICON_PATH).resize((100, 100), Image.LANCZOS)
         shortcut_1_icon = ImageTk.PhotoImage(img)
 
-        shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=shortcut_1_icon, height=120, width=120)       
+        shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=shortcut_1_icon, height=120, width=120)
         shortcut_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         shortcut_1_text = ctk.CTkLabel(
-            shortcut_1_frame, 
-            text="Papers", 
-            text_color=text_fg, 
+            shortcut_1_frame,
+            text="Papers",
+            text_color=text_fg,
             font=("Helvetica", 16)
         )
         shortcut_1_text.grid(row=0, column=1, padx=10, pady=(10, 0))
 
         shortcut_1_sub_text = ctk.CTkLabel(
-            shortcut_1_frame, 
-            text="Keep track of your past and\n model papers, read them, delete them\n and add more papers etc.", 
-            text_color=text_fg, 
+            shortcut_1_frame,
+            text="Keep track of your past and\n model papers, read them, delete them\n and add more papers etc.",
+            text_color=text_fg,
             font=("Helvetica", 12)
         )
         shortcut_1_sub_text.grid(row=1, column=1, padx=10, pady=0)
 
         go_to_papers_button = ctk.CTkButton(
-            shortcut_1_frame, 
-            text="Go to papers ->", 
+            shortcut_1_frame,
+            text="Go to papers ->",
             fg_color=btn_active,
             hover_color=btn_hvr,
-            width=50, 
+            width=50,
             height=10,
             command=self.show_papers
         )
@@ -357,36 +353,36 @@ class SERPManagerGUI:
         shortcut_2_icon = ImageTk.PhotoImage(img)
 
         shortcut_2_icon = ctk.CTkLabel(
-            shortcut_2_frame, 
-            text="", 
-            image=shortcut_2_icon, 
-            height=120, 
+            shortcut_2_frame,
+            text="",
+            image=shortcut_2_icon,
+            height=120,
             width=120
-        )       
+        )
         shortcut_2_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         shortcut_2_text = ctk.CTkLabel(
-            shortcut_2_frame, 
-            text="Examinations", 
-            text_color=text_fg, 
+            shortcut_2_frame,
+            text="Examinations",
+            text_color=text_fg,
             font=("Helvetica", 16)
         )
         shortcut_2_text.grid(row=0, column=1, padx=10, pady=(10, 0))
 
         shortcut_2_sub_text = ctk.CTkLabel(
-            shortcut_2_frame, 
-            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be able\nto change, remove or add exams.", 
-            text_color=text_fg, 
+            shortcut_2_frame,
+            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be able\nto change, remove or add exams.",
+            text_color=text_fg,
             font=("Helvetica", 12)
         )
         shortcut_2_sub_text.grid(row=1, column=1, padx=10, pady=0)
 
         go_to_exams_button = ctk.CTkButton(
-            shortcut_2_frame, 
-            text="Go to Exams ->", 
-            fg_color=btn_active, 
-            hover_color=btn_hvr, 
-            width=50, 
+            shortcut_2_frame,
+            text="Go to Exams ->",
+            fg_color=btn_active,
+            hover_color=btn_hvr,
+            width=50,
             height=10,
             command=self.show_examinations
             )
@@ -399,36 +395,36 @@ class SERPManagerGUI:
         img = Image.open(RESULT_SHORTCUT_ICON_PATH).resize((100, 100), Image.LANCZOS)
         shortcut_3_icon = ImageTk.PhotoImage(img)
 
-        shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=shortcut_3_icon, height=120, width=120)       
+        shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=shortcut_3_icon, height=120, width=120)
         shortcut_3_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         shortcut_3_text = ctk.CTkLabel(
-            shortcut_3_frame, 
-            text="Results", 
-            text_color=text_fg, 
+            shortcut_3_frame,
+            text="Results",
+            text_color=text_fg,
             font=("Helvetica", 16)
         )
         shortcut_3_text.grid(row=0, column=1, padx=10, pady=(10, 0))
 
         shortcut_3_sub_text = ctk.CTkLabel(
-            shortcut_3_frame, 
-            text="See the results of recent\n examination. The teachers will be able\nto add and remove the results.", 
-            text_color=text_fg, 
+            shortcut_3_frame,
+            text="See the results of recent\n examination. The teachers will be able\nto add and remove the results.",
+            text_color=text_fg,
             font=("Helvetica", 12)
         )
         shortcut_3_sub_text.grid(row=1, column=1, padx=10, pady=0)
 
         go_to_results_button = ctk.CTkButton(
-            shortcut_3_frame, 
-            text="Go to Results ->", 
-            fg_color=btn_active, 
-            hover_color=btn_hvr, 
-            width=50, 
+            shortcut_3_frame,
+            text="Go to Results ->",
+            fg_color=btn_active,
+            hover_color=btn_hvr,
+            width=50,
             height=10,
             command=self.show_results
             )
         go_to_results_button.grid(row=2, column=1, padx=10, ipady=1, ipadx=1, pady=(0, 10))
-        
+
         # news and updates frame
         news_n_updates = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
         news_n_updates.pack(side="top", fill="both", padx=5, pady=0)
@@ -440,10 +436,10 @@ class SERPManagerGUI:
         title_frame.pack(side="top", fill="x", padx=10, pady=0)
 
         news_icon = ctk.CTkLabel(
-            title_frame, 
-            text="", 
-            image=news_icon, 
-            height=120, 
+            title_frame,
+            text="",
+            image=news_icon,
+            height=120,
             width=120
         )
         news_icon.grid(row=0, column=0, sticky="w", padx=(10, 0), pady=0)
@@ -477,16 +473,16 @@ class SERPManagerGUI:
         news_1_frame.pack(fill="x", padx=0, pady=(0, 2))
 
         news_arrow = ctk.CTkLabel(
-            news_1_frame, 
+            news_1_frame,
             image=arrow_icon,
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
 
         news_1_text = ctk.CTkLabel(
-            news_1_frame, 
-            text=self.news_1, 
-            text_color=text_fg, 
+            news_1_frame,
+            text=self.news_1,
+            text_color=text_fg,
             font=("Helvetica", 14)
         )
         news_1_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
@@ -496,35 +492,35 @@ class SERPManagerGUI:
         news_2_frame.pack(fill="x", padx=0, pady=2)
 
         news_arrow = ctk.CTkLabel(
-            news_2_frame, 
+            news_2_frame,
             image=arrow_icon,
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
 
         news_2_text = ctk.CTkLabel(
-            news_2_frame, 
-            text=self.news_2[1:-1], 
-            text_color=text_fg, 
+            news_2_frame,
+            text=self.news_2,
+            text_color=text_fg,
             font=("Helvetica", 14)
         )
         news_2_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
-        
+
         # news 3
         news_3_frame = ctk.CTkFrame(news_frame, fg_color=fg)
         news_3_frame.pack(fill="x", padx=0, pady=2)
 
         news_arrow = ctk.CTkLabel(
-            news_3_frame, 
+            news_3_frame,
             image=arrow_icon,
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
 
         news_3_text = ctk.CTkLabel(
-            news_3_frame, 
-            text=self.news_3, 
-            text_color=text_fg, 
+            news_3_frame,
+            text=self.news_3,
+            text_color=text_fg,
             font=("Helvetica", 14)
         )
         news_3_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
@@ -534,16 +530,16 @@ class SERPManagerGUI:
         news_4_frame.pack(fill="x", padx=0, pady=2)
 
         news_arrow = ctk.CTkLabel(
-            news_4_frame, 
+            news_4_frame,
             image=arrow_icon,
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
 
         news_4_text = ctk.CTkLabel(
-            news_4_frame, 
-            text=self.news_4, 
-            text_color=text_fg, 
+            news_4_frame,
+            text=self.news_4,
+            text_color=text_fg,
             font=("Helvetica", 14)
         )
         news_4_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
@@ -559,21 +555,21 @@ class SERPManagerGUI:
         img = Image.open(TEACHERS_ICON_PATH).resize((100, 100), Image.LANCZOS)
         role_1_icon = ImageTk.PhotoImage(img)
 
-        role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=role_1_icon, height=120, width=120)       
+        role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=role_1_icon, height=120, width=120)
         role_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         role_1_text = ctk.CTkLabel(
-            role_1_frame, 
-            text="Teachers", 
-            text_color=text_fg, 
+            role_1_frame,
+            text="Teachers",
+            text_color=text_fg,
             font=("Helvetica", 18)
         )
         role_1_text.grid(row=0, column=1, padx=11, pady=(10, 0))
 
         role_1_sub_text = ctk.CTkLabel(
-            role_1_frame, 
-            text="This role is for the staff of the school.\n They will have access to all features, they\n will be able to add, edit or remove\n exams, results and papers.", 
-            text_color=text_fg, 
+            role_1_frame,
+            text="This role is for the staff of the school.\n They will have access to all features, they\n will be able to add, edit or remove\n exams, results and papers.",
+            text_color=text_fg,
             font=("Helvetica", 13)
         )
         role_1_sub_text.grid(row=1, column=1, padx=11, pady=0)
@@ -585,25 +581,25 @@ class SERPManagerGUI:
         img = Image.open(STUDENTS_ICON_PATH).resize((100, 100), Image.LANCZOS)
         role_2_icon = ImageTk.PhotoImage(img)
 
-        role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=role_2_icon, height=120, width=120)       
+        role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=role_2_icon, height=120, width=120)
         role_2_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         role_2_text = ctk.CTkLabel(
-            role_2_frame, 
-            text="Students", 
-            text_color=text_fg, 
+            role_2_frame,
+            text="Students",
+            text_color=text_fg,
             font=("Helvetica", 18)
         )
         role_2_text.grid(row=0, column=1, padx=10, pady=(10, 0))
 
         role_2_sub_text = ctk.CTkLabel(
-            role_2_frame, 
-            text="This is the role for students.\nThey will not be able to access any exclusive\n features but they will be able to see news,\n exam datesheets, results and papers.", 
-            text_color=text_fg, 
+            role_2_frame,
+            text="This is the role for students.\nThey will not be able to access any exclusive\n features but they will be able to see news,\n exam datesheets, results and papers.",
+            text_color=text_fg,
             font=("Helvetica", 13)
         )
         role_2_sub_text.grid(row=1, column=1, padx=10, pady=0)
-        
+
         # help & feedback
         help_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         help_frame.grid(row=0, column=2, padx=10, pady=20, sticky="nsew")
@@ -611,21 +607,21 @@ class SERPManagerGUI:
         img = Image.open(SUPPORT_ICON_PATH).resize((100, 100), Image.LANCZOS)
         help_icon = ImageTk.PhotoImage(img)
 
-        about_us_icon = ctk.CTkLabel(help_frame, text="", image=help_icon, height=120, width=120)       
+        about_us_icon = ctk.CTkLabel(help_frame, text="", image=help_icon, height=120, width=120)
         about_us_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         help_text = ctk.CTkLabel(
-            help_frame, 
-            text="Help & Feedback", 
-            text_color=text_fg, 
+            help_frame,
+            text="Help & Feedback",
+            text_color=text_fg,
             font=("Helvetica", 18)
         )
         help_text.grid(row=0, column=1, padx=10, pady=(10, 5))
 
         help_sub_text = ctk.CTkLabel(
-            help_frame, 
+            help_frame,
             text="Have you been in any kind of issue\n while using our program and want it to be\n fixed? Please let us know and we will try\n our best to fix it ASAP.",
-            text_color=text_fg, 
+            text_color=text_fg,
             font=("Helvetica", 13)
         )
         help_sub_text.grid(row=1, column=1, padx=10, ipadx=5, pady=5)
@@ -636,9 +632,9 @@ class SERPManagerGUI:
 
         # close button
         close_btn = ctk.CTkButton(
-            buttons_frame, 
-            text="Close", 
-            text_color=text_fg, 
+            buttons_frame,
+            text="Close",
+            text_color=text_fg,
             hover_color=btn_hvr,
             border_width=1,
             border_color=text_fg,
@@ -649,9 +645,9 @@ class SERPManagerGUI:
 
         # logout button
         logout_btn = ctk.CTkButton(
-            buttons_frame, 
-            text="Logout", 
-            command=self.logout, 
+            buttons_frame,
+            text="Logout",
+            command=self.logout,
             text_color=text_fg_2,
             image=self.logout_button_icon,
             hover_color=btn_hvr,
@@ -661,24 +657,24 @@ class SERPManagerGUI:
 
         # Contact us button
         contact_us_button = ctk.CTkButton(
-            buttons_frame, 
-            text="Contact Us", 
-            command=self.show_contact_us, 
-            text_color=text_fg_2, 
+            buttons_frame,
+            text="Contact Us",
+            command=self.show_contact_us,
+            text_color=text_fg_2,
             hover_color=btn_hvr,
             image=self.contact_us_button_icon,
             fg_color=btn_active,
         )
         contact_us_button.pack(side="left", padx=5, pady=5)
 
-        if self.role == "admin" or self.role == "teacher":
+        if self.role == "admin":
             # Edit news button
             add_news_button = ctk.CTkButton(
-                buttons_frame, 
-                text="Edit News", 
-                command=self.show_edit_news, 
+                buttons_frame,
+                text="Edit News",
+                command=self.show_edit_news,
                 text_color=text_fg_2,
-                image=self.edit_button_icon, 
+                image=self.edit_button_icon,
                 hover_color=btn_hvr,
                 fg_color=btn_active,
             )
@@ -689,7 +685,7 @@ class SERPManagerGUI:
                 buttons_frame,
                 text="Refresh",
                 image=self.refresh_pdfs_button_icon,
-                command=self.create_main_frame, 
+                command=self.create_main_frame,
                 text_color=text_fg_2,
                 hover_color=btn_hvr,
                 fg_color=btn_active,
@@ -758,11 +754,11 @@ class SERPManagerGUI:
         # Ongoing Exams
         current_exams = ctk.CTkFrame(scrollable_frame, fg_color=bg)
         current_exams.pack(fill="x", padx=10, pady=(0, 0))
-        
+
         # Title
         current_exams_label = ctk.CTkLabel(
             current_exams,
-            text="Ongoing Exams",
+            text="Current Exams",
             text_color=text_fg,
             fg_color=bg,
             font=("Helvetica", 22, "bold")
@@ -790,7 +786,7 @@ class SERPManagerGUI:
         ssc_contents_frame = ctk.CTkFrame(ssc_exams_frame, fg_color=bg)
         ssc_contents_frame.pack(fill="x", padx=0, pady=0, expand="true")
 
-        # SSC-I 
+        # SSC-I
         ssc_1_frame = ctk.CTkFrame(ssc_contents_frame, fg_color=bg)
         ssc_1_frame.pack(side="top", fill="x", padx=(0, 0), pady=0, ipady=0)
 
@@ -820,7 +816,7 @@ class SERPManagerGUI:
         self.ssc_2_content_frame = ctk.CTkScrollableFrame(ssc_2_frame, fg_color=bg, orientation="horizontal")
         self.ssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
-        if self.role == "admin" or self.role == "teacher":
+        if self.role == "admin":
             # SSC frame buttons
             ssc_current_exams_config_btn_frame = ctk.CTkFrame(ssc_contents_frame, fg_color=bg)
             ssc_current_exams_config_btn_frame.pack(side="top", fill="x", padx=(0, 0), pady=5)
@@ -916,7 +912,7 @@ class SERPManagerGUI:
         self.hssc_2_content_frame = ctk.CTkScrollableFrame(hssc_2_frame, fg_color=bg, orientation="horizontal")
         self.hssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
-        if self.role == "admin" or self.role == "teacher":
+        if self.role == "admin":
             # HSSC frame buttons
             hssc_current_exams_config_btn_frame = ctk.CTkFrame(hssc_contents_frame, fg_color=bg)
             hssc_current_exams_config_btn_frame.pack(side="top", fill="x", padx=(0, 0), pady=5)
@@ -1001,7 +997,7 @@ class SERPManagerGUI:
             fg_color=fg,
             bg_color=bg,
             text_color=text_fg,
-            font=("Helvetica", 12) 
+            font=("Helvetica", 12)
         )
         text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
 
@@ -1024,10 +1020,10 @@ class SERPManagerGUI:
             fg_color=fg,
             bg_color=bg,
             text_color=text_fg,
-            font=("Helvetica", 12) 
+            font=("Helvetica", 12)
         )
         text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
-        
+
         # Standup or preboard
         preboard_info_frame = ctk.CTkFrame(exams_info_content_frame, fg_color=bg, bg_color=bg)
         preboard_info_frame.grid(row=0, column=2, padx=(8, 16), pady=5, sticky="ew")
@@ -1047,7 +1043,7 @@ class SERPManagerGUI:
             fg_color=fg,
             text_color=text_fg,
             bg_color=bg,
-            font=("Helvetica", 12) 
+            font=("Helvetica", 12)
         )
         text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
 
@@ -1070,7 +1066,7 @@ class SERPManagerGUI:
             fg_color=fg,
             bg_color=bg,
             text_color=text_fg,
-            font=("Helvetica", 12) 
+            font=("Helvetica", 12)
         )
         text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
 
@@ -1102,9 +1098,9 @@ class SERPManagerGUI:
         default_icon = phy_icon
 
         def create_subject_frame(parent_frame, subject_data):
-            subject_name = subject_data["subject_name"] 
+            subject_name = subject_data["subject_name"]
             icon = subject_icon_map.get(subject_name, default_icon)
-        
+
             sub_frame = ctk.CTkFrame(parent_frame, fg_color=fg)
             sub_frame.pack(side="left", padx=5, pady=5)
 
@@ -1127,11 +1123,11 @@ class SERPManagerGUI:
             )
             sub_sub_text.grid(row=1, column=1, padx=5, ipadx=2, pady=(0, 5))
 
-        ssc1_subjects = load_subjects(f"{base_path}/ssc1_exams.json")
-        ssc2_subjects = load_subjects(f"{base_path}/ssc2_exams.json")
-        hssc1_subjects = load_subjects(f"{base_path}/hssc1_exams.json")
-        hssc2_subjects = load_subjects(f"{base_path}/hssc2_exams.json")
-            
+        ssc1_subjects = load_subjects(f"{base_path}/json/ssc1_exams.json")
+        ssc2_subjects = load_subjects(f"{base_path}/json/ssc2_exams.json")
+        hssc1_subjects = load_subjects(f"{base_path}/json/hssc1_exams.json")
+        hssc2_subjects = load_subjects(f"{base_path}/json/hssc2_exams.json")
+
         if not ssc1_subjects:
             ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
             ssc1_label.pack(fill="x", pady=50)
@@ -1145,14 +1141,14 @@ class SERPManagerGUI:
         else:
             for subject in ssc2_subjects:
                 create_subject_frame(self.ssc_2_content_frame, subject)
-        
+
         if not hssc1_subjects:
             hssc1_label = ctk.CTkLabel(self.hssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
             hssc1_label.pack(fill="x", pady=50)
         else:
             for subject in hssc1_subjects:
                 create_subject_frame(self.hssc_1_content_frame, subject)
-        
+
         if not hssc2_subjects:
             hssc2_label = ctk.CTkLabel(self.hssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
             hssc2_label.pack(fill="x", pady=50)
@@ -1176,9 +1172,9 @@ class SERPManagerGUI:
         exam_name: str = "Annual Examinations HSSC 2024 Results"
 
         self.exam_name = ctk.CTkLabel(
-            self.results_main_frame, 
-            fg_color=bg, 
-            font=("helvetica", 22, "bold"), 
+            self.results_main_frame,
+            fg_color=bg,
+            font=("helvetica", 22, "bold"),
             text=exam_name,
             text_color=text_fg
         )
@@ -1200,7 +1196,7 @@ class SERPManagerGUI:
         self.roll_no_entry = ctk.CTkEntry(self.search_frame, placeholder_text="Enter roll number...", width=300)
         self.roll_no_entry.pack(side="right", padx=5, pady=5)
 
-        self.result_content_frame = ctk.CTkFrame(self.results_main_frame)
+        self.result_content_frame = ctk.CTkFrame(self.results_main_frame, fg_color=bg)
         self.result_content_frame.pack(side="top", fill="both", padx=5, pady=5, expand=True)
 
     def show_papers(self):
@@ -1210,39 +1206,39 @@ class SERPManagerGUI:
 
         # Main scrollable frame
         self.scrollable_frame = ctk.CTkScrollableFrame(
-            self.main_frame, 
-            fg_color=bg, 
+            self.main_frame,
+            fg_color=bg,
             bg_color=bg
         )
         self.scrollable_frame.grid(row=0, column=0, padx=10, pady=(10, 10), sticky="nsew")
 
         # Buttons frame
         self.button_frame = ctk.CTkFrame(
-            self.main_frame, 
+            self.main_frame,
             fg_color=bg
         )
         self.button_frame.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="ew")
 
-        # Refresh papers button 
+        # Refresh papers button
         refresh_pdfs_button = ctk.CTkButton(
-            self.button_frame, 
-            text="Refresh Papers", 
-            text_color=text_fg_2, 
-            image=self.refresh_pdfs_button_icon, 
+            self.button_frame,
+            text="Refresh Papers",
+            text_color=text_fg_2,
+            image=self.refresh_pdfs_button_icon,
             fg_color=btn_active,
-            hover_color=btn_hvr,  
+            hover_color=btn_hvr,
             command=self.refresh_pdfs
         )
         refresh_pdfs_button.grid(row=0, column=0, padx=10, pady=10, sticky="w")
 
         # Add papers button
         add_paper_button = ctk.CTkButton(
-            self.button_frame, 
-            text="Add Papers", 
-            text_color=text_fg_2, 
-            image=self.add_paper_button_icon, 
+            self.button_frame,
+            text="Add Papers",
+            text_color=text_fg_2,
+            image=self.add_paper_button_icon,
             hover_color=btn_hvr,
-            fg_color=btn_active, 
+            fg_color=btn_active,
             command=self.add_paper
         )
         add_paper_button.grid(row=0, column=1, padx=10, pady=10, sticky="w")
@@ -1263,15 +1259,14 @@ class SERPManagerGUI:
         self.main_frame.grid_rowconfigure(0, weight=1)
         self.main_frame.grid_rowconfigure(1, weight=0)
         self.main_frame.grid_columnconfigure(0, weight=1)
-        
+
         # Load the pdfs to the main scrollable frame
         self.load_pdfs(DEFAULT_PDFs_PATH)
 
 # helper functions for show home section
     def logout(self):
-        self.root.destroy()        
-        LoginGui()
-    
+        raise NotImplementedError
+
     def show_edit_news(self):
         # Edit news window initialization
         self.edt_news_window = ctk.CTk()
@@ -1282,7 +1277,7 @@ class SERPManagerGUI:
         self.title = ctk.CTkLabel(
             self.edt_news_window,
             text="Edit the News",
-            font=("Helvetica", 22, "bold"), 
+            font=("Helvetica", 22, "bold"),
             fg_color=bg,
             text_color=text_fg
         )
@@ -1403,13 +1398,13 @@ class SERPManagerGUI:
             f.truncate(0)
             f.write(f"{self.news_1}\n{self.news_2}\n{self.news_3}\n{self.news_4}")
             print("News updated successfully!")
-    
+
         # Close the window
         self.edt_news_window.destroy()
 
     def show_contact_us(self):
         """Show contact information on a different window."""
-        
+
         # Create a new window for showing contact information
         self.show_contact_us_window = ctk.CTk()
         self.show_contact_us_window.overrideredirect(True)
@@ -1423,10 +1418,10 @@ class SERPManagerGUI:
 
         # Create a frame for holding the contact information
         main_frame1 = ctk.CTkFrame(
-            self.show_contact_us_window, 
-            width=WIDTH, 
-            height=HEIGHT, 
-            fg_color=fg, 
+            self.show_contact_us_window,
+            width=WIDTH,
+            height=HEIGHT,
+            fg_color=fg,
             corner_radius=0,
             border_width=2,
             border_color=text_fg
@@ -1435,16 +1430,16 @@ class SERPManagerGUI:
 
         # Add a title label to the frame
         title = ctk.CTkLabel(
-            main_frame1, 
+            main_frame1,
             text="Contact Us",
-            text_color=text_fg, 
+            text_color=text_fg,
             font=("Helvetica", 22, "bold")
         )
         title.pack(side="top", fill="x", padx=10, pady=5)
 
         # Add a label with contact information to the frame
         info = ctk.CTkLabel(
-            main_frame1, 
+            main_frame1,
             text="For any queries, please contact us at:\n\nEmail: balgharisaifullah@gmail.com\nPhone: +92355-4300937",
             text_color=text_fg,
             font=("Helvetica", 16)
@@ -1453,9 +1448,9 @@ class SERPManagerGUI:
 
         # Add a close button to the frame to close the window when clicked
         close_button = ctk.CTkButton(
-            main_frame1, 
+            main_frame1,
             text="Close",
-            text_color=text_fg_2, 
+            text_color=text_fg_2,
             font=("Helvetica", 14),
             fg_color=btn_active,
             hover_color=btn_hvr,
@@ -1463,7 +1458,7 @@ class SERPManagerGUI:
         )
         close_button.pack(side="top", fill="x", padx=50, pady=10)
 
-        # Run the mainloop 
+        # Run the mainloop
         self.show_contact_us_window.mainloop()
 
     def center_window(self, window, width=300, height=200):
@@ -1489,11 +1484,11 @@ class SERPManagerGUI:
 
         window.bind("<Button-1>", start_drag)
         window.bind("<B1-Motion>", drag)
-        
-# helper functions for show examinations section
 
+# helper functions for show examinations section
     def get_exams_info(self):
         raise NotImplementedError
+
 # helper functions for show papers section
     def refresh_pdfs(self):
         self.load_pdfs(DEFAULT_PDFs_PATH)
@@ -1541,11 +1536,11 @@ class SERPManagerGUI:
             tile_frame = ctk.CTkFrame(frame, width=width, height=250, fg_color=fg)
             tile_frame.grid(row=row, column=col, padx=10, pady=10)
             tile_frame.grid_propagate(False)
-            
+
             label_image = ctk.CTkLabel(tile_frame, image=img_tk, text="", text_color=text_fg)
             # label_image.image = img_tk
             label_image.pack(pady=15, padx=20)
-            
+
             file_name = os.path.basename(pdf_path)
             if len(file_name) > 15:
                 file_name = file_name[:15] + "..."
@@ -1572,12 +1567,12 @@ class SERPManagerGUI:
             self.scrollable_frame.destroy()
             self.scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
             self.scrollable_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-            
+
             pdf_files = [f for f in os.listdir(directory) if f.endswith('.pdf')]
             if not pdf_files:
                 messagebox.showinfo("Info", "No PDF files found in the directory.")
                 return
-            
+
             row = 0
             col = 0
             max_columns = 8
@@ -1595,3 +1590,4 @@ class SERPManagerGUI:
 
         for widget in self.main_frame.winfo_children():
             widget.destroy()
+
