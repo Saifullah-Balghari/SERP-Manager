@@ -20,49 +20,45 @@ import json
 import shutil
 import os
 
-# Set the default path as "..\..\..\..\..\..\SERP-Manager"
-base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
-path = "/home/sbalghari/Documents/GitHub/SERP-Manager/current_role.txt"
-
 # Default settings
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
-# Icons
-ADD_ICON_PATH = os.path.join(base_path, "Icons", "add.png")
-EXAM_ICON_PATH = os.path.join(base_path, "Icons", "exam.png")
-HOME_ICON_PATH = os.path.join(base_path, "Icons", "home.png")
-PAPERS_ICON_PATH = os.path.join(base_path, "Icons", "papers.png")
-REFRESH_ICON_PATH = os.path.join(base_path, "Icons", "refresh.png")
-DELETE_ICON_PATH = os.path.join(base_path, "Icons", "remove.png")
-RESULT_ICON_PATH = os.path.join(base_path, "Icons", "results.png")
-EXAM_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "exam_shortcut.png")
-PAPER_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "paper_shortcut.png")
-RESULT_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "result_shortcut.png")
-CONTACT_US_ICON_PATH = os.path.join(base_path, "Icons", "contact_us.png")
-ADD_EXAMS_ICON_PATH = os.path.join(base_path, "Icons", "add_exam.png")
-SUPPORT_ICON_PATH = os.path.join(base_path, "Icons", "support.png")
-NEWS_ICON_PATH = os.path.join(base_path, "Icons", "news.png")
-STUDENTS_ICON_PATH = os.path.join(base_path, "Icons", "student.png")
-TEACHERS_ICON_PATH = os.path.join(base_path, "Icons", "staff.png")
-RIGHT_ARROW_ICON_PATH = os.path.join(base_path, "Icons", "right_arrow.png")
-EDIT_ICON_PATH = os.path.join(base_path, "Icons", "edit.png")
-LOGOUT_ICON_PATH = os.path.join(base_path, "Icons", "logout.png")
+# # Icons
+# ADD_ICON_PATH = os.path.join(base_path, "Icons", "add.png")
+# EXAM_ICON_PATH = os.path.join(base_path, "Icons", "exam.png")
+# HOME_ICON_PATH = os.path.join(base_path, "Icons", "home.png")
+# PAPERS_ICON_PATH = os.path.join(base_path, "Icons", "papers.png")
+# REFRESH_ICON_PATH = os.path.join(base_path, "Icons", "refresh.png")
+# DELETE_ICON_PATH = os.path.join(base_path, "Icons", "remove.png")
+# RESULT_ICON_PATH = os.path.join(base_path, "Icons", "results.png")
+# EXAM_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "exam_shortcut.png")
+# PAPER_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "paper_shortcut.png")
+# RESULT_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "result_shortcut.png")
+# CONTACT_US_ICON_PATH = os.path.join(base_path, "Icons", "contact_us.png")
+# ADD_EXAMS_ICON_PATH = os.path.join(base_path, "Icons", "add_exam.png")
+# SUPPORT_ICON_PATH = os.path.join(base_path, "Icons", "support.png")
+# NEWS_ICON_PATH = os.path.join(base_path, "Icons", "news.png")
+# STUDENTS_ICON_PATH = os.path.join(base_path, "Icons", "student.png")
+# TEACHERS_ICON_PATH = os.path.join(base_path, "Icons", "staff.png")
+# RIGHT_ARROW_ICON_PATH = os.path.join(base_path, "Icons", "right_arrow.png")
+# EDIT_ICON_PATH = os.path.join(base_path, "Icons", "edit.png")
+# LOGOUT_ICON_PATH = os.path.join(base_path, "Icons", "logout.png")
 
-# Icons of Subjects
-MATHS_ICON_PATH = os.path.join(base_path, "Icons", "math.png")
-BIOLOGY_ICON_PATH = os.path.join(base_path, "Icons", "bio.png")
-ENGLISH_ICON_PATH = os.path.join(base_path, "Icons", "eng.png")
-URDU_ICON_PATH = os.path.join(base_path, "Icons", "urdu.png")
-PHYSICS_ICON_PATH = os.path.join(base_path, "Icons", "phy.png")
-CHEMISTRY_ICON_PATH = os.path.join(base_path, "Icons", "chemistry.png")
-COMPUTER_ICON_PATH = os.path.join(base_path, "Icons", "cs.png")
-ISLAMIYAT_ICON_PATH = os.path.join(base_path, "Icons", "islamiyat.png")
-PK_STD_ICON_PATH = os.path.join(base_path, "Icons", "ps.png")
+# # Icons of Subjects
+# MATHS_ICON_PATH = os.path.join(base_path, "Icons", "math.png")
+# BIOLOGY_ICON_PATH = os.path.join(base_path, "Icons", "bio.png")
+# ENGLISH_ICON_PATH = os.path.join(base_path, "Icons", "eng.png")
+# URDU_ICON_PATH = os.path.join(base_path, "Icons", "urdu.png")
+# PHYSICS_ICON_PATH = os.path.join(base_path, "Icons", "phy.png")
+# CHEMISTRY_ICON_PATH = os.path.join(base_path, "Icons", "chemistry.png")
+# COMPUTER_ICON_PATH = os.path.join(base_path, "Icons", "cs.png")
+# ISLAMIYAT_ICON_PATH = os.path.join(base_path, "Icons", "islamiyat.png")
+# PK_STD_ICON_PATH = os.path.join(base_path, "Icons", "ps.png")
 
-# Paths
-DEFAULT_PDFs_PATH = os.path.join(base_path, "Papers")
-CACHE_FOLDER_PATH = os.path.join(base_path, "Cache")
+# # Paths
+# DEFAULT_PDFs_PATH = os.path.join(base_path, "Papers")
+# CACHE_FOLDER_PATH = os.path.join(base_path, "Cache")
 
 # Color scheme
 bg = "#FCFAFF"
@@ -72,40 +68,80 @@ btn_hvr = "#7F56D9"
 btn_active = "#6941C6"
 text_fg = "#53389E"
 
-# Window size
-WIDTH = 1366
-HEIGHT = 768
-
 class SERPManagerGUI():
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        
+        # Set the default path as "..\..\..\..\..\..\SERP-Manager"
+        self.base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
+
+        # Paths
+        self.current_role_path = os.path.join(self.base_path, "current_role.txt")
+        self.default_pdfs_path = os.path.join(self.base_path, "Papers")
+        self.cache_folder_path = os.path.join(self.base_path, "Cache")
+        
+        try:
+
+            # Icons
+            self.add_icon_path = os.path.join(self.base_path, "Icons", "add.png")
+            self.exam_icon_path = os.path.join(self.base_path, "Icons", "exam.png")
+            self.home_icon_path = os.path.join(self.base_path, "Icons", "home.png")
+            self.papers_icon_path = os.path.join(self.base_path, "Icons", "papers.png")
+            self.refresh_icon_path = os.path.join(self.base_path, "Icons", "refresh.png")
+            self.delete_icon_path = os.path.join(self.base_path, "Icons", "remove.png")
+            self.result_icon_path = os.path.join(self.base_path, "Icons", "results.png")
+            self.exam_shortcut_icon_path = os.path.join(self.base_path, "Icons", "exam_shortcut.png")
+            self.paper_shortcut_icon_path = os.path.join(self.base_path, "Icons", "paper_shortcut.png")
+            self.result_shortcut_icon_path = os.path.join(self.base_path, "Icons", "result_shortcut.png")
+            self.contact_us_icon_path = os.path.join(self.base_path, "Icons", "contact_us.png")
+            self.add_exams_icon_path = os.path.join(self.base_path, "Icons", "add_exam.png")
+            self.support_icon_path = os.path.join(self.base_path, "Icons", "support.png")
+            self.news_icon_path = os.path.join(self.base_path, "Icons", "news.png")
+            self.students_icon_path = os.path.join(self.base_path, "Icons", "student.png")
+            self.teachers_icon_path = os.path.join(self.base_path, "Icons", "staff.png")
+            self.right_arrow_icon_path = os.path.join(self.base_path, "Icons", "right_arrow.png")
+            self.logout_icon_path = os.path.join(self.base_path, "Icons", "logout.png")
+            self.edit_icon_path = os.path.join(self.base_path, "Icons", "edit.png")
+
+            # Icons of Subjects
+            self.maths_icon_path = os.path.join(self.base_path, "Icons", "math.png")
+            self.biology_icon_path = os.path.join(self.base_path, "Icons", "bio.png")
+            self.english_icon_path = os.path.join(self.base_path, "Icons", "eng.png")
+            self.urdu_icon_path = os.path.join(self.base_path, "Icons", "urdu.png")
+            self.physics_icon_path = os.path.join(self.base_path, "Icons", "phy.png")
+            self.chemistry_icon_path = os.path.join(self.base_path, "Icons", "chemistry.png")
+            self.computer_icon_path = os.path.join(self.base_path, "Icons", "cs.png")
+            self.islamiyat_icon_path = os.path.join(self.base_path, "Icons", "islamiyat.png")
+            self.pk_std_icon_path = os.path.join(self.base_path, "Icons", "ps.png")
+
+            # Converts and resize the PNG to ctkimage for buttons
+            self.refresh_pdfs_button_icon = ctk.CTkImage(Image.open(self.refresh_icon_path).resize((18, 18), Image.LANCZOS))
+            self.add_paper_button_icon = ctk.CTkImage(Image.open(self.add_icon_path).resize((18, 18), Image.LANCZOS))
+            self.delete_paper_button_icon = ctk.CTkImage(Image.open(self.delete_icon_path).resize((18, 18), Image.LANCZOS))
+            self.HOME_ICON = ctk.CTkImage(Image.open(self.home_icon_path).resize((26, 26), Image.LANCZOS))
+            self.PAPERS_ICON = ctk.CTkImage(Image.open(self.papers_icon_path).resize((26, 26), Image.LANCZOS))
+            self.EXAM_ICON = ctk.CTkImage(Image.open(self.exam_icon_path).resize((26, 26), Image.LANCZOS))
+            self.RESULT_ICON = ctk.CTkImage(Image.open(self.result_icon_path).resize((26, 26), Image.LANCZOS))
+            self.contact_us_button_icon = ctk.CTkImage(Image.open(self.contact_us_icon_path).resize((18, 18), Image.LANCZOS))
+            self.add_exams_button_icon = ctk.CTkImage(Image.open(self.add_exams_icon_path).resize((18, 18), Image.LANCZOS))
+            self.edit_button_icon = ctk.CTkImage(Image.open(self.edit_icon_path).resize((18, 18), Image.LANCZOS))
+
+        except FileNotFoundError as e:
+            print(f"Error: {str(e)}")
 
         try:
-            if not os.path.exists(CACHE_FOLDER_PATH):
-                os.makedirs(CACHE_FOLDER_PATH)
+            if not os.path.exists(self.cache_folder_path):
+                os.makedirs(self.cache_folder_path)
 
             # Variables declarations
             self.selected_button = None
             self.role = "student"
 
             # Load the current role from the file
-            with open(path, 'r') as f:
+            with open(self.current_role_path, 'r') as f:
                 self.role = f.read().strip().lower()
                 if self.role not in ["student", "admin"]:
                     raise ValueError("Invalid role")
-
-            # Converts and resize the PNG to ctkimage for buttons
-            self.refresh_pdfs_button_icon = ctk.CTkImage(Image.open(REFRESH_ICON_PATH).resize((18, 18), Image.LANCZOS))
-            self.add_paper_button_icon = ctk.CTkImage(Image.open(ADD_ICON_PATH).resize((18, 18), Image.LANCZOS))
-            self.delete_paper_button_icon = ctk.CTkImage(Image.open(DELETE_ICON_PATH).resize((18, 18), Image.LANCZOS))
-            self.HOME_ICON = ctk.CTkImage(Image.open(HOME_ICON_PATH).resize((26, 26), Image.LANCZOS))
-            self.PAPERS_ICON = ctk.CTkImage(Image.open(PAPERS_ICON_PATH).resize((26, 26), Image.LANCZOS))
-            self.EXAM_ICON = ctk.CTkImage(Image.open(EXAM_ICON_PATH).resize((26, 26), Image.LANCZOS))
-            self.RESULT_ICON = ctk.CTkImage(Image.open(RESULT_ICON_PATH).resize((26, 26), Image.LANCZOS))
-            self.contact_us_button_icon = ctk.CTkImage(Image.open(CONTACT_US_ICON_PATH).resize((18, 18), Image.LANCZOS))
-            self.add_exams_button_icon = ctk.CTkImage(Image.open(ADD_EXAMS_ICON_PATH).resize((18, 18), Image.LANCZOS))
-            self.edit_button_icon = ctk.CTkImage(Image.open(EDIT_ICON_PATH).resize((18, 18), Image.LANCZOS))
-            self.logout_button_icon = ctk.CTkImage(Image.open(LOGOUT_ICON_PATH).resize((18, 18), Image.LANCZOS))
 
             try:
                 # Create the main application window
@@ -113,8 +149,9 @@ class SERPManagerGUI():
 
                 # Window configurations
                 self.root.title("SERP-Manager (Developed By Saifullah Balghari)")
-                self.root.geometry(f"{WIDTH}x{HEIGHT}")
+                self.root.geometry("1368x768")
                 self.root.resizable(False, False)
+                self.root.configure(fg_color=bg)
                 self.root.iconbitmap(None, None)
                 self.root.grid_rowconfigure(0, weight=1)
                 self.root.grid_rowconfigure(1, weight=15)
@@ -130,10 +167,8 @@ class SERPManagerGUI():
                 self.root.mainloop()
 
             except Exception as e:
-                messagebox.showerror("Error", f"Failed to initialize the application: {e}")
                 print(e)
         except Exception as e:
-            messagebox.showerror( "Error", f"An exception occurred in the Constructor: {e}")
             print(e)
 
     def create_header_frame(self):
@@ -314,7 +349,7 @@ class SERPManagerGUI():
         shortcut_1_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_1_frame.grid(row=0, column=0, padx=30, pady=10, sticky="nsew")
 
-        img = Image.open(PAPER_SHORTCUT_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img = Image.open(self.paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_1_icon = ImageTk.PhotoImage(img)
 
         shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=shortcut_1_icon, height=120, width=120)
@@ -351,7 +386,7 @@ class SERPManagerGUI():
         shortcut_2_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_2_frame.grid(row=0, column=1, padx=30, pady=10, sticky="nsew")
 
-        img = Image.open(EXAM_SHORTCUT_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img = Image.open(self.exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_2_icon = ImageTk.PhotoImage(img)
 
         shortcut_2_icon = ctk.CTkLabel(
@@ -394,7 +429,7 @@ class SERPManagerGUI():
         shortcut_3_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_3_frame.grid(row=0, column=2, padx=30, pady=10, sticky="nsew")
 
-        img = Image.open(RESULT_SHORTCUT_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img = Image.open(self.result_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_3_icon = ImageTk.PhotoImage(img)
 
         shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=shortcut_3_icon, height=120, width=120)
@@ -431,7 +466,7 @@ class SERPManagerGUI():
         news_n_updates = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
         news_n_updates.pack(side="top", fill="both", padx=5, pady=0)
 
-        img = Image.open(NEWS_ICON_PATH).resize((60, 60), Image.LANCZOS)
+        img = Image.open(self.news_icon_path).resize((60, 60), Image.LANCZOS)
         news_icon = ImageTk.PhotoImage(img)
 
         title_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, bg_color=bg)
@@ -459,7 +494,7 @@ class SERPManagerGUI():
         news_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, corner_radius=0)
         news_frame.pack(fill="x", padx=30, pady=(0, 10))
 
-        with open(f"{base_path}/news.txt", "rb") as f:
+        with open(f"{self.base_path}/news.txt", "rb") as f:
             lines = f.readlines()
 
         self.news_1 = lines[0].strip() if len(lines) > 0 else ""
@@ -467,7 +502,7 @@ class SERPManagerGUI():
         self.news_3 = lines[2].strip() if len(lines) > 2 else ""
         self.news_4 = lines[3].strip() if len(lines) > 3 else ""
 
-        img = Image.open(RIGHT_ARROW_ICON_PATH).resize((20, 20), Image.LANCZOS)
+        img = Image.open(self.right_arrow_icon_path).resize((20, 20), Image.LANCZOS)
         arrow_icon = ImageTk.PhotoImage(img)
 
         # news 1
@@ -554,7 +589,7 @@ class SERPManagerGUI():
         role_1_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         role_1_frame.grid(row=0, column=0, padx=7, pady=20, sticky="nsew")
 
-        img = Image.open(TEACHERS_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img = Image.open(self.teachers_icon_path).resize((100, 100), Image.LANCZOS)
         role_1_icon = ImageTk.PhotoImage(img)
 
         role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=role_1_icon, height=120, width=120)
@@ -580,7 +615,7 @@ class SERPManagerGUI():
         role_2_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         role_2_frame.grid(row=0, column=1, padx=10, pady=20, sticky="nsew")
 
-        img = Image.open(STUDENTS_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img = Image.open(self.students_icon_path).resize((100, 100), Image.LANCZOS)
         role_2_icon = ImageTk.PhotoImage(img)
 
         role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=role_2_icon, height=120, width=120)
@@ -606,7 +641,7 @@ class SERPManagerGUI():
         help_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         help_frame.grid(row=0, column=2, padx=10, pady=20, sticky="nsew")
 
-        img = Image.open(SUPPORT_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img = Image.open(self.support_icon_path).resize((100, 100), Image.LANCZOS)
         help_icon = ImageTk.PhotoImage(img)
 
         about_us_icon = ctk.CTkLabel(help_frame, text="", image=help_icon, height=120, width=120)
@@ -719,23 +754,23 @@ class SERPManagerGUI():
         self.set_button_state(self.exams_button)
 
         # Subjects Icons
-        img1 = Image.open(PHYSICS_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img1 = Image.open(self.physics_icon_path).resize((100, 100), Image.LANCZOS)
         phy_icon = ImageTk.PhotoImage(img1)
-        img2 = Image.open(CHEMISTRY_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img2 = Image.open(self.chemistry_icon_path).resize((100, 100), Image.LANCZOS)
         chem_icon = ImageTk.PhotoImage(img2)
-        img3 = Image.open(BIOLOGY_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img3 = Image.open(self.biology_icon_path).resize((100, 100), Image.LANCZOS)
         bio_icon = ImageTk.PhotoImage(img3)
-        img4 = Image.open(COMPUTER_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img4 = Image.open(self.computer_icon_path).resize((100, 100), Image.LANCZOS)
         cs_icon = ImageTk.PhotoImage(img4)
-        img5 = Image.open(ISLAMIYAT_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img5 = Image.open(self.islamiyat_icon_path).resize((100, 100), Image.LANCZOS)
         isl_icon = ImageTk.PhotoImage(img5)
-        img6 = Image.open(MATHS_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img6 = Image.open(self.maths_icon_path).resize((100, 100), Image.LANCZOS)
         math_icon = ImageTk.PhotoImage(img6)
-        img7 = Image.open(URDU_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img7 = Image.open(self.urdu_icon_path).resize((100, 100), Image.LANCZOS)
         urdu_icon = ImageTk.PhotoImage(img7)
-        img8 = Image.open(PK_STD_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img8 = Image.open(self.pk_std_icon_path).resize((100, 100), Image.LANCZOS)
         ps_icon = ImageTk.PhotoImage(img8)
-        img9 = Image.open(ENGLISH_ICON_PATH).resize((100, 100), Image.LANCZOS)
+        img9 = Image.open(self.english_icon_path).resize((100, 100), Image.LANCZOS)
         eng_icon = ImageTk.PhotoImage(img9)
 
         # Create the scrollable frame
@@ -1117,10 +1152,10 @@ class SERPManagerGUI():
             )
             sub_sub_text.grid(row=1, column=1, padx=5, ipadx=2, pady=(0, 5))
 
-        ssc1_subjects = load_subjects(f"{base_path}/json/ssc1_exams.json")
-        ssc2_subjects = load_subjects(f"{base_path}/json/ssc2_exams.json")
-        hssc1_subjects = load_subjects(f"{base_path}/json/hssc1_exams.json")
-        hssc2_subjects = load_subjects(f"{base_path}/json/hssc2_exams.json")
+        ssc1_subjects = load_subjects(f"{self.base_path}/json/ssc1_exams.json")
+        ssc2_subjects = load_subjects(f"{self.base_path}/json/ssc2_exams.json")
+        hssc1_subjects = load_subjects(f"{self.base_path}/json/hssc1_exams.json")
+        hssc2_subjects = load_subjects(f"{self.base_path}/json/hssc2_exams.json")
 
         if not ssc1_subjects:
             ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
@@ -1255,7 +1290,7 @@ class SERPManagerGUI():
         self.main_frame.grid_columnconfigure(0, weight=1)
 
         # Load the pdfs to the main scrollable frame
-        self.load_pdfs(DEFAULT_PDFs_PATH)
+        self.load_pdfs(self.default_pdfs_path)
 
     # helper function for show home section
     def contact_us_toplevel(self):
@@ -1271,26 +1306,26 @@ class SERPManagerGUI():
             self.manage_news_toplevel_window.focus()
 # helper functions for show papers section
     def refresh_pdfs(self):
-        self.load_pdfs(DEFAULT_PDFs_PATH)
+        self.load_pdfs(self.default_pdfs_path)
 
     def add_paper(self):
         pdf_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
         if pdf_path:
-            dest_path = os.path.join(DEFAULT_PDFs_PATH, os.path.basename(pdf_path))
+            dest_path = os.path.join(self.default_pdfs_path, os.path.basename(pdf_path))
             if not os.path.exists(dest_path):
                 shutil.copy(pdf_path, dest_path)
-            self.load_pdfs(DEFAULT_PDFs_PATH)
+            self.load_pdfs(self.default_pdfs_path)
 
     def delete_paper(self):
-        pdf_path = filedialog.askopenfilename(initialdir=DEFAULT_PDFs_PATH, filetypes=[("PDF files", "*.pdf")])
+        pdf_path = filedialog.askopenfilename(initialdir=self.default_pdfs_path, filetypes=[("PDF files", "*.pdf")])
         if pdf_path:
             os.remove(pdf_path)
-            self.load_pdfs(DEFAULT_PDFs_PATH)
+            self.load_pdfs(self.default_pdfs_path)
 
     def get_pdf_thumbnail(self, pdf_path, size=(100, 150)):
         try:
             cache_file_name = os.path.splitext(os.path.basename(pdf_path))[0] + ".png"
-            cache_file_path = os.path.join(CACHE_FOLDER_PATH, cache_file_name)
+            cache_file_path = os.path.join(self.cache_folder_path, cache_file_name)
 
             if os.path.exists(cache_file_path):
                 pdf_mtime = os.path.getmtime(pdf_path)
@@ -1305,7 +1340,7 @@ class SERPManagerGUI():
                 img.save(cache_file_path)
                 return img
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to load PDF: {e}")
+            print(e)
             return None
 
     def add_pdf_tile(self, frame, pdf_path, row, col, width=230):
@@ -1340,7 +1375,7 @@ class SERPManagerGUI():
             else:
                 messagebox.showerror("Error", "Unsupported OS")
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to open PDF: {e}")
+            print(e)
 
     def load_pdfs(self, directory):
         try:
@@ -1364,7 +1399,7 @@ class SERPManagerGUI():
                     col = 0
                     row += 1
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to load PDFs: {e}")
+            print(e)
 
     def clear_main_frame(self):
 
