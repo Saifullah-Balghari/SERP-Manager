@@ -1,5 +1,5 @@
-import login_win
-import main_gui
+from . import login_win
+from . import main_gui
 
 root = login_win.LoginGui()
 def login():
@@ -13,5 +13,3 @@ def main():
     else:
         print("Login failed.")
         exit()
-if __name__ == "__main__":
-    main()

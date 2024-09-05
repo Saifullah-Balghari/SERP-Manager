@@ -10,10 +10,12 @@ from tkinter import messagebox, filedialog      # tk
 from pdf2image import convert_from_path
 from PIL import Image, ImageTk                  # pillow
 
+# Local imports
+from . import contact_us
+from. import manage_news
+
 # Inbuilt imports
 import platform
-import warnings
-import logging
 import json
 import shutil
 import os
@@ -75,7 +77,8 @@ WIDTH = 1366
 HEIGHT = 768
 
 class SERPManagerGUI():
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
         try:
             if not os.path.exists(CACHE_FOLDER_PATH):
@@ -132,7 +135,6 @@ class SERPManagerGUI():
         except Exception as e:
             messagebox.showerror( "Error", f"An exception occurred in the Constructor: {e}")
             print(e)
-
 
     def create_header_frame(self):
 
@@ -643,23 +645,11 @@ class SERPManagerGUI():
         )
         close_btn.pack(side="right", padx=5, pady=5)
 
-        # logout button
-        logout_btn = ctk.CTkButton(
-            buttons_frame,
-            text="Logout",
-            command=self.logout,
-            text_color=text_fg_2,
-            image=self.logout_button_icon,
-            hover_color=btn_hvr,
-            fg_color=btn_active,
-        )
-        logout_btn.pack(side="right", padx=5, pady=5)
-
         # Contact us button
         contact_us_button = ctk.CTkButton(
             buttons_frame,
             text="Contact Us",
-            command=self.show_contact_us,
+            command=self.contact_us_toplevel,
             text_color=text_fg_2,
             hover_color=btn_hvr,
             image=self.contact_us_button_icon,
@@ -667,12 +657,14 @@ class SERPManagerGUI():
         )
         contact_us_button.pack(side="left", padx=5, pady=5)
 
+        self.contact_us_toplevel_window = None
+
         if self.role == "admin":
             # Edit news button
             add_news_button = ctk.CTkButton(
                 buttons_frame,
                 text="Edit News",
-                command=self.show_edit_news,
+                command=self.manage_news_toplevel,
                 text_color=text_fg_2,
                 image=self.edit_button_icon,
                 hover_color=btn_hvr,
@@ -680,17 +672,19 @@ class SERPManagerGUI():
             )
             add_news_button.pack(side="left", padx=5, pady=5)
 
-            # Refresh button
-            refresh_button = ctk.CTkButton(
-                buttons_frame,
-                text="Refresh",
-                image=self.refresh_pdfs_button_icon,
-                command=self.create_main_frame,
-                text_color=text_fg_2,
-                hover_color=btn_hvr,
-                fg_color=btn_active,
-            )
-            refresh_button.pack(side="left", padx=5, pady=5)
+            self.manage_news_toplevel_window = None
+
+        # Refresh button
+        refresh_button = ctk.CTkButton(
+            buttons_frame,
+            text="Refresh",
+            image=self.refresh_pdfs_button_icon,
+            command=self.create_main_frame,
+            text_color=text_fg_2,
+            hover_color=btn_hvr,
+            fg_color=btn_active,
+        )
+        refresh_button.pack(side="left", padx=5, pady=5)
 
     def show_examinations(self):
         """
@@ -1263,232 +1257,18 @@ class SERPManagerGUI():
         # Load the pdfs to the main scrollable frame
         self.load_pdfs(DEFAULT_PDFs_PATH)
 
-# helper functions for show home section
-    def logout(self):
-        raise NotImplementedError
+    # helper function for show home section
+    def contact_us_toplevel(self):
+        if self.contact_us_toplevel_window is None or not self.contact_us_toplevel_window.winfo_exists():
+            self.contact_us_toplevel_window = contact_us.ContactUs(self.root)
+        else:
+            self.contact_us_toplevel_window.focus()
 
-    def show_edit_news(self):
-        # Edit news window initialization
-        self.edt_news_window = ctk.CTk()
-
-        # Window configuration
-        self.edt_news_window.geometry("800x300")
-
-        self.title = ctk.CTkLabel(
-            self.edt_news_window,
-            text="Edit the News",
-            font=("Helvetica", 22, "bold"),
-            fg_color=bg,
-            text_color=text_fg
-        )
-        self.title.pack(fill="x", side="top")
-
-        # Main frame
-        self.main_frame = ctk.CTkFrame(self.edt_news_window, fg_color=bg, corner_radius=0)
-        self.main_frame.pack(fill="x")
-
-        # News 1
-        self.news_1_label = ctk.CTkLabel(
-            self.main_frame,
-            text="News 1:",
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14)
-        )
-        self.news_1_label.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.news_1_entry = ctk.CTkEntry(
-            self.main_frame,
-            text_color=text_fg,
-            bg_color=bg,
-            width=600,
-            font=("Helvetica", 14)
-        )
-        self.news_1_entry.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
-
-        # News 2
-        self.news_2_label = ctk.CTkLabel(
-            self.main_frame,
-            text="News 2:",
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14)
-        )
-        self.news_2_label.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.news_2_entry = ctk.CTkEntry(
-            self.main_frame,
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14)
-        )
-        self.news_2_entry.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
-
-        # News 3
-        self.news_3_label = ctk.CTkLabel(
-            self.main_frame,
-            text="News 3:",
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14),
-        )
-        self.news_3_label.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.news_3_entry = ctk.CTkEntry(
-            self.main_frame,
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14)
-        )
-        self.news_3_entry.grid(row=2, column=1, padx=10, pady=10, sticky="nsew")
-
-        # news 4
-        self.news_4_label = ctk.CTkLabel(
-            self.main_frame,
-            text="News 4:",
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14)
-        )
-        self.news_4_label.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.news_4_entry = ctk.CTkEntry(
-            self.main_frame,
-            text_color=text_fg,
-            bg_color=bg,
-            width=500,
-            font=("Helvetica", 14)
-        )
-        self.news_4_entry.grid(row=3, column=1, padx=10, pady=10, sticky="nsew")
-
-        # Save and Cancel buttons
-        self.save_button = ctk.CTkButton(
-            self.main_frame,
-            text="Save",
-            text_color=text_fg_2,
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            bg_color=bg,
-            command=self.save_news
-        )
-        self.save_button.grid(row=4, column=0, padx=10, pady=10, sticky="e")
-
-        self.cancel_button = ctk.CTkButton(
-            self.main_frame,
-            text="Cancel",
-            text_color=text_fg_2,
-            fg_color=btn_active,
-            bg_color=bg,
-            hover_color=btn_hvr,
-            command=self.edt_news_window.destroy
-        )
-        self.cancel_button.grid(row=4, column=1, padx=10, pady=10, sticky="w")
-
-        self.edt_news_window.mainloop()
-
-    def save_news(self):
-        # Save the news entries
-        self.news_1 = self.news_1_entry.get()
-        self.news_2 = self.news_2_entry.get()
-        self.news_3 = self.news_3_entry.get()
-        self.news_4 = self.news_4_entry.get()
-
-        # Write the news to the file
-        with open(f"{base_path}\news.txt", "w") as f:
-            f.truncate(0)
-            f.write(f"{self.news_1}\n{self.news_2}\n{self.news_3}\n{self.news_4}")
-            print("News updated successfully!")
-
-        # Close the window
-        self.edt_news_window.destroy()
-
-    def show_contact_us(self):
-        """Show contact information on a different window."""
-
-        # Create a new window for showing contact information
-        self.show_contact_us_window = ctk.CTk()
-        self.show_contact_us_window.overrideredirect(True)
-
-        WIDTH = 400
-        HEIGHT = 250
-
-        # Place the window in the center of the screen and make it draggable
-        self.center_window(self.show_contact_us_window)
-        self.make_window_draggable(self.show_contact_us_window)
-
-        # Create a frame for holding the contact information
-        main_frame1 = ctk.CTkFrame(
-            self.show_contact_us_window,
-            width=WIDTH,
-            height=HEIGHT,
-            fg_color=fg,
-            corner_radius=0,
-            border_width=2,
-            border_color=text_fg
-        )
-        main_frame1.grid(padx=10, pady=10)
-
-        # Add a title label to the frame
-        title = ctk.CTkLabel(
-            main_frame1,
-            text="Contact Us",
-            text_color=text_fg,
-            font=("Helvetica", 22, "bold")
-        )
-        title.pack(side="top", fill="x", padx=10, pady=5)
-
-        # Add a label with contact information to the frame
-        info = ctk.CTkLabel(
-            main_frame1,
-            text="For any queries, please contact us at:\n\nEmail: balgharisaifullah@gmail.com\nPhone: +92355-4300937",
-            text_color=text_fg,
-            font=("Helvetica", 16)
-        )
-        info.pack(side="top", fill="x", expand=True, padx=10, pady=10)
-
-        # Add a close button to the frame to close the window when clicked
-        close_button = ctk.CTkButton(
-            main_frame1,
-            text="Close",
-            text_color=text_fg_2,
-            font=("Helvetica", 14),
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            command=self.show_contact_us_window.destroy
-        )
-        close_button.pack(side="top", fill="x", padx=50, pady=10)
-
-        # Run the mainloop
-        self.show_contact_us_window.mainloop()
-
-    def center_window(self, window, width=300, height=200):
-        """Center the window on the screen."""
-        screen_width = window.winfo_screenwidth()
-        screen_height = window.winfo_screenheight()
-
-        x = (screen_width - width) // 2
-        y = (screen_height - height) // 2
-
-        window.geometry(f"{width}x{height}+{x}+{y}")
-
-    def make_window_draggable(self, window):
-        """Make the window draggable by clicking and dragging it with the mouse."""
-        def start_drag(event):
-            window.x = event.x
-            window.y = event.y
-
-        def drag(event):
-            x = window.winfo_pointerx() - window.x
-            y = window.winfo_pointery() - window.y
-            window.geometry(f"+{x}+{y}")
-
-        window.bind("<Button-1>", start_drag)
-        window.bind("<B1-Motion>", drag)
-
-# helper functions for show examinations section
-    def get_exams_info(self):
-        raise NotImplementedError
-
+    def manage_news_toplevel(self):
+        if self.manage_news_toplevel_window is None or not self.manage_news_toplevel_window.winfo_exists():
+            self.manage_news_toplevel_window = manage_news.ManageNews(self.root)
+        else:
+            self.manage_news_toplevel_window.focus()
 # helper functions for show papers section
     def refresh_pdfs(self):
         self.load_pdfs(DEFAULT_PDFs_PATH)
@@ -1590,4 +1370,3 @@ class SERPManagerGUI():
 
         for widget in self.main_frame.winfo_children():
             widget.destroy()
-

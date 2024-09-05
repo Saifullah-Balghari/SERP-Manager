@@ -1,7 +1,7 @@
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import customtkinter as ctk
-import accounts_db
+from . import accounts_db
 
 ctk.set_appearance_mode("light")
 
