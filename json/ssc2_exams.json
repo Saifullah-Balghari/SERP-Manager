@@ -1,0 +1,75 @@
+{
+    "subjects": [
+      {
+        "subject_name": "Chemistry",
+        "date": "10-09-2024",
+        "day": "Tuesday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Urdu",
+        "date": "14-09-2024",
+        "day": "Saturday",
+        "time": "09:00 - 11:30",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Mathematics",
+        "date": "18-09-2024",
+        "day": "Wednesday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Islamiyat",
+        "date": "20-09-2024",
+        "day": "Friday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Computer Science",
+        "date": "23-09-2024",
+        "day": "Monday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Biology",
+        "date": "23-09-2024",
+        "day": "Monday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Physics",
+        "date": "30-09-2024",
+        "day": "Monday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Pakistan Studies",
+        "date": "28-09-2024",
+        "day": "Saturday",
+        "time": "09:00 - 11:30",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Biology",
+        "date": "01-10-2024",
+        "day": "Tuesday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      },
+      {
+        "subject_name": "Computer Science",
+        "date": "01-10-2024",
+        "day": "Tuesday",
+        "time": "09:00 - 12:00",
+        "Examination": "2nd Annual"
+      }
+    ]
+  }
+  

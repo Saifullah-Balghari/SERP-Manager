@@ -12,7 +12,8 @@ from PIL import Image, ImageTk                  # pillow
 
 # Local imports
 from . import contact_us
-from. import manage_news
+from . import manage_news
+from . import show_profile
 
 # Inbuilt imports
 import platform
@@ -23,42 +24,6 @@ import os
 # Default settings
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
-
-# # Icons
-# ADD_ICON_PATH = os.path.join(base_path, "Icons", "add.png")
-# EXAM_ICON_PATH = os.path.join(base_path, "Icons", "exam.png")
-# HOME_ICON_PATH = os.path.join(base_path, "Icons", "home.png")
-# PAPERS_ICON_PATH = os.path.join(base_path, "Icons", "papers.png")
-# REFRESH_ICON_PATH = os.path.join(base_path, "Icons", "refresh.png")
-# DELETE_ICON_PATH = os.path.join(base_path, "Icons", "remove.png")
-# RESULT_ICON_PATH = os.path.join(base_path, "Icons", "results.png")
-# EXAM_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "exam_shortcut.png")
-# PAPER_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "paper_shortcut.png")
-# RESULT_SHORTCUT_ICON_PATH = os.path.join(base_path, "Icons", "result_shortcut.png")
-# CONTACT_US_ICON_PATH = os.path.join(base_path, "Icons", "contact_us.png")
-# ADD_EXAMS_ICON_PATH = os.path.join(base_path, "Icons", "add_exam.png")
-# SUPPORT_ICON_PATH = os.path.join(base_path, "Icons", "support.png")
-# NEWS_ICON_PATH = os.path.join(base_path, "Icons", "news.png")
-# STUDENTS_ICON_PATH = os.path.join(base_path, "Icons", "student.png")
-# TEACHERS_ICON_PATH = os.path.join(base_path, "Icons", "staff.png")
-# RIGHT_ARROW_ICON_PATH = os.path.join(base_path, "Icons", "right_arrow.png")
-# EDIT_ICON_PATH = os.path.join(base_path, "Icons", "edit.png")
-# LOGOUT_ICON_PATH = os.path.join(base_path, "Icons", "logout.png")
-
-# # Icons of Subjects
-# MATHS_ICON_PATH = os.path.join(base_path, "Icons", "math.png")
-# BIOLOGY_ICON_PATH = os.path.join(base_path, "Icons", "bio.png")
-# ENGLISH_ICON_PATH = os.path.join(base_path, "Icons", "eng.png")
-# URDU_ICON_PATH = os.path.join(base_path, "Icons", "urdu.png")
-# PHYSICS_ICON_PATH = os.path.join(base_path, "Icons", "phy.png")
-# CHEMISTRY_ICON_PATH = os.path.join(base_path, "Icons", "chemistry.png")
-# COMPUTER_ICON_PATH = os.path.join(base_path, "Icons", "cs.png")
-# ISLAMIYAT_ICON_PATH = os.path.join(base_path, "Icons", "islamiyat.png")
-# PK_STD_ICON_PATH = os.path.join(base_path, "Icons", "ps.png")
-
-# # Paths
-# DEFAULT_PDFs_PATH = os.path.join(base_path, "Papers")
-# CACHE_FOLDER_PATH = os.path.join(base_path, "Cache")
 
 # Color scheme
 bg = "#FCFAFF"
@@ -84,12 +49,8 @@ class SERPManagerGUI():
 
             # Icons
             self.add_icon_path = os.path.join(self.base_path, "Icons", "add.png")
-            self.exam_icon_path = os.path.join(self.base_path, "Icons", "exam.png")
-            self.home_icon_path = os.path.join(self.base_path, "Icons", "home.png")
-            self.papers_icon_path = os.path.join(self.base_path, "Icons", "papers.png")
             self.refresh_icon_path = os.path.join(self.base_path, "Icons", "refresh.png")
             self.delete_icon_path = os.path.join(self.base_path, "Icons", "remove.png")
-            self.result_icon_path = os.path.join(self.base_path, "Icons", "results.png")
             self.exam_shortcut_icon_path = os.path.join(self.base_path, "Icons", "exam_shortcut.png")
             self.paper_shortcut_icon_path = os.path.join(self.base_path, "Icons", "paper_shortcut.png")
             self.result_shortcut_icon_path = os.path.join(self.base_path, "Icons", "result_shortcut.png")
@@ -102,6 +63,7 @@ class SERPManagerGUI():
             self.right_arrow_icon_path = os.path.join(self.base_path, "Icons", "right_arrow.png")
             self.logout_icon_path = os.path.join(self.base_path, "Icons", "logout.png")
             self.edit_icon_path = os.path.join(self.base_path, "Icons", "edit.png")
+            self.acc_icon_path = os.path.join(self.base_path, "Icons", "profile.png")
 
             # Icons of Subjects
             self.maths_icon_path = os.path.join(self.base_path, "Icons", "math.png")
@@ -114,20 +76,22 @@ class SERPManagerGUI():
             self.islamiyat_icon_path = os.path.join(self.base_path, "Icons", "islamiyat.png")
             self.pk_std_icon_path = os.path.join(self.base_path, "Icons", "ps.png")
 
-            # Converts and resize the PNG to ctkimage for buttons
-            self.refresh_pdfs_button_icon = ctk.CTkImage(Image.open(self.refresh_icon_path).resize((18, 18), Image.LANCZOS))
-            self.add_paper_button_icon = ctk.CTkImage(Image.open(self.add_icon_path).resize((18, 18), Image.LANCZOS))
-            self.delete_paper_button_icon = ctk.CTkImage(Image.open(self.delete_icon_path).resize((18, 18), Image.LANCZOS))
-            self.HOME_ICON = ctk.CTkImage(Image.open(self.home_icon_path).resize((26, 26), Image.LANCZOS))
-            self.PAPERS_ICON = ctk.CTkImage(Image.open(self.papers_icon_path).resize((26, 26), Image.LANCZOS))
-            self.EXAM_ICON = ctk.CTkImage(Image.open(self.exam_icon_path).resize((26, 26), Image.LANCZOS))
-            self.RESULT_ICON = ctk.CTkImage(Image.open(self.result_icon_path).resize((26, 26), Image.LANCZOS))
-            self.contact_us_button_icon = ctk.CTkImage(Image.open(self.contact_us_icon_path).resize((18, 18), Image.LANCZOS))
-            self.add_exams_button_icon = ctk.CTkImage(Image.open(self.add_exams_icon_path).resize((18, 18), Image.LANCZOS))
-            self.edit_button_icon = ctk.CTkImage(Image.open(self.edit_icon_path).resize((18, 18), Image.LANCZOS))
 
         except FileNotFoundError as e:
             print(f"Error: {str(e)}")
+
+        # Converts and resize the PNG to ctkimage for buttons
+        self.refresh_pdfs_button_icon = ctk.CTkImage(Image.open(self.refresh_icon_path).resize((18, 18), Image.LANCZOS))
+        self.add_paper_button_icon = ctk.CTkImage(Image.open(self.add_icon_path).resize((18, 18), Image.LANCZOS))
+        self.delete_paper_button_icon = ctk.CTkImage(Image.open(self.delete_icon_path).resize((18, 18), Image.LANCZOS))
+        self.contact_us_button_icon = ctk.CTkImage(Image.open(self.contact_us_icon_path).resize((18, 18), Image.LANCZOS))
+        self.add_exams_button_icon = ctk.CTkImage(Image.open(self.add_exams_icon_path).resize((18, 18), Image.LANCZOS))
+        self.edit_button_icon = ctk.CTkImage(Image.open(self.edit_icon_path).resize((18, 18), Image.LANCZOS))
+        self.acc_button_icon = ctk.CTkImage(Image.open(self.acc_icon_path).resize((18, 18), Image.LANCZOS))
+        self.exam_button_icon = ctk.CTkImage(Image.open(self.exam_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+        self.result_button_icon = ctk.CTkImage(Image.open(self.result_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+        self.paper_button_icon = ctk.CTkImage(Image.open(self.paper_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+
 
         try:
             if not os.path.exists(self.cache_folder_path):
@@ -139,19 +103,22 @@ class SERPManagerGUI():
 
             # Load the current role from the file
             with open(self.current_role_path, 'r') as f:
-                self.role = f.read().strip().lower()
-                if self.role not in ["student", "admin"]:
+                text = f.read()        
+                self.username, self.role = text.split()
+                self.role = self.role.lower().strip()
+
+                if self.role not in ["student", "admin"]:                                               
                     raise ValueError("Invalid role")
 
-            try:
+            try:                                                        
                 # Create the main application window
-                self.root = ctk.CTk()
+                self.root = ctk.CTk()   
 
                 # Window configurations
                 self.root.title("SERP-Manager (Developed By Saifullah Balghari)")
-                self.root.geometry("1368x768")
+                self.root.geometry("1366x768")
                 self.root.resizable(False, False)
-                self.root.configure(fg_color=bg)
+                self.root.configure(fg_color=text_fg)
                 self.root.iconbitmap(None, None)
                 self.root.grid_rowconfigure(0, weight=1)
                 self.root.grid_rowconfigure(1, weight=15)
@@ -175,99 +142,99 @@ class SERPManagerGUI():
 
         # Create the header frame
         self.header_frame = ctk.CTkFrame(self.root, fg_color=bg, corner_radius=0)
-        self.header_frame.grid(padx=0, pady=(0, 10), row=0, column=0, sticky="nsew")
+        self.header_frame.pack(padx=0, pady=(0, 1), side="top", fill="x", ipadx=10, ipady=10)
 
         # Header frame configuration
-        self.header_frame.grid_propagate(False)
-        self.header_frame.configure(height=35)
-        self.header_frame.grid_columnconfigure(0, weight=1)
-        self.header_frame.grid_columnconfigure(1, weight=1)
-        self.header_frame.grid_columnconfigure(2, weight=1)
+        self.header_frame.pack_propagate(False)         
+        self.header_frame.configure(height=40)
 
         # Create the button frame
         button_frame = ctk.CTkFrame(self.header_frame, fg_color="transparent")
-        button_frame.grid(padx=0, pady=0, row=0, column=1, sticky="nsew")
-        button_frame.grid_propagate(False)
-
-        # Button frame configuration
-        button_frame.grid_columnconfigure(0, weight=1)
-        button_frame.grid_columnconfigure(1, weight=1)
-        button_frame.grid_columnconfigure(2, weight=1)
-        button_frame.grid_columnconfigure(3, weight=1)
+        button_frame.pack(padx=10, pady=(10, 0), side="top", fill="x")
 
         # Home button
         self.home_button = ctk.CTkButton(
             button_frame,
             text="Home",
             text_color=text_fg,
-            font=("Helvetica", 22, "bold"),
+            width=80,
+            height=30,
+            font=("Helvetica", 18, "bold"),
             hover_color=btn_hvr,
-            width=15,
-            height=40,
-            image=self.HOME_ICON,
-            compound="left",
             anchor="center",
             command=self.show_home
         )
-        self.home_button.grid(padx=(10,5), pady=10, row=0, column=0, sticky="nsew")
+        self.home_button.pack(padx=10, pady=5, side="left")
 
         # Exams button
         self.exams_button = ctk.CTkButton(
             button_frame,
             text="Exams",
-            font=("Helvetica", 22, "bold"),
+            width=80,
+            image=self.exam_button_icon,
+            height=30,
+            font=("Helvetica", 18, "bold"),
             hover_color=btn_hvr,
-            width=15,
-            height=40,
-            image=self.EXAM_ICON,
-            compound="left",
             text_color=text_fg,
             anchor="center",
             command=self.show_examinations
         )
-        self.exams_button.grid(padx=(5,5), pady=10, row=0, column=1, sticky="nsew")
+        self.exams_button.pack(padx=0, pady=5, side="left")
 
         # Results button
         self.results_button = ctk.CTkButton(
             button_frame,
             text="Results",
-            font=("Helvetica", 22, "bold"),
+            image=self.result_button_icon,
+            width=80,
+            height=30,
+            font=("Helvetica", 18, "bold"),
             hover_color=btn_hvr,
-            width=15,
-            height=40,
-            image=self.RESULT_ICON,
-            compound="left",
             anchor="center",
             text_color=text_fg,
-            command=self.show_results
+            command=self.show_results                           
         )
-        self.results_button.grid(padx=(5,5), pady=10, row=0, column=2, sticky="nsew")
+        self.results_button.pack(padx=(10,0), pady=5, side="left")
 
         # Papers button
         self.papers_button = ctk.CTkButton(
             button_frame,
             text="Papers",
-            font=("Helvetica", 22, "bold"),
-            hover_color=btn_hvr, width=15,
-            height=40,
-            image=self.PAPERS_ICON,
-            compound="left",
+            image=self.paper_button_icon,
+            width=80,
+            height=30,
+            font=("Helvetica", 18, "bold"),
+            hover_color=btn_hvr,                            
             anchor="center",
             text_color=text_fg,
             command=self.show_papers
         )
-        self.papers_button.grid(padx=(5,10), pady=10, row=0, column=3, sticky="nsew")
+        self.papers_button.pack(padx=10, pady=5, side="left")
+
+        # Profile button
+        self.profile_button = ctk.CTkButton(
+            button_frame,
+            text=self.username,
+            image=self.acc_button_icon,
+            font=("Helvetica", 18, "bold"),
+            hover_color=fg,
+            width=80,
+            height=30,
+            anchor="center",
+            fg_color="transparent",
+            text_color=text_fg,
+            command=self.show_profile
+        )
+        self.profile_button.pack(padx=10, pady=5, side="right")
+        
+        self.show_profile_toplevel_window = None
 
     def create_main_frame(self):
 
         # Create the main frame
         self.main_frame = ctk.CTkFrame(self.root, fg_color=bg, corner_radius=0)
-        self.main_frame.grid(padx=0, pady=0, row=1, column=0, sticky="nsew")
-
-        # Main frame configuration
-        self.main_frame.grid_rowconfigure(0, weight=1)
-        self.main_frame.grid_columnconfigure(0, weight=1)
-        self.main_frame.grid_propagate(False)
+        self.main_frame.pack(fill="both", expand=True, padx=0, pady=0)
+        self.main_frame.pack_propagate(False)
 
         # Set the home section as the main frame
         self.show_home()
@@ -316,16 +283,16 @@ class SERPManagerGUI():
         self.set_button_state(self.home_button)
 
         # Wellcome message frame
-        wellcome_message_frame = ctk.CTkFrame(self.main_frame, height=80, fg_color=bg)
-        wellcome_message_frame.pack(side="top", fill="x", padx=10, pady=(20, 0))
+        wellcome_message_frame = ctk.CTkFrame(self.main_frame, height=60, fg_color=bg)
+        wellcome_message_frame.pack(side="top", fill="x", padx=5, pady=(0, 0))
 
         # Title Label
         logo_label = ctk.CTkLabel(
             wellcome_message_frame,
             text="Welcome To SERP-Manager",
             text_color=text_fg,
-            font=("Helvetica", 36, "bold")
-        )
+            font=("Helvetica", 30, "bold")
+                 )
         logo_label.pack(side="top", fill="x")
 
         # Introduction Label
@@ -333,7 +300,7 @@ class SERPManagerGUI():
             wellcome_message_frame,
             text="Manage examinations, results, and much more...",
             text_color=text_fg,
-            font=("Helvetica", 16)
+            font=("Helvetica", 14)
         )
         intro_label.pack(side="top", fill="x")
 
@@ -347,7 +314,7 @@ class SERPManagerGUI():
 
         # Shortcut 1
         shortcut_1_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
-        shortcut_1_frame.grid(row=0, column=0, padx=30, pady=10, sticky="nsew")
+        shortcut_1_frame.grid(row=0, column=0, padx=28, pady=10, sticky="nsew")
 
         img = Image.open(self.paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_1_icon = ImageTk.PhotoImage(img)
@@ -384,7 +351,7 @@ class SERPManagerGUI():
 
         # Shortcut 2
         shortcut_2_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
-        shortcut_2_frame.grid(row=0, column=1, padx=30, pady=10, sticky="nsew")
+        shortcut_2_frame.grid(row=0, column=1, padx=28, pady=10, sticky="nsew")
 
         img = Image.open(self.exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_2_icon = ImageTk.PhotoImage(img)
@@ -408,7 +375,7 @@ class SERPManagerGUI():
 
         shortcut_2_sub_text = ctk.CTkLabel(
             shortcut_2_frame,
-            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be able\nto change, remove or add exams.",
+            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be \nableto change, remove or add exams.",
             text_color=text_fg,
             font=("Helvetica", 12)
         )
@@ -427,7 +394,7 @@ class SERPManagerGUI():
 
         # Shortcut 3
         shortcut_3_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
-        shortcut_3_frame.grid(row=0, column=2, padx=30, pady=10, sticky="nsew")
+        shortcut_3_frame.grid(row=0, column=2, padx=28          , pady=10, sticky="nsew")
 
         img = Image.open(self.result_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_3_icon = ImageTk.PhotoImage(img)
@@ -597,11 +564,11 @@ class SERPManagerGUI():
 
         role_1_text = ctk.CTkLabel(
             role_1_frame,
-            text="Teachers",
+            text="Admins",
             text_color=text_fg,
             font=("Helvetica", 18)
         )
-        role_1_text.grid(row=0, column=1, padx=11, pady=(10, 0))
+        role_1_text.grid(row=0, column=1, padx=8, pady=(10, 0))
 
         role_1_sub_text = ctk.CTkLabel(
             role_1_frame,
@@ -609,11 +576,11 @@ class SERPManagerGUI():
             text_color=text_fg,
             font=("Helvetica", 13)
         )
-        role_1_sub_text.grid(row=1, column=1, padx=11, pady=0)
+        role_1_sub_text.grid(row=1, column=1, padx=8, pady=0)
 
         # student role
         role_2_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
-        role_2_frame.grid(row=0, column=1, padx=10, pady=20, sticky="nsew")
+        role_2_frame.grid(row=0, column=1, padx=8, pady=20, sticky="nsew")
 
         img = Image.open(self.students_icon_path).resize((100, 100), Image.LANCZOS)
         role_2_icon = ImageTk.PhotoImage(img)
@@ -639,7 +606,7 @@ class SERPManagerGUI():
 
         # help & feedback
         help_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
-        help_frame.grid(row=0, column=2, padx=10, pady=20, sticky="nsew")
+        help_frame.grid(row=0, column=2, padx=8, pady=20, sticky="nsew")
 
         img = Image.open(self.support_icon_path).resize((100, 100), Image.LANCZOS)
         help_icon = ImageTk.PhotoImage(img)
@@ -665,7 +632,7 @@ class SERPManagerGUI():
 
         # buttons frame
         buttons_frame = ctk.CTkFrame(self.main_frame, fg_color=bg)
-        buttons_frame.pack(side="bottom", fill="x", padx=10, pady=(0, 5))
+        buttons_frame.pack(side="bottom", fill="x", padx=0, pady=0, ipady=0)
 
         # close button
         close_btn = ctk.CTkButton(
@@ -714,7 +681,7 @@ class SERPManagerGUI():
             buttons_frame,
             text="Refresh",
             image=self.refresh_pdfs_button_icon,
-            command=self.create_main_frame,
+            command=self.show_home,
             text_color=text_fg_2,
             hover_color=btn_hvr,
             fg_color=btn_active,
@@ -778,7 +745,7 @@ class SERPManagerGUI():
             self.main_frame,
             fg_color=bg
         )
-        scrollable_frame.grid(row=0, column=0, padx=10, pady=(0, 0), sticky="nsew")
+        scrollable_frame.pack(fill="both", expand=True, side="top", pady=0)
 
         # Ongoing Exams
         current_exams = ctk.CTkFrame(scrollable_frame, fg_color=bg)
@@ -792,10 +759,10 @@ class SERPManagerGUI():
             fg_color=bg,
             font=("Helvetica", 22, "bold")
         )
-        current_exams_label.pack(fill="x", padx=10, pady=5)
+        current_exams_label.pack(fill="x", padx=10, pady=0, ipady=0)
 
         # Main content frame
-        content_frame = ctk.CTkFrame(current_exams, fg_color=bg)
+        content_frame = ctk.CTkFrame(current_exams, fg_color=bg)                                
         content_frame.pack(fill="x", padx=0, pady=0)
 
         # SSC Exams
@@ -814,7 +781,7 @@ class SERPManagerGUI():
         # SSC content frame
         ssc_contents_frame = ctk.CTkFrame(ssc_exams_frame, fg_color=bg)
         ssc_contents_frame.pack(fill="x", padx=0, pady=0, expand="true")
-
+        
         # SSC-I
         ssc_1_frame = ctk.CTkFrame(ssc_contents_frame, fg_color=bg)
         ssc_1_frame.pack(side="top", fill="x", padx=(0, 0), pady=0, ipady=0)
@@ -844,55 +811,6 @@ class SERPManagerGUI():
         # SSC-II contents
         self.ssc_2_content_frame = ctk.CTkScrollableFrame(ssc_2_frame, fg_color=bg, orientation="horizontal")
         self.ssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
-
-        if self.role == "admin":
-            # SSC frame buttons
-            ssc_current_exams_config_btn_frame = ctk.CTkFrame(ssc_contents_frame, fg_color=bg)
-            ssc_current_exams_config_btn_frame.pack(side="top", fill="x", padx=(0, 0), pady=5)
-
-            # Add SSC-I Exam
-            add_ssc_1_exam_btn = ctk.CTkButton(
-                ssc_current_exams_config_btn_frame,
-                image=self.add_exams_button_icon,
-                text="Add SSC-I Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr
-            )
-            add_ssc_1_exam_btn.grid(row=0, column=0,padx=5, pady=5, sticky="we")
-
-            # Remove SSC-I Exam
-            remove_ssc_1_exam_btn = ctk.CTkButton(
-                ssc_current_exams_config_btn_frame,
-                image=self.delete_paper_button_icon,
-                text="Remove SSC-I Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr
-            )
-            remove_ssc_1_exam_btn.grid(row=0, column=1, padx=5, pady=5, sticky="we")
-
-            # Add SSC-II Exam
-            add_ssc_2_exam_btn = ctk.CTkButton(
-                ssc_current_exams_config_btn_frame,
-                image=self.add_exams_button_icon,
-                text="Add SSC-II Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr
-            )
-            add_ssc_2_exam_btn.grid(row=0, column=2, padx=5, pady=5, sticky="we")
-
-            # Remove SSC-II Exam
-            remove_ssc_2_exam_btn = ctk.CTkButton(
-                ssc_current_exams_config_btn_frame,
-                image=self.delete_paper_button_icon,
-                text="Remove SSC-II Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr
-            )
-            remove_ssc_2_exam_btn.grid(row=0, column=3, padx=5, pady=5, sticky="we")
 
         # HSSC exams
         hssc_exams_frame = ctk.CTkFrame(content_frame, fg_color=bg)
@@ -941,164 +859,99 @@ class SERPManagerGUI():
         self.hssc_2_content_frame = ctk.CTkScrollableFrame(hssc_2_frame, fg_color=bg, orientation="horizontal")
         self.hssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
-        if self.role == "admin":
-            # HSSC frame buttons
-            hssc_current_exams_config_btn_frame = ctk.CTkFrame(hssc_contents_frame, fg_color=bg)
-            hssc_current_exams_config_btn_frame.pack(side="top", fill="x", padx=(0, 0), pady=5)
+        if self.role == "admin": 
+
+            # Edit Exam Buttons frame
+            edit_exam_btn_frame = ctk.CTkFrame(self.main_frame, fg_color=bg)
+            edit_exam_btn_frame.pack(side="bottom", fill="x", padx=20, pady=0)
+
+            # Add SSC-I Exam
+            add_ssc_1_exam_btn = ctk.CTkButton(
+                edit_exam_btn_frame,
+                image=self.add_exams_button_icon,
+                text="Edit SSC-I Exam",
+                text_color=text_fg_2,
+                fg_color=btn_active,
+                hover_color=btn_hvr
+            )
+            add_ssc_1_exam_btn.grid(row=0, column=0,padx=5, pady=(0, 5), sticky="we")
+
+            # Remove SSC-I Exam
+            remove_ssc_1_exam_btn = ctk.CTkButton(
+                edit_exam_btn_frame,
+                image=self.delete_paper_button_icon,
+                text="Remove SSC-I Exam",
+                text_color=text_fg_2,
+                fg_color=btn_active,
+                hover_color=btn_hvr
+            )
+            remove_ssc_1_exam_btn.grid(row=0, column=1, padx=5, pady=(0, 5), sticky="we")
+
+            # Add SSC-II Exam
+            add_ssc_2_exam_btn = ctk.CTkButton(
+                edit_exam_btn_frame,
+                image=self.add_exams_button_icon,
+                text="Edit SSC-II Exam",
+                text_color=text_fg_2,
+                fg_color=btn_active,
+                hover_color=btn_hvr
+            )
+            add_ssc_2_exam_btn.grid(row=0, column=2, padx=5, pady=(0, 5), sticky="we")
+
+            # Remove SSC-II Exam
+            remove_ssc_2_exam_btn = ctk.CTkButton(
+                edit_exam_btn_frame,
+                image=self.delete_paper_button_icon,
+                text="Remove SSC-II Exam",
+                text_color=text_fg_2,
+                fg_color=btn_active,
+                hover_color=btn_hvr
+            )
+            remove_ssc_2_exam_btn.grid(row=0, column=3, padx=5, pady=(0, 5), sticky="we")
 
             # Add HSSC-I Exam
             add_hssc_1_exam_btn = ctk.CTkButton(
-                hssc_current_exams_config_btn_frame,
+                edit_exam_btn_frame,
                 image=self.add_exams_button_icon,
                 text="Add HSSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr
             )
-            add_hssc_1_exam_btn.grid(row=0, column=0,padx=5, pady=5, sticky="we")
+            add_hssc_1_exam_btn.grid(row=0, column=4,padx=5, pady=(0, 5), sticky="we")
 
             # Remove HSSC-I Exam
             remove_hssc_1_exam_btn = ctk.CTkButton(
-                hssc_current_exams_config_btn_frame,
+                edit_exam_btn_frame,
                 image=self.delete_paper_button_icon,
                 text="Remove HSSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr
             )
-            remove_hssc_1_exam_btn.grid(row=0, column=1, padx=5, pady=5, sticky="we")
+            remove_hssc_1_exam_btn.grid(row=0, column=5, padx=5, pady=(0, 5), sticky="we")
 
             # Add HSSC-II Exam
             add_hssc_2_exam_btn = ctk.CTkButton(
-                hssc_current_exams_config_btn_frame,
+                edit_exam_btn_frame,
                 image=self.add_exams_button_icon,
                 text="Add HSSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr
             )
-            add_hssc_2_exam_btn.grid(row=0, column=2, padx=5, pady=5, sticky="we")
+            add_hssc_2_exam_btn.grid(row=0, column=6, padx=5, pady=(0, 5), sticky="we")
 
             # Remove HSSC-II Exam
             remove_hssc_2_exam_btn = ctk.CTkButton(
-                hssc_current_exams_config_btn_frame,
+                edit_exam_btn_frame,
                 image=self.delete_paper_button_icon,
                 text="Remove HSSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr
             )
-            remove_hssc_2_exam_btn.grid(row=0, column=3, padx=5, pady=5, sticky="we")
-
-        # About examinations frame
-        about_exams_frame = ctk.CTkFrame(scrollable_frame, fg_color=bg)
-        about_exams_frame.pack(fill="x", padx=(10, 10), pady=(20, 10))
-
-        # Exams info title
-        exams_info_label = ctk.CTkLabel(
-            about_exams_frame,
-            text="About Examinations",
-            text_color=text_fg,
-            fg_color=bg,
-            font=("Helvetica", 22, "bold")
-        )
-        exams_info_label.pack(side="top", fill="x", pady=10)
-
-        # Exams info content frame
-        exams_info_content_frame = ctk.CTkFrame(about_exams_frame, fg_color=bg, bg_color=bg)
-        exams_info_content_frame.pack(side="top", fill="x", pady=10)
-
-        # Assessments info
-        assessment_info_frame = ctk.CTkFrame(exams_info_content_frame, fg_color=bg, bg_color=bg)
-        assessment_info_frame.grid(row=0, column=0, padx=2, pady=5, sticky="ew")
-
-        title = ctk.CTkLabel(
-            assessment_info_frame,
-            text="Assessments:",
-            text_color=text_fg,
-            font=("Helvetica", 14, "bold")
-        )
-        title.grid(row=0, column=0, padx=0, pady=0, sticky="snew")
-
-        text = ctk.CTkLabel(
-            assessment_info_frame,
-            text="\nAssessments are taken every month. It usually\n takes about a week to complete, one or two subjects per\n day, and about 30-40 minutes for every subject.\n\nTaken By: College\n Management: College\n Syllabus: Specific Chapters\n Duration: 1-2 weeks\n",
-            fg_color=fg,
-            bg_color=bg,
-            text_color=text_fg,
-            font=("Helvetica", 12)
-        )
-        text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
-
-        # Term exams
-        term_info_frame = ctk.CTkFrame(exams_info_content_frame, fg_color=bg, bg_color=bg)
-        term_info_frame.grid(row=0, column=1, padx=(16, 8), pady=5, sticky="ew")
-
-        title = ctk.CTkLabel(
-            term_info_frame,
-            text="Terms:",
-            bg_color=bg,
-            text_color=text_fg,
-            font=("Helvetica", 14, "bold")
-        )
-        title.grid(row=0, column=0, padx=0, pady=0, sticky="snew")
-
-        text = ctk.CTkLabel(
-            term_info_frame,
-            text="\nTerm Examination is taken twice a year.\n 2-3 subjects every week, and about 2-3 hours for every\n subject and no classes happens during terms.\n\nTaken By: APSACS\n Management: College\n Syllabus: Half of the course\n Duration: 2-4 weeks\n",
-            fg_color=fg,
-            bg_color=bg,
-            text_color=text_fg,
-            font=("Helvetica", 12)
-        )
-        text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
-
-        # Standup or preboard
-        preboard_info_frame = ctk.CTkFrame(exams_info_content_frame, fg_color=bg, bg_color=bg)
-        preboard_info_frame.grid(row=0, column=2, padx=(8, 16), pady=5, sticky="ew")
-
-        title = ctk.CTkLabel(
-            preboard_info_frame,
-            text="Pre-Board:",
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14, "bold")
-        )
-        title.grid(row=0, column=0, padx=0, pady=0, sticky="snew")
-
-        text = ctk.CTkLabel(
-            preboard_info_frame,
-            text="\nPre-Board Exam is taken after 2nd term. Its\n managements and timings are same as term exams,\n and classes are also not takes place. \n\nTaken By: APSACS\n Management: College\n Syllabus: Everything\n Duration: 2-4 weeks\n",
-            fg_color=fg,
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 12)
-        )
-        text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
-
-        # Finale
-        final_info_frame = ctk.CTkFrame(exams_info_content_frame, fg_color=bg, bg_color=bg)
-        final_info_frame.grid(row=0, column=3, padx=2, pady=5, sticky="ew")
-
-        title = ctk.CTkLabel(
-            final_info_frame,
-            text="Annual Examinations:",
-            text_color=text_fg,
-            bg_color=bg,
-            font=("Helvetica", 14, "bold")
-        )
-        title.grid(row=0, column=0, padx=0, pady=0, sticky="snew")
-
-        text = ctk.CTkLabel(
-            final_info_frame,
-            text="\nAnnual Examinations are taken at the end of\n the year. It has the most importance and student are\n promoted to the next class if passed. \n\nTaken By: FBISE(board)\n Management: FBISE(board)\n Syllabus: Everything\n Duration: 1 month\n",
-            fg_color=fg,
-            bg_color=bg,
-            text_color=text_fg,
-            font=("Helvetica", 12)
-        )
-        text.grid(row=1, column=0, padx=0, pady=(0, 5), ipadx=8, sticky="snew")
-
+            remove_hssc_2_exam_btn.grid(row=0, column=7, padx=5, pady=(0, 5), sticky="we")
 
         subject_icon_map = {
             "Physics": phy_icon,
@@ -1113,7 +966,7 @@ class SERPManagerGUI():
         }
 
         def load_subjects(file_path):
-            try:
+            try:    
                 with open(file_path, 'r') as file:
                     data = json.load(file)
                     return data.get("subjects", [])
@@ -1131,7 +984,7 @@ class SERPManagerGUI():
             icon = subject_icon_map.get(subject_name, default_icon)
 
             sub_frame = ctk.CTkFrame(parent_frame, fg_color=fg)
-            sub_frame.pack(side="left", padx=5, pady=5)
+            sub_frame.pack(side="left", padx=5, pady=0)
 
             sub_icon = ctk.CTkLabel(sub_frame, text="", image=icon, height=80, width=80)
             sub_icon.grid(row=0, column=0, rowspan=3, padx=(10, 0), pady=10)
@@ -1158,28 +1011,28 @@ class SERPManagerGUI():
         hssc2_subjects = load_subjects(f"{self.base_path}/json/hssc2_exams.json")
 
         if not ssc1_subjects:
-            ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
+            ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
             ssc1_label.pack(fill="x", pady=50)
         else:
             for subject in ssc1_subjects:
                 create_subject_frame(self.ssc_1_content_frame, subject)
 
         if not ssc2_subjects:
-            ssc2_label = ctk.CTkLabel(self.ssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
+            ssc2_label = ctk.CTkLabel(self.ssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
             ssc2_label.pack(fill="x", pady=50)
         else:
             for subject in ssc2_subjects:
                 create_subject_frame(self.ssc_2_content_frame, subject)
 
         if not hssc1_subjects:
-            hssc1_label = ctk.CTkLabel(self.hssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
+            hssc1_label = ctk.CTkLabel(self.hssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
             hssc1_label.pack(fill="x", pady=50)
         else:
             for subject in hssc1_subjects:
                 create_subject_frame(self.hssc_1_content_frame, subject)
 
         if not hssc2_subjects:
-            hssc2_label = ctk.CTkLabel(self.hssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 16, "bold"), text_color=text_fg)
+            hssc2_label = ctk.CTkLabel(self.hssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
             hssc2_label.pack(fill="x", pady=50)
         else:
             for subject in hssc2_subjects:
@@ -1196,7 +1049,7 @@ class SERPManagerGUI():
             fg_color=bg,
             bg_color=bg
         )
-        self.results_main_frame.pack(fill="both", expand="true", padx=10, pady=10)
+        self.results_main_frame.pack(fill="both", expand="true", padx=0, pady=0)
 
         exam_name: str = "Annual Examinations HSSC 2024 Results"
 
@@ -1225,28 +1078,20 @@ class SERPManagerGUI():
         self.roll_no_entry = ctk.CTkEntry(self.search_frame, placeholder_text="Enter roll number...", width=300)
         self.roll_no_entry.pack(side="right", padx=5, pady=5)
 
-        self.result_content_frame = ctk.CTkFrame(self.results_main_frame, fg_color=bg)
-        self.result_content_frame.pack(side="top", fill="both", padx=5, pady=5, expand=True)
+        self.result_content_frame = ctk.CTkFrame(self.results_main_frame, fg_color=fg)
+        self.result_content_frame.pack(side="top", fill="both", padx=10, pady=10, expand=True)
 
     def show_papers(self):
         # Clear the main frame and set the button state
         self.clear_main_frame()
         self.set_button_state(self.papers_button)
 
-        # Main scrollable frame
-        self.scrollable_frame = ctk.CTkScrollableFrame(
-            self.main_frame,
-            fg_color=bg,
-            bg_color=bg
-        )
-        self.scrollable_frame.grid(row=0, column=0, padx=10, pady=(10, 10), sticky="nsew")
-
         # Buttons frame
         self.button_frame = ctk.CTkFrame(
             self.main_frame,
             fg_color=bg
         )
-        self.button_frame.grid(row=1, column=0, padx=10, pady=(0, 10), sticky="ew")
+        self.button_frame.pack(side="bottom", fill="x", padx=0, pady=0, ipady=0)
 
         # Refresh papers button
         refresh_pdfs_button = ctk.CTkButton(
@@ -1258,7 +1103,7 @@ class SERPManagerGUI():
             hover_color=btn_hvr,
             command=self.refresh_pdfs
         )
-        refresh_pdfs_button.grid(row=0, column=0, padx=10, pady=10, sticky="w")
+        refresh_pdfs_button.grid(row=0, column=0, padx=5, pady=5, sticky="w")
 
         # Add papers button
         add_paper_button = ctk.CTkButton(
@@ -1270,7 +1115,7 @@ class SERPManagerGUI():
             fg_color=btn_active,
             command=self.add_paper
         )
-        add_paper_button.grid(row=0, column=1, padx=10, pady=10, sticky="w")
+        add_paper_button.grid(row=0, column=1, padx=5, pady=5, sticky="w")
 
         # Delete papers button
         delete_paper_button = ctk.CTkButton(
@@ -1282,7 +1127,7 @@ class SERPManagerGUI():
             fg_color=btn_active,
             command=self.delete_paper
         )
-        delete_paper_button.grid(row=0, column=2, padx=10, pady=10, sticky="w")
+        delete_paper_button.grid(row=0, column=2, padx=5, pady=5, sticky="w")
 
         # Main frame configurations
         self.main_frame.grid_rowconfigure(0, weight=1)
@@ -1291,6 +1136,12 @@ class SERPManagerGUI():
 
         # Load the pdfs to the main scrollable frame
         self.load_pdfs(self.default_pdfs_path)
+
+    def show_profile(self):
+        if self.show_profile_toplevel_window is None or not self.show_profile_toplevel_window.winfo_exists():
+            self.show_profile_toplevel_window = show_profile.CurrentAccount(self.root)
+        else:
+            self.show_profile_toplevel_window.focus()
 
     # helper function for show home section
     def contact_us_toplevel(self):
@@ -1379,9 +1230,8 @@ class SERPManagerGUI():
 
     def load_pdfs(self, directory):
         try:
-            self.scrollable_frame.destroy()
             self.scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
-            self.scrollable_frame.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+            self.scrollable_frame.pack(side="top", fill="both", padx=0, pady=0, expand=True)
 
             pdf_files = [f for f in os.listdir(directory) if f.endswith('.pdf')]
             if not pdf_files:

@@ -14,18 +14,18 @@ class ContactUs(ctk.CTkToplevel):
         self.title("")
         self.resizable(False, False)
 
-        main_frame1 = ctk.CTkFrame(
+        main_frame = ctk.CTkFrame(
             self,
-            fg_color=fg,
+            fg_color=bg,
             corner_radius=0,
             border_width=0,
             border_color=text_fg
         )
-        main_frame1.grid(padx=0, pady=0)
+        main_frame.grid(padx=0, pady=0)
 
         # Add a title label to the frame
         title = ctk.CTkLabel(
-            main_frame1,
+            main_frame,
             text="Contact Us",
             text_color=text_fg,
             font=("Helvetica", 22, "bold")
@@ -34,7 +34,7 @@ class ContactUs(ctk.CTkToplevel):
 
         # Add a label with contact information to the frame
         info = ctk.CTkLabel(
-            main_frame1,
+            main_frame,
             text="For any queries, please contact us at:\n\nEmail: balgharisaifullah@gmail.com\nPhone: +92355-4300937",
             text_color=text_fg,
             font=("Helvetica", 16)
@@ -43,7 +43,7 @@ class ContactUs(ctk.CTkToplevel):
 
         # Add a close button to the frame to close the window when clicked
         close_button = ctk.CTkButton(
-            main_frame1,
+            main_frame,
             text="Close",
             text_color=text_fg_2,
             font=("Helvetica", 14),

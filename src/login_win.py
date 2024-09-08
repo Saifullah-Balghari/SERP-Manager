@@ -77,7 +77,12 @@ class LoginGui(ctk.CTk):
         )
         self.role_label.grid(pady=(5, 0), padx=20, row=5, column=1, sticky="nsew")
 
-        self.role_combobox = ctk.CTkComboBox(self.login_frame, values=["Student", "Teacher", "Admin"])
+        self.role_combobox = ctk.CTkOptionMenu(
+            self.login_frame, 
+            values=["Student", "Admin"], 
+            fg_color=btn_active_2, 
+            text_color=text_fg
+        )
         self.role_combobox.grid(pady=(0, 5), padx=20, row=6, column=1, columnspan=2, sticky="ew")
         self.role_combobox.set("Student")
 
@@ -91,6 +96,9 @@ class LoginGui(ctk.CTk):
             fg_color=btn_active_2
         )
         self.signup_button.grid(pady=20, padx=(20, 5), row=7, column=1)
+
+        if self.role_combobox.get() == "Admin":
+            self.signup_button.configure(state="disabled")
 
         self.login_button = ctk.CTkButton(
             self.login_frame,
@@ -113,13 +121,13 @@ class LoginGui(ctk.CTk):
             return False
         
         if accounts_db.verify_account(self.username, self.password, self.role):
-            with open(path, "w") as file:
-                file.write(self.role)
-            messagebox.showinfo("Login Successful", "Welcome!")
+            self.save_current_user()
             self.destroy()
             return True
         
-        messagebox.showerror("Login Failed", "Invalid credentials!")
+        else:
+            messagebox.showerror("Login Failed", "Invalid credentials!")
+            return False
 
         return False
     
@@ -141,3 +149,7 @@ class LoginGui(ctk.CTk):
             messagebox.showinfo("Signup Successful", "Account created successfully!")
         except Exception as e:
             messagebox.showerror("Signup Failed", f"Failed to create account: {e}")
+
+    def save_current_user(self):
+        with open(path, "w") as file:
+                file.write(self.username + " " + self.role)
