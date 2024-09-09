@@ -11,10 +11,10 @@ from pdf2image import convert_from_path
 from PIL import Image, ImageTk                  # pillow
 
 # Local imports
-from. import contact_us
-from. import manage_news
-from. import show_profile
-from.settings import *
+from . import contact_us
+from . import manage_news
+from . import show_profile
+from .settings import *
 
 # Inbuilt imports
 import platform
@@ -57,13 +57,16 @@ class SERPManagerGUI():
 
             try:                                                        
                 # Create the main application window
-                self.root = ctk.CTk()   
+                self.root = ctk.CTk()  
+
+                # Loads the icons
+                setup_icons()
 
                 # Window configurations
                 self.root.title("SERP-Manager (Developed By Saifullah Balghari)")
                 self.root.geometry("1366x768")
                 self.root.resizable(False, False)
-                self.root.configure(fg_color=text_fg)
+                self.root.configure(fg_color=text_fg)   
                 self.root.iconbitmap(None, None)
                 self.root.grid_rowconfigure(0, weight=1) 
                 self.root.grid_rowconfigure(1, weight=15)
@@ -80,8 +83,13 @@ class SERPManagerGUI():
 
             except Exception as e:
                 print(e)
+                
         except Exception as e:
             print(e)
+
+        finally:
+            # Remove the current role file after closing the main GUI window
+            os.remove(current_role_path)
 
     def create_header_frame(self):
 
@@ -261,10 +269,7 @@ class SERPManagerGUI():
         shortcut_1_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_1_frame.grid(row=0, column=0, padx=28, pady=10, sticky="nsew")
 
-        img = Image.open(paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
-        shortcut_1_icon = ImageTk.PhotoImage(img)
-
-        shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=shortcut_1_icon, height=120, width=120)
+        shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=icons["shortcut_1_icon"], height=120, width=120)
         shortcut_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         shortcut_1_text = ctk.CTkLabel(
@@ -298,13 +303,10 @@ class SERPManagerGUI():
         shortcut_2_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_2_frame.grid(row=0, column=1, padx=28, pady=10, sticky="nsew")
 
-        img = Image.open(exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
-        shortcut_2_icon = ImageTk.PhotoImage(img)
-
         shortcut_2_icon = ctk.CTkLabel(
             shortcut_2_frame,
             text="",
-            image=shortcut_2_icon,
+            image=icons["shortcut_2_icon"],
             height=120,
             width=120
         )
@@ -341,10 +343,7 @@ class SERPManagerGUI():
         shortcut_3_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_3_frame.grid(row=0, column=2, padx=28          , pady=10, sticky="nsew")
 
-        img = Image.open(result_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
-        shortcut_3_icon = ImageTk.PhotoImage(img)
-
-        shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=shortcut_3_icon, height=120, width=120)
+        shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=icons["shortcut_3_icon"], height=120, width=120)
         shortcut_3_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         shortcut_3_text = ctk.CTkLabel(
@@ -378,16 +377,13 @@ class SERPManagerGUI():
         news_n_updates = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
         news_n_updates.pack(side="top", fill="both", padx=5, pady=0)
 
-        img = Image.open(news_icon_path).resize((60, 60), Image.LANCZOS)
-        news_icon = ImageTk.PhotoImage(img)
-
         title_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, bg_color=bg)
         title_frame.pack(side="top", fill="x", padx=10, pady=0)
 
         news_icon = ctk.CTkLabel(
             title_frame,
             text="",
-            image=news_icon,
+            image=icons["news_icon"],
             height=120,
             width=120
         )
@@ -414,16 +410,13 @@ class SERPManagerGUI():
         self.news_3 = lines[2].strip() if len(lines) > 2 else ""
         self.news_4 = lines[3].strip() if len(lines) > 3 else ""
 
-        img = Image.open(right_arrow_icon_path).resize((20, 20), Image.LANCZOS)
-        arrow_icon = ImageTk.PhotoImage(img)
-
         # news 1
         news_1_frame = ctk.CTkFrame(news_frame, fg_color=fg)
         news_1_frame.pack(fill="x", padx=0, pady=(0, 2))
 
         news_arrow = ctk.CTkLabel(
             news_1_frame,
-            image=arrow_icon,
+            image=icons["arrow_icon"],
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
@@ -442,7 +435,7 @@ class SERPManagerGUI():
 
         news_arrow = ctk.CTkLabel(
             news_2_frame,
-            image=arrow_icon,
+            image=icons["arrow_icon"],
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
@@ -461,7 +454,7 @@ class SERPManagerGUI():
 
         news_arrow = ctk.CTkLabel(
             news_3_frame,
-            image=arrow_icon,
+            image=icons["arrow_icon"],
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
@@ -480,7 +473,7 @@ class SERPManagerGUI():
 
         news_arrow = ctk.CTkLabel(
             news_4_frame,
-            image=arrow_icon,
+            image=icons["arrow_icon"],
             text=""
         )
         news_arrow.pack(side="left", padx=10, pady=0)
@@ -501,10 +494,7 @@ class SERPManagerGUI():
         role_1_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         role_1_frame.grid(row=0, column=0, padx=7, pady=20, sticky="nsew")
 
-        img = Image.open(teachers_icon_path).resize((100, 100), Image.LANCZOS)
-        role_1_icon = ImageTk.PhotoImage(img)
-
-        role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=role_1_icon, height=120, width=120)
+        role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=icons["role_1_icon"], height=120, width=120)
         role_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         role_1_text = ctk.CTkLabel(
@@ -527,10 +517,7 @@ class SERPManagerGUI():
         role_2_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         role_2_frame.grid(row=0, column=1, padx=8, pady=20, sticky="nsew")
 
-        img = Image.open(students_icon_path).resize((100, 100), Image.LANCZOS)
-        role_2_icon = ImageTk.PhotoImage(img)
-
-        role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=role_2_icon, height=120, width=120)
+        role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=icons["role_2_icon"], height=120, width=120)
         role_2_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         role_2_text = ctk.CTkLabel(
@@ -553,10 +540,7 @@ class SERPManagerGUI():
         help_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         help_frame.grid(row=0, column=2, padx=8, pady=20, sticky="nsew")
 
-        img = Image.open(support_icon_path).resize((100, 100), Image.LANCZOS)
-        help_icon = ImageTk.PhotoImage(img)
-
-        about_us_icon = ctk.CTkLabel(help_frame, text="", image=help_icon, height=120, width=120)
+        about_us_icon = ctk.CTkLabel(help_frame, text="", image=icons["help_icon"], height=120, width=120)
         about_us_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         help_text = ctk.CTkLabel(
@@ -664,26 +648,6 @@ class SERPManagerGUI():
         # Clear the main frame and set the button state
         self.clear_main_frame()
         self.set_button_state(self.exams_button)
-
-        # Subjects Icons
-        img1 = Image.open(physics_icon_path).resize((100, 100), Image.LANCZOS)
-        phy_icon = ImageTk.PhotoImage(img1)
-        img2 = Image.open(chemistry_icon_path).resize((100, 100), Image.LANCZOS)
-        chem_icon = ImageTk.PhotoImage(img2)
-        img3 = Image.open(biology_icon_path).resize((100, 100), Image.LANCZOS)
-        bio_icon = ImageTk.PhotoImage(img3)
-        img4 = Image.open(computer_icon_path).resize((100, 100), Image.LANCZOS)
-        cs_icon = ImageTk.PhotoImage(img4)
-        img5 = Image.open(islamiyat_icon_path).resize((100, 100), Image.LANCZOS)
-        isl_icon = ImageTk.PhotoImage(img5)
-        img6 = Image.open(maths_icon_path).resize((100, 100), Image.LANCZOS)
-        math_icon = ImageTk.PhotoImage(img6)
-        img7 = Image.open(urdu_icon_path).resize((100, 100), Image.LANCZOS)
-        urdu_icon = ImageTk.PhotoImage(img7)
-        img8 = Image.open(pk_std_icon_path).resize((100, 100), Image.LANCZOS)
-        ps_icon = ImageTk.PhotoImage(img8)
-        img9 = Image.open(english_icon_path).resize((100, 100), Image.LANCZOS)
-        eng_icon = ImageTk.PhotoImage(img9)
 
         # Create the scrollable frame
         scrollable_frame = ctk.CTkScrollableFrame(
@@ -898,18 +862,6 @@ class SERPManagerGUI():
             )
             remove_hssc_2_exam_btn.grid(row=0, column=7, padx=5, pady=(0, 5), sticky="we")
 
-        subject_icon_map = {
-            "Physics": phy_icon,
-            "Chemistry": chem_icon,
-            "Biology": bio_icon,
-            "Computer Science": cs_icon,
-            "Islamiyat": isl_icon,
-            "Mathematics": math_icon,
-            "Urdu": urdu_icon,
-            "Pakistan Studies": ps_icon,
-            "English": eng_icon
-        }
-
         def load_subjects(file_path):
             try:    
                 with open(file_path, 'r') as file:
@@ -921,14 +873,26 @@ class SERPManagerGUI():
             except FileNotFoundError:
                 print(f"Error: The file {file_path} was not found.")
                 return []
-
-        default_icon = None
+        
+        # Loads subject's icons respectively
+        subject_icon_map = {
+            "Physics": icons["phy_icon"],
+            "Chemistry": icons["chem_icon"],
+            "Biology": icons["bio_icon"],
+            "Computer Science": icons["cs_icon"],
+            "Islamiyat": icons["isl_icon"],
+            "Mathematics": icons["math_icon"],
+            "Urdu": icons["urdu_icon"],
+            "Pakistan Studies": icons["ps_icon"],
+            "English": icons["eng_icon"]
+        }
 
         def create_subject_frame(parent_frame, subject_data):
             subject_name = subject_data["subject_name"]
-            icon = subject_icon_map.get(subject_name, default_icon)
 
-            sub_frame = ctk.CTkFrame(parent_frame, fg_color=fg)
+            icon = subject_icon_map.get(subject_name, icons.get("default_icon"))
+
+            sub_frame = ctk.CTkFrame(parent_frame, fg_color=fg)         
             sub_frame.pack(side="left", padx=5, pady=0)
 
             sub_icon = ctk.CTkLabel(sub_frame, text="", image=icon, height=80, width=80)
@@ -1088,7 +1052,7 @@ class SERPManagerGUI():
         else:
             self.show_profile_toplevel_window.focus()
 
-    # helper function for show home section
+# helper function for show home section
     def contact_us_toplevel(self):
         if self.contact_us_toplevel_window is None or not self.contact_us_toplevel_window.winfo_exists():
             self.contact_us_toplevel_window = contact_us.ContactUs(self.root)

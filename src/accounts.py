@@ -1,6 +1,7 @@
+from .settings import *
+
 import json
 from datetime import datetime
-from.settings import *
 
 def add_account(username, password, role):
     try:

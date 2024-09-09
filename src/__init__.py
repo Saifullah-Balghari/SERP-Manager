@@ -1,6 +1,6 @@
 from . import login_win
 from . import main_gui
-from.settings import *
+from .settings import *
 
 import os
 
@@ -13,8 +13,3 @@ def login():
 def main():
     if login():
         main_gui.SERPManagerGUI()
-
-    # Remove the current role file after closing the main GUI window
-    os.remove(current_role_path)
-
-                    

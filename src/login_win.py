@@ -3,7 +3,7 @@ from tkinter import messagebox
 import customtkinter as ctk
 
 from .settings import *
-from . import accounts_db
+from . import accounts
 
 ctk.set_appearance_mode("light")
 
@@ -117,7 +117,7 @@ class LoginGui(ctk.CTk):
             messagebox.showerror("Login Failed", "All fields are required!")
             return False
         
-        if accounts_db.verify_account(self.username, self.password, self.role):
+        if accounts.verify_account(self.username, self.password, self.role):
             self.save_current_user()
             self.destroy()
             return True
@@ -135,12 +135,12 @@ class LoginGui(ctk.CTk):
             messagebox.showerror("Signup Failed", "All fields are required!")
             return
 
-        if accounts_db.verify_account(self.username, self.password, self.role):
+        if accounts.verify_account(self.username, self.password, self.role):
             messagebox.showerror("Signup Failed", "Account already exists!")
             return
 
         try:
-            accounts_db.add_account(self.username, self.password, self.role)
+            accounts.add_account(self.username, self.password, self.role)
             messagebox.showinfo("Signup Successful", "Account created successfully!")
         except Exception as e:
             messagebox.showerror("Signup Failed", f"Failed to create account: {e}")

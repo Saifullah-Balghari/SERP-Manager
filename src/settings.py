@@ -1,5 +1,5 @@
-import customtkinter as ctk
-from PIL import Image
+from customtkinter import CTkImage
+from PIL import Image, ImageTk
 
 import os
 
@@ -38,7 +38,7 @@ try:
     edit_icon_path = os.path.join(base_path, "Icons", "edit.png")
     acc_icon_path = os.path.join(base_path, "Icons", "profile.png")
 
-    # Icons of Subjects
+    # Icons of Subjects(books)
     maths_icon_path = os.path.join(base_path, "Icons", "math.png")
     biology_icon_path = os.path.join(base_path, "Icons", "bio.png")
     english_icon_path = os.path.join(base_path, "Icons", "eng.png")
@@ -53,13 +53,43 @@ except FileNotFoundError as e:
     print(f"Error: {str(e)}")
 
 # Converts and resize the PNG to ctkimage for buttons
-refresh_pdfs_button_icon = ctk.CTkImage(Image.open(refresh_icon_path).resize((18, 18), Image.LANCZOS))
-add_paper_button_icon = ctk.CTkImage(Image.open(add_icon_path).resize((18, 18), Image.LANCZOS))
-delete_paper_button_icon = ctk.CTkImage(Image.open(delete_icon_path).resize((18, 18), Image.LANCZOS))
-contact_us_button_icon = ctk.CTkImage(Image.open(contact_us_icon_path).resize((18, 18), Image.LANCZOS))
-add_exams_button_icon = ctk.CTkImage(Image.open(add_exams_icon_path).resize((18, 18), Image.LANCZOS))
-edit_button_icon = ctk.CTkImage(Image.open(edit_icon_path).resize((18, 18), Image.LANCZOS))
-acc_button_icon = ctk.CTkImage(Image.open(acc_icon_path).resize((18, 18), Image.LANCZOS))
-exam_button_icon = ctk.CTkImage(Image.open(exam_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
-result_button_icon = ctk.CTkImage(Image.open(result_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
-paper_button_icon = ctk.CTkImage(Image.open(paper_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+refresh_pdfs_button_icon = CTkImage(Image.open(refresh_icon_path).resize((18, 18), Image.LANCZOS))
+add_paper_button_icon = CTkImage(Image.open(add_icon_path).resize((18, 18), Image.LANCZOS))
+delete_paper_button_icon = CTkImage(Image.open(delete_icon_path).resize((18, 18), Image.LANCZOS))
+contact_us_button_icon = CTkImage(Image.open(contact_us_icon_path).resize((18, 18), Image.LANCZOS))
+add_exams_button_icon = CTkImage(Image.open(add_exams_icon_path).resize((18, 18), Image.LANCZOS))
+edit_button_icon = CTkImage(Image.open(edit_icon_path).resize((18, 18), Image.LANCZOS))
+acc_button_icon = CTkImage(Image.open(acc_icon_path).resize((18, 18), Image.LANCZOS))
+exam_button_icon = CTkImage(Image.open(exam_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+result_button_icon = CTkImage(Image.open(result_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+paper_button_icon = CTkImage(Image.open(paper_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+
+# Icons
+icons = {}
+
+def setup_icons():
+    global icons
+
+    # Populate icons
+    
+    icons["phy_icon"] = ImageTk.PhotoImage(Image.open(physics_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["chem_icon"] = ImageTk.PhotoImage(Image.open(chemistry_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["bio_icon"] = ImageTk.PhotoImage(Image.open(biology_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["cs_icon"] = ImageTk.PhotoImage(Image.open(computer_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["isl_icon"] = ImageTk.PhotoImage(Image.open(islamiyat_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["math_icon"] = ImageTk.PhotoImage(Image.open(maths_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["urdu_icon"] = ImageTk.PhotoImage(Image.open(urdu_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["ps_icon"] = ImageTk.PhotoImage(Image.open(pk_std_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["eng_icon"] = ImageTk.PhotoImage(Image.open(english_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["default"] = ImageTk.PhotoImage(Image.open(english_icon_path).resize((100, 100), Image.LANCZOS))
+
+    icons["shortcut_1_icon"] = ImageTk.PhotoImage(Image.open(paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS))                  
+    icons["shortcut_2_icon"] = ImageTk.PhotoImage(Image.open(exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)) 
+    icons["shortcut_3_icon"] = ImageTk.PhotoImage(Image.open(result_shortcut_icon_path).resize((100, 100), Image.LANCZOS))
+
+    icons["news_icon"] = ImageTk.PhotoImage(Image.open(news_icon_path).resize((60, 60), Image.LANCZOS)) 
+    icons["arrow_icon"] = ImageTk.PhotoImage(Image.open(right_arrow_icon_path).resize((20, 20), Image.LANCZOS)) 
+
+    icons["role_1_icon"] = ImageTk.PhotoImage(Image.open(teachers_icon_path).resize((100, 100), Image.LANCZOS)) 
+    icons["role_2_icon"] = ImageTk.PhotoImage(Image.open(students_icon_path).resize((100, 100), Image.LANCZOS)) 
+    icons["help_icon"] = ImageTk.PhotoImage(Image.open(support_icon_path).resize((100, 100), Image.LANCZOS))
