@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
 
-import os
+from .settings import *
 
 bg = "#FCFAFF"
 fg = "#F4EBFF"
@@ -14,14 +14,10 @@ class CurrentAccount(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
-        self.current_role_path = os.path.join(self.base_path, "current_role.txt")
-        self.acc_icon_path = os.path.join(self.base_path, "Icons", "profile.png")
-
         self.title("")
         self.resizable(False, False)
 
-        with open(self.current_role_path, 'r') as f:
+        with open(current_role_path, 'r') as f:
                 text = f.read()        
                 self.username, self.role = text.split()
 
@@ -32,7 +28,7 @@ class CurrentAccount(ctk.CTkToplevel):
         main_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
         main_frame.pack(fill="both", expand=True)
 
-        self.acc_icon = Image.open(self.acc_icon_path).resize((200, 200), Image.LANCZOS)
+        self.acc_icon = Image.open(acc_icon_path).resize((200, 200), Image.LANCZOS)
         self.acc_icon_photo = ImageTk.PhotoImage(self.acc_icon)
 
         self.acc_icon_label = ctk.CTkLabel(
@@ -75,7 +71,7 @@ class CurrentAccount(ctk.CTkToplevel):
             text_color=fg,
             font=("Helvetica", 18, "bold"),
             command=None,
-            hover_color=bg,
+            hover_color=btn_hvr,
             fg_color=btn_active
         )
         self.delete_button.grid(pady=20, padx=(20, 5), row=7, column=1)

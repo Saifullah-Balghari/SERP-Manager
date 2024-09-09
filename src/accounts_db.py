@@ -1,12 +1,11 @@
 import json
 from datetime import datetime
-
-path = "/home/sbalghari/Documents/GitHub/SERP-Manager/json/accounts.json"
+from.settings import *
 
 def add_account(username, password, role):
     try:
         # Open the file in read mode, handle if the file does not exist or is empty
-        with open(path, 'r') as file:
+        with open(acc_json_path, 'r') as file:
             try:
                 accounts = json.load(file)
             except json.JSONDecodeError:
@@ -28,13 +27,13 @@ def add_account(username, password, role):
     accounts.append(new_account)
 
     # Write the updated list back to the file
-    with open(path, 'w') as file:
+    with open(acc_json_path, 'w') as file:
         json.dump(accounts, file, indent=4)
 
 def verify_account(username, password, role):
     try:
         # Open the file in read mode, handle if the file does not exist or is empty
-        with open(path, 'r') as file:
+        with open(acc_json_path, 'r') as file:
             try:
                 accounts = json.load(file)
             except json.JSONDecodeError:

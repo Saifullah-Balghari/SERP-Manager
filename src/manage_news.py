@@ -1,5 +1,6 @@
 import customtkinter as ctk
-from tkinter import messagebox
+
+from .settings import *
 
 bg = "#FCFAFF"
 fg = "#F4EBFF"
@@ -7,8 +8,6 @@ text_fg_2 = "#FFFFFF"
 btn_hvr = "#7F56D9"
 btn_active = "#6941C6"
 text_fg = "#53389E"
-
-base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
 
 class ManageNews(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
@@ -161,7 +160,7 @@ class ManageNews(ctk.CTkToplevel):
         self.news_4 = self.news_4_entry.get() or self.news_4
 
         # Write the news to the file
-        with open(f"{base_path}/news.txt", "w") as f:
+        with open(news_txt_path, "w") as f:
             f.write(f"{self.news_1}\n{self.news_2}\n{self.news_3}\n{self.news_4}")
             print("News updated successfully!")
 

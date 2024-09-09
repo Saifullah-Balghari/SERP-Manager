@@ -11,9 +11,10 @@ from pdf2image import convert_from_path
 from PIL import Image, ImageTk                  # pillow
 
 # Local imports
-from . import contact_us
-from . import manage_news
-from . import show_profile
+from. import contact_us
+from. import manage_news
+from. import show_profile
+from.settings import *
 
 # Inbuilt imports
 import platform
@@ -36,78 +37,22 @@ text_fg = "#53389E"
 class SERPManagerGUI():
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        # Set the default path as "..\..\..\..\..\..\SERP-Manager"
-        self.base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
-
-        # Paths
-        self.current_role_path = os.path.join(self.base_path, "current_role.txt")
-        self.default_pdfs_path = os.path.join(self.base_path, "Papers")
-        self.cache_folder_path = os.path.join(self.base_path, "Cache")
-        
+    
         try:
-
-            # Icons
-            self.add_icon_path = os.path.join(self.base_path, "Icons", "add.png")
-            self.refresh_icon_path = os.path.join(self.base_path, "Icons", "refresh.png")
-            self.delete_icon_path = os.path.join(self.base_path, "Icons", "remove.png")
-            self.exam_shortcut_icon_path = os.path.join(self.base_path, "Icons", "exam_shortcut.png")
-            self.paper_shortcut_icon_path = os.path.join(self.base_path, "Icons", "paper_shortcut.png")
-            self.result_shortcut_icon_path = os.path.join(self.base_path, "Icons", "result_shortcut.png")
-            self.contact_us_icon_path = os.path.join(self.base_path, "Icons", "contact_us.png")
-            self.add_exams_icon_path = os.path.join(self.base_path, "Icons", "add_exam.png")
-            self.support_icon_path = os.path.join(self.base_path, "Icons", "support.png")
-            self.news_icon_path = os.path.join(self.base_path, "Icons", "news.png")
-            self.students_icon_path = os.path.join(self.base_path, "Icons", "student.png")
-            self.teachers_icon_path = os.path.join(self.base_path, "Icons", "staff.png")
-            self.right_arrow_icon_path = os.path.join(self.base_path, "Icons", "right_arrow.png")
-            self.logout_icon_path = os.path.join(self.base_path, "Icons", "logout.png")
-            self.edit_icon_path = os.path.join(self.base_path, "Icons", "edit.png")
-            self.acc_icon_path = os.path.join(self.base_path, "Icons", "profile.png")
-
-            # Icons of Subjects
-            self.maths_icon_path = os.path.join(self.base_path, "Icons", "math.png")
-            self.biology_icon_path = os.path.join(self.base_path, "Icons", "bio.png")
-            self.english_icon_path = os.path.join(self.base_path, "Icons", "eng.png")
-            self.urdu_icon_path = os.path.join(self.base_path, "Icons", "urdu.png")
-            self.physics_icon_path = os.path.join(self.base_path, "Icons", "phy.png")
-            self.chemistry_icon_path = os.path.join(self.base_path, "Icons", "chemistry.png")
-            self.computer_icon_path = os.path.join(self.base_path, "Icons", "cs.png")
-            self.islamiyat_icon_path = os.path.join(self.base_path, "Icons", "islamiyat.png")
-            self.pk_std_icon_path = os.path.join(self.base_path, "Icons", "ps.png")
-
-
-        except FileNotFoundError as e:
-            print(f"Error: {str(e)}")
-
-        # Converts and resize the PNG to ctkimage for buttons
-        self.refresh_pdfs_button_icon = ctk.CTkImage(Image.open(self.refresh_icon_path).resize((18, 18), Image.LANCZOS))
-        self.add_paper_button_icon = ctk.CTkImage(Image.open(self.add_icon_path).resize((18, 18), Image.LANCZOS))
-        self.delete_paper_button_icon = ctk.CTkImage(Image.open(self.delete_icon_path).resize((18, 18), Image.LANCZOS))
-        self.contact_us_button_icon = ctk.CTkImage(Image.open(self.contact_us_icon_path).resize((18, 18), Image.LANCZOS))
-        self.add_exams_button_icon = ctk.CTkImage(Image.open(self.add_exams_icon_path).resize((18, 18), Image.LANCZOS))
-        self.edit_button_icon = ctk.CTkImage(Image.open(self.edit_icon_path).resize((18, 18), Image.LANCZOS))
-        self.acc_button_icon = ctk.CTkImage(Image.open(self.acc_icon_path).resize((18, 18), Image.LANCZOS))
-        self.exam_button_icon = ctk.CTkImage(Image.open(self.exam_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
-        self.result_button_icon = ctk.CTkImage(Image.open(self.result_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
-        self.paper_button_icon = ctk.CTkImage(Image.open(self.paper_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
-
-
-        try:
-            if not os.path.exists(self.cache_folder_path):
-                os.makedirs(self.cache_folder_path)
+            if not os.path.exists(cache_folder_path):
+                os.makedirs(cache_folder_path)
 
             # Variables declarations
             self.selected_button = None
             self.role = "student"
 
             # Load the current role from the file
-            with open(self.current_role_path, 'r') as f:
+            with open(current_role_path, 'r') as f:
                 text = f.read()        
                 self.username, self.role = text.split()
                 self.role = self.role.lower().strip()
 
-                if self.role not in ["student", "admin"]:                                               
+                if self.role not in ["student", "admin"]:
                     raise ValueError("Invalid role")
 
             try:                                                        
@@ -120,7 +65,7 @@ class SERPManagerGUI():
                 self.root.resizable(False, False)
                 self.root.configure(fg_color=text_fg)
                 self.root.iconbitmap(None, None)
-                self.root.grid_rowconfigure(0, weight=1)
+                self.root.grid_rowconfigure(0, weight=1) 
                 self.root.grid_rowconfigure(1, weight=15)
                 self.root.grid_columnconfigure(0, weight=1)
 
@@ -171,7 +116,7 @@ class SERPManagerGUI():
             button_frame,
             text="Exams",
             width=80,
-            image=self.exam_button_icon,
+            image=exam_button_icon,
             height=30,
             font=("Helvetica", 18, "bold"),
             hover_color=btn_hvr,
@@ -185,7 +130,7 @@ class SERPManagerGUI():
         self.results_button = ctk.CTkButton(
             button_frame,
             text="Results",
-            image=self.result_button_icon,
+            image=result_button_icon,
             width=80,
             height=30,
             font=("Helvetica", 18, "bold"),
@@ -200,7 +145,7 @@ class SERPManagerGUI():
         self.papers_button = ctk.CTkButton(
             button_frame,
             text="Papers",
-            image=self.paper_button_icon,
+            image=paper_button_icon,
             width=80,
             height=30,
             font=("Helvetica", 18, "bold"),
@@ -215,7 +160,7 @@ class SERPManagerGUI():
         self.profile_button = ctk.CTkButton(
             button_frame,
             text=self.username,
-            image=self.acc_button_icon,
+            image=acc_button_icon,
             font=("Helvetica", 18, "bold"),
             hover_color=fg,
             width=80,
@@ -316,7 +261,7 @@ class SERPManagerGUI():
         shortcut_1_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_1_frame.grid(row=0, column=0, padx=28, pady=10, sticky="nsew")
 
-        img = Image.open(self.paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
+        img = Image.open(paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_1_icon = ImageTk.PhotoImage(img)
 
         shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=shortcut_1_icon, height=120, width=120)
@@ -353,7 +298,7 @@ class SERPManagerGUI():
         shortcut_2_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_2_frame.grid(row=0, column=1, padx=28, pady=10, sticky="nsew")
 
-        img = Image.open(self.exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
+        img = Image.open(exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_2_icon = ImageTk.PhotoImage(img)
 
         shortcut_2_icon = ctk.CTkLabel(
@@ -396,7 +341,7 @@ class SERPManagerGUI():
         shortcut_3_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
         shortcut_3_frame.grid(row=0, column=2, padx=28          , pady=10, sticky="nsew")
 
-        img = Image.open(self.result_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
+        img = Image.open(result_shortcut_icon_path).resize((100, 100), Image.LANCZOS)
         shortcut_3_icon = ImageTk.PhotoImage(img)
 
         shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=shortcut_3_icon, height=120, width=120)
@@ -433,7 +378,7 @@ class SERPManagerGUI():
         news_n_updates = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
         news_n_updates.pack(side="top", fill="both", padx=5, pady=0)
 
-        img = Image.open(self.news_icon_path).resize((60, 60), Image.LANCZOS)
+        img = Image.open(news_icon_path).resize((60, 60), Image.LANCZOS)
         news_icon = ImageTk.PhotoImage(img)
 
         title_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, bg_color=bg)
@@ -461,7 +406,7 @@ class SERPManagerGUI():
         news_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, corner_radius=0)
         news_frame.pack(fill="x", padx=30, pady=(0, 10))
 
-        with open(f"{self.base_path}/news.txt", "rb") as f:
+        with open(news_txt_path, "rb") as f:
             lines = f.readlines()
 
         self.news_1 = lines[0].strip() if len(lines) > 0 else ""
@@ -469,7 +414,7 @@ class SERPManagerGUI():
         self.news_3 = lines[2].strip() if len(lines) > 2 else ""
         self.news_4 = lines[3].strip() if len(lines) > 3 else ""
 
-        img = Image.open(self.right_arrow_icon_path).resize((20, 20), Image.LANCZOS)
+        img = Image.open(right_arrow_icon_path).resize((20, 20), Image.LANCZOS)
         arrow_icon = ImageTk.PhotoImage(img)
 
         # news 1
@@ -556,7 +501,7 @@ class SERPManagerGUI():
         role_1_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         role_1_frame.grid(row=0, column=0, padx=7, pady=20, sticky="nsew")
 
-        img = Image.open(self.teachers_icon_path).resize((100, 100), Image.LANCZOS)
+        img = Image.open(teachers_icon_path).resize((100, 100), Image.LANCZOS)
         role_1_icon = ImageTk.PhotoImage(img)
 
         role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=role_1_icon, height=120, width=120)
@@ -582,7 +527,7 @@ class SERPManagerGUI():
         role_2_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         role_2_frame.grid(row=0, column=1, padx=8, pady=20, sticky="nsew")
 
-        img = Image.open(self.students_icon_path).resize((100, 100), Image.LANCZOS)
+        img = Image.open(students_icon_path).resize((100, 100), Image.LANCZOS)
         role_2_icon = ImageTk.PhotoImage(img)
 
         role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=role_2_icon, height=120, width=120)
@@ -608,7 +553,7 @@ class SERPManagerGUI():
         help_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
         help_frame.grid(row=0, column=2, padx=8, pady=20, sticky="nsew")
 
-        img = Image.open(self.support_icon_path).resize((100, 100), Image.LANCZOS)
+        img = Image.open(support_icon_path).resize((100, 100), Image.LANCZOS)
         help_icon = ImageTk.PhotoImage(img)
 
         about_us_icon = ctk.CTkLabel(help_frame, text="", image=help_icon, height=120, width=120)
@@ -654,7 +599,7 @@ class SERPManagerGUI():
             command=self.contact_us_toplevel,
             text_color=text_fg_2,
             hover_color=btn_hvr,
-            image=self.contact_us_button_icon,
+            image=contact_us_button_icon,
             fg_color=btn_active,
         )
         contact_us_button.pack(side="left", padx=5, pady=5)
@@ -668,7 +613,7 @@ class SERPManagerGUI():
                 text="Edit News",
                 command=self.manage_news_toplevel,
                 text_color=text_fg_2,
-                image=self.edit_button_icon,
+                image=edit_button_icon,
                 hover_color=btn_hvr,
                 fg_color=btn_active,
             )
@@ -680,7 +625,7 @@ class SERPManagerGUI():
         refresh_button = ctk.CTkButton(
             buttons_frame,
             text="Refresh",
-            image=self.refresh_pdfs_button_icon,
+            image=refresh_pdfs_button_icon,
             command=self.show_home,
             text_color=text_fg_2,
             hover_color=btn_hvr,
@@ -721,23 +666,23 @@ class SERPManagerGUI():
         self.set_button_state(self.exams_button)
 
         # Subjects Icons
-        img1 = Image.open(self.physics_icon_path).resize((100, 100), Image.LANCZOS)
+        img1 = Image.open(physics_icon_path).resize((100, 100), Image.LANCZOS)
         phy_icon = ImageTk.PhotoImage(img1)
-        img2 = Image.open(self.chemistry_icon_path).resize((100, 100), Image.LANCZOS)
+        img2 = Image.open(chemistry_icon_path).resize((100, 100), Image.LANCZOS)
         chem_icon = ImageTk.PhotoImage(img2)
-        img3 = Image.open(self.biology_icon_path).resize((100, 100), Image.LANCZOS)
+        img3 = Image.open(biology_icon_path).resize((100, 100), Image.LANCZOS)
         bio_icon = ImageTk.PhotoImage(img3)
-        img4 = Image.open(self.computer_icon_path).resize((100, 100), Image.LANCZOS)
+        img4 = Image.open(computer_icon_path).resize((100, 100), Image.LANCZOS)
         cs_icon = ImageTk.PhotoImage(img4)
-        img5 = Image.open(self.islamiyat_icon_path).resize((100, 100), Image.LANCZOS)
+        img5 = Image.open(islamiyat_icon_path).resize((100, 100), Image.LANCZOS)
         isl_icon = ImageTk.PhotoImage(img5)
-        img6 = Image.open(self.maths_icon_path).resize((100, 100), Image.LANCZOS)
+        img6 = Image.open(maths_icon_path).resize((100, 100), Image.LANCZOS)
         math_icon = ImageTk.PhotoImage(img6)
-        img7 = Image.open(self.urdu_icon_path).resize((100, 100), Image.LANCZOS)
+        img7 = Image.open(urdu_icon_path).resize((100, 100), Image.LANCZOS)
         urdu_icon = ImageTk.PhotoImage(img7)
-        img8 = Image.open(self.pk_std_icon_path).resize((100, 100), Image.LANCZOS)
+        img8 = Image.open(pk_std_icon_path).resize((100, 100), Image.LANCZOS)
         ps_icon = ImageTk.PhotoImage(img8)
-        img9 = Image.open(self.english_icon_path).resize((100, 100), Image.LANCZOS)
+        img9 = Image.open(english_icon_path).resize((100, 100), Image.LANCZOS)
         eng_icon = ImageTk.PhotoImage(img9)
 
         # Create the scrollable frame
@@ -868,7 +813,7 @@ class SERPManagerGUI():
             # Add SSC-I Exam
             add_ssc_1_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.add_exams_button_icon,
+                image=add_exams_button_icon,
                 text="Edit SSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -879,7 +824,7 @@ class SERPManagerGUI():
             # Remove SSC-I Exam
             remove_ssc_1_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.delete_paper_button_icon,
+                image=delete_paper_button_icon,
                 text="Remove SSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -890,7 +835,7 @@ class SERPManagerGUI():
             # Add SSC-II Exam
             add_ssc_2_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.add_exams_button_icon,
+                image=add_exams_button_icon,
                 text="Edit SSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -901,7 +846,7 @@ class SERPManagerGUI():
             # Remove SSC-II Exam
             remove_ssc_2_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.delete_paper_button_icon,
+                image=delete_paper_button_icon,
                 text="Remove SSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -912,7 +857,7 @@ class SERPManagerGUI():
             # Add HSSC-I Exam
             add_hssc_1_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.add_exams_button_icon,
+                image=add_exams_button_icon,
                 text="Add HSSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -923,7 +868,7 @@ class SERPManagerGUI():
             # Remove HSSC-I Exam
             remove_hssc_1_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.delete_paper_button_icon,
+                image=delete_paper_button_icon,
                 text="Remove HSSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -934,7 +879,7 @@ class SERPManagerGUI():
             # Add HSSC-II Exam
             add_hssc_2_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.add_exams_button_icon,
+                image=add_exams_button_icon,
                 text="Add HSSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -945,7 +890,7 @@ class SERPManagerGUI():
             # Remove HSSC-II Exam
             remove_hssc_2_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=self.delete_paper_button_icon,
+                image=delete_paper_button_icon,
                 text="Remove HSSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
@@ -977,7 +922,7 @@ class SERPManagerGUI():
                 print(f"Error: The file {file_path} was not found.")
                 return []
 
-        default_icon = phy_icon
+        default_icon = None
 
         def create_subject_frame(parent_frame, subject_data):
             subject_name = subject_data["subject_name"]
@@ -1005,10 +950,10 @@ class SERPManagerGUI():
             )
             sub_sub_text.grid(row=1, column=1, padx=5, ipadx=2, pady=(0, 5))
 
-        ssc1_subjects = load_subjects(f"{self.base_path}/json/ssc1_exams.json")
-        ssc2_subjects = load_subjects(f"{self.base_path}/json/ssc2_exams.json")
-        hssc1_subjects = load_subjects(f"{self.base_path}/json/hssc1_exams.json")
-        hssc2_subjects = load_subjects(f"{self.base_path}/json/hssc2_exams.json")
+        ssc1_subjects = load_subjects(ssc1_json_path)
+        ssc2_subjects = load_subjects(ssc2_json_path)
+        hssc1_subjects = load_subjects(hssc1_json_path)
+        hssc2_subjects = load_subjects(hssc2_json_path)
 
         if not ssc1_subjects:
             ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
@@ -1098,7 +1043,7 @@ class SERPManagerGUI():
             self.button_frame,
             text="Refresh Papers",
             text_color=text_fg_2,
-            image=self.refresh_pdfs_button_icon,
+            image=refresh_pdfs_button_icon,
             fg_color=btn_active,
             hover_color=btn_hvr,
             command=self.refresh_pdfs
@@ -1110,7 +1055,7 @@ class SERPManagerGUI():
             self.button_frame,
             text="Add Papers",
             text_color=text_fg_2,
-            image=self.add_paper_button_icon,
+            image=add_paper_button_icon,
             hover_color=btn_hvr,
             fg_color=btn_active,
             command=self.add_paper
@@ -1122,7 +1067,7 @@ class SERPManagerGUI():
             self.button_frame,
             text="Remove Papers",
             text_color=text_fg_2,
-            image=self.delete_paper_button_icon,
+            image=delete_paper_button_icon,
             hover_color=btn_hvr,
             fg_color=btn_active,
             command=self.delete_paper
@@ -1135,7 +1080,7 @@ class SERPManagerGUI():
         self.main_frame.grid_columnconfigure(0, weight=1)
 
         # Load the pdfs to the main scrollable frame
-        self.load_pdfs(self.default_pdfs_path)
+        self.load_pdfs(default_pdfs_path)
 
     def show_profile(self):
         if self.show_profile_toplevel_window is None or not self.show_profile_toplevel_window.winfo_exists():
@@ -1155,28 +1100,29 @@ class SERPManagerGUI():
             self.manage_news_toplevel_window = manage_news.ManageNews(self.root)
         else:
             self.manage_news_toplevel_window.focus()
+
 # helper functions for show papers section
     def refresh_pdfs(self):
-        self.load_pdfs(self.default_pdfs_path)
+        self.show_papers()
 
     def add_paper(self):
         pdf_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
         if pdf_path:
-            dest_path = os.path.join(self.default_pdfs_path, os.path.basename(pdf_path))
+            dest_path = os.path.join(default_pdfs_path, os.path.basename(pdf_path))
             if not os.path.exists(dest_path):
                 shutil.copy(pdf_path, dest_path)
-            self.load_pdfs(self.default_pdfs_path)
+            self.load_pdfs(default_pdfs_path)
 
     def delete_paper(self):
-        pdf_path = filedialog.askopenfilename(initialdir=self.default_pdfs_path, filetypes=[("PDF files", "*.pdf")])
+        pdf_path = filedialog.askopenfilename(initialdir=default_pdfs_path, filetypes=[("PDF files", "*.pdf")])
         if pdf_path:
             os.remove(pdf_path)
-            self.load_pdfs(self.default_pdfs_path)
+            self.load_pdfs(default_pdfs_path)
 
     def get_pdf_thumbnail(self, pdf_path, size=(100, 150)):
         try:
             cache_file_name = os.path.splitext(os.path.basename(pdf_path))[0] + ".png"
-            cache_file_path = os.path.join(self.cache_folder_path, cache_file_name)
+            cache_file_path = os.path.join(cache_folder_path, cache_file_name)
 
             if os.path.exists(cache_file_path):
                 pdf_mtime = os.path.getmtime(pdf_path)

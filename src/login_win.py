@@ -1,6 +1,8 @@
 from PIL import Image, ImageTk
 from tkinter import messagebox
 import customtkinter as ctk
+
+from .settings import *
 from . import accounts_db
 
 ctk.set_appearance_mode("light")
@@ -13,12 +15,6 @@ btn_active = "#6941C6"
 text_fg = "#53389E"
 btn_active_2 = "#E9D7FE"
 
-base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
-
-path = "/home/sbalghari/Documents/GitHub/SERP-Manager/current_role.txt"
-
-ACCOUNT_ICON_PATH = "/home/sbalghari/Documents/GitHub/SERP-Manager/Icons/profile.png"
-
 class LoginGui(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -28,8 +24,9 @@ class LoginGui(ctk.CTk):
         self.login_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
         self.login_frame.grid(sticky="nsew")
 
-        self.acc_icon = Image.open(ACCOUNT_ICON_PATH).resize((300, 300), Image.LANCZOS)
+        self.acc_icon = Image.open(acc_icon_path).resize((300, 300), Image.LANCZOS)
         self.acc_icon_photo = ImageTk.PhotoImage(self.acc_icon)
+
         self.acc_icon_label = ctk.CTkLabel(
             self.login_frame,
             image=self.acc_icon_photo,
@@ -129,8 +126,6 @@ class LoginGui(ctk.CTk):
             messagebox.showerror("Login Failed", "Invalid credentials!")
             return False
 
-        return False
-    
     def signup(self) -> None:
         self.username: str = self.username_entry.get()
         self.password: str = self.password_entry.get()
@@ -151,5 +146,5 @@ class LoginGui(ctk.CTk):
             messagebox.showerror("Signup Failed", f"Failed to create account: {e}")
 
     def save_current_user(self):
-        with open(path, "w") as file:
+        with open(current_role_path, "w") as file:
                 file.write(self.username + " " + self.role)

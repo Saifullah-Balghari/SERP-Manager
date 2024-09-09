@@ -34,5 +34,23 @@
         "password": "61051",
         "role": "Admin",
         "created_at": "2024-09-08T12:19:41.523726"
+    },
+    {
+        "username": "Jamal-ud-din",
+        "password": "12345",
+        "role": "Student",
+        "created_at": "2024-09-08T16:32:52.253790"
+    },
+    {
+        "username": "test",
+        "password": "1234",
+        "role": "Admin",
+        "created_at": "2024-09-09T20:58:16.254554"
+    },
+    {
+        "username": "Test_Account_1",
+        "password": "pre-0-s@ifull@h",
+        "role": "Student",
+        "created_at": "2024-09-09T21:02:12.816750"
     }
 ]
