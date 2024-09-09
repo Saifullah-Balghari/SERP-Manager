@@ -51,17 +51,17 @@ class CurrentAccount(ctk.CTkToplevel):
             main_frame,
             text=f"Username: \t {self.username} ",
             text_color=text_fg,
+            font=("Helvetica", 16),
             anchor="w",
-            font=("Helvetica", 18)
         )
         self.username_label.grid(pady=(5, 0), padx=20, row=1, column=1, columnspan=2, sticky="ew")
 
         self.role = ctk.CTkLabel(
             main_frame,
             text_color=text_fg,
+            font=("Helvetica", 16),
             text=f"Role:     \t\t {self.role}",
             anchor="w",
-            font=("Helvetica", 18)
         )
         self.role.grid(pady=(5, 0), padx=20, row=3, column=1, columnspan=2, sticky="ew")
     
@@ -69,7 +69,6 @@ class CurrentAccount(ctk.CTkToplevel):
             main_frame,
             text="Delete Profile",
             text_color=fg,
-            font=("Helvetica", 18, "bold"),
             command=None,
             hover_color=btn_hvr,
             fg_color=btn_active
@@ -80,9 +79,8 @@ class CurrentAccount(ctk.CTkToplevel):
             main_frame,
             text="Close",
             text_color=text_fg_2,
-            font=("Helvetica", 18, "bold"),
             command=self.destroy,
             hover_color=btn_hvr,
             fg_color=btn_active
         )
-        self.close_button.grid(pady=20, padx=(5, 20), row=7, column=2)
+        self.close_button.grid(pady=20, padx=(5, 20), ipadx=30, row=7, column=2)

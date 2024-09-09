@@ -37,6 +37,8 @@ try:
     logout_icon_path = os.path.join(base_path, "Icons", "logout.png")
     edit_icon_path = os.path.join(base_path, "Icons", "edit.png")
     acc_icon_path = os.path.join(base_path, "Icons", "profile.png")
+    search_icon_path = os.path.join(base_path, "Icons", "search.png")
+    home_icon_path = os.path.join(base_path, "Icons", "home.png")
 
     # Icons of Subjects(books)
     maths_icon_path = os.path.join(base_path, "Icons", "math.png")
@@ -63,6 +65,8 @@ acc_button_icon = CTkImage(Image.open(acc_icon_path).resize((18, 18), Image.LANC
 exam_button_icon = CTkImage(Image.open(exam_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
 result_button_icon = CTkImage(Image.open(result_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
 paper_button_icon = CTkImage(Image.open(paper_shortcut_icon_path).resize((18, 18), Image.LANCZOS))
+search_button_icon = CTkImage(Image.open(search_icon_path).resize((18, 18), Image.LANCZOS))
+home_button_icon = CTkImage(Image.open(home_icon_path).resize((18, 18), Image.LANCZOS))
 
 # Icons
 icons = {}

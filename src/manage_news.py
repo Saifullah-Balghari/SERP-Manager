@@ -119,7 +119,7 @@ class ManageNews(ctk.CTkToplevel):
             bg_color=bg,
             command=self.save_news
         )
-        self.save_button.grid(row=4, column=0, padx=10, pady=10, sticky="e")
+        self.save_button.grid(row=4, column=0, padx=10, pady=10, ipadx=10,sticky="e")
 
         self.cancel_button = ctk.CTkButton(
             self.main_frame,
@@ -130,7 +130,7 @@ class ManageNews(ctk.CTkToplevel):
             hover_color=btn_hvr,
             command=self.destroy
         )
-        self.cancel_button.grid(row=4, column=1, padx=10, pady=10, sticky="w")
+        self.cancel_button.grid(row=4, column=1, padx=10, pady=10, ipadx=10,sticky="w")
 
     def load_existing_news(self):
         # Initialize default news values

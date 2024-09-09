@@ -35,7 +35,7 @@ class ContactUs(ctk.CTkToplevel):
         # Add a label with contact information to the frame
         info = ctk.CTkLabel(
             main_frame,
-            text="For any queries, please contact us at:\n\nEmail: balgharisaifullah@gmail.com\nPhone: +92355-4300937",
+            text="For any queries, please contact us at:\n\nEmail: balgharisaifullah@gmail.com\nGitHub: https://github.com/Saifullah-Balghari",
             text_color=text_fg,
             font=("Helvetica", 16)
         )

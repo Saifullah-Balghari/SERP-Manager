@@ -114,7 +114,8 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg,
             width=80,
             height=30,
-            font=("Helvetica", 18, "bold"),
+            image=home_button_icon,
+            font=("Helvetica", 18,"bold"),
             hover_color=btn_hvr,
             anchor="center",
             command=self.show_home
@@ -261,10 +262,10 @@ class SERPManagerGUI(ctk.CTk):
 
         # Main Scrollable Frame
         main_scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
-        main_scrollable_frame.pack(fill="both", expand="true", padx=10, pady=0, ipadx=0, ipady=0)
+        main_scrollable_frame.pack(fill="both", expand="true", padx=(10, 0), pady=0, ipadx=0, ipady=0)
 
         # Shortcuts Frame
-        about_n_shortcuts_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
+        about_n_shortcuts_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)          
         about_n_shortcuts_frame.pack(side="top", fill="x", expand="true", padx=5, pady=0)
 
         # Shortcut 1
@@ -783,7 +784,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Edit SSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             add_ssc_1_exam_btn.grid(row=0, column=0,padx=5, pady=(0, 5), sticky="we")
 
@@ -794,7 +797,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Remove SSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             remove_ssc_1_exam_btn.grid(row=0, column=1, padx=5, pady=(0, 5), sticky="we")
 
@@ -805,7 +810,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Edit SSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             add_ssc_2_exam_btn.grid(row=0, column=2, padx=5, pady=(0, 5), sticky="we")
 
@@ -816,7 +823,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Remove SSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             remove_ssc_2_exam_btn.grid(row=0, column=3, padx=5, pady=(0, 5), sticky="we")
 
@@ -827,7 +836,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Add HSSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             add_hssc_1_exam_btn.grid(row=0, column=4,padx=5, pady=(0, 5), sticky="we")
 
@@ -838,7 +849,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Remove HSSC-I Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             remove_hssc_1_exam_btn.grid(row=0, column=5, padx=5, pady=(0, 5), sticky="we")
 
@@ -849,7 +862,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Add HSSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             add_hssc_2_exam_btn.grid(row=0, column=6, padx=5, pady=(0, 5), sticky="we")
 
@@ -860,7 +875,9 @@ class SERPManagerGUI(ctk.CTk):
                 text="Remove HSSC-II Exam",
                 text_color=text_fg_2,
                 fg_color=btn_active,
-                hover_color=btn_hvr
+                hover_color=btn_hvr,
+                height=12,
+                width=40,
             )
             remove_hssc_2_exam_btn.grid(row=0, column=7, padx=5, pady=(0, 5), sticky="we")
 
@@ -997,6 +1014,9 @@ class SERPManagerGUI(ctk.CTk):
         self.clear_main_frame()
         self.set_button_state(self.papers_button)
 
+        self.scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
+        self.scrollable_frame.pack(side="top", fill="both", padx=0, ipadx=0, pady=0, expand=True)
+
         # Buttons frame
         self.button_frame = ctk.CTkFrame(
             self.main_frame,
@@ -1011,10 +1031,12 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg_2,
             image=refresh_pdfs_button_icon,
             fg_color=btn_active,
+            height=12,
+            width=40,
             hover_color=btn_hvr,
             command=self.refresh_pdfs
         )
-        refresh_pdfs_button.grid(row=0, column=0, padx=5, pady=5, sticky="w")
+        refresh_pdfs_button.pack(side="left", padx=5, ipadx=5, pady=5)
 
         # Add papers button
         add_paper_button = ctk.CTkButton(
@@ -1024,9 +1046,11 @@ class SERPManagerGUI(ctk.CTk):
             image=add_paper_button_icon,
             hover_color=btn_hvr,
             fg_color=btn_active,
+            height=12,
+            width=40,
             command=self.add_paper
         )
-        add_paper_button.grid(row=0, column=1, padx=5, pady=5, sticky="w")
+        add_paper_button.pack(side="left", padx=5, ipadx=5, pady=5)
 
         # Delete papers button
         delete_paper_button = ctk.CTkButton(
@@ -1035,15 +1059,29 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg_2,
             image=delete_paper_button_icon,
             hover_color=btn_hvr,
+            height=12,
+            width=40,
             fg_color=btn_active,
             command=self.delete_paper
         )
-        delete_paper_button.grid(row=0, column=2, padx=5, pady=5, sticky="w")
+        delete_paper_button.pack(side="left", padx=5, ipadx=5, pady=5)
 
-        # Main frame configurations
-        self.main_frame.grid_rowconfigure(0, weight=1)
-        self.main_frame.grid_rowconfigure(1, weight=0)
-        self.main_frame.grid_columnconfigure(0, weight=1)
+        # Search papers button
+        search_paper_button = ctk.CTkButton(
+            self.button_frame,
+            text="",
+            image=search_button_icon,
+            hover_color=fg,
+            height=12,
+            width=12,  
+            fg_color="transparent",
+            command=self.search_paper
+        )
+        search_paper_button.pack(side="right", padx=(2, 10), pady=0)
+        
+        # Search entry
+        self.search_entry = ctk.CTkEntry(self.button_frame, placeholder_text="Search here...", placeholder_text_color=text_fg, width=200, height=12)
+        self.search_entry.pack(side="right", padx=(5, 2), pady=5)
 
         # Load the pdfs to the main scrollable frame
         self.load_pdfs(default_pdfs_path)
@@ -1068,22 +1106,47 @@ class SERPManagerGUI(ctk.CTk):
             self.manage_news_toplevel_window.focus()
 
 # helper functions for show papers section
-    def refresh_pdfs(self):
-        self.show_papers()
+    def search_paper(self):
+        query = self.search_entry.get().strip()
+        if query:
+            # Clear the current content in the scrollable frame
+            for widget in self.scrollable_frame.winfo_children():
+                widget.destroy()
 
+            # Search through the PDF files in the directory
+            pdf_files = [f for f in os.listdir(default_pdfs_path) if f.endswith('.pdf')]
+
+            matching_files = [f for f in pdf_files if query in f.lower()]
+
+            if matching_files:
+                row, col = 0, 0
+                max_columns = 8
+                for pdf_file in matching_files:
+                    pdf_path = os.path.join(default_pdfs_path, pdf_file)
+                    self.add_pdf_tile(self.scrollable_frame, pdf_path, row, col)
+                    col += 1
+                    if col >= max_columns:
+                        col = 0
+                        row += 1
+            else:
+                messagebox.showinfo("No Results", "No matching papers found.")
+        else:
+            messagebox.showerror("Error", "Please enter a search query.")
+        
+    def refresh_pdfs(self):
+        self.load_pdfs(default_pdfs_path)
+    
     def add_paper(self):
         pdf_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
         if pdf_path:
             dest_path = os.path.join(default_pdfs_path, os.path.basename(pdf_path))
             if not os.path.exists(dest_path):
                 shutil.copy(pdf_path, dest_path)
-            self.load_pdfs(default_pdfs_path)
 
     def delete_paper(self):
         pdf_path = filedialog.askopenfilename(initialdir=default_pdfs_path, filetypes=[("PDF files", "*.pdf")])
         if pdf_path:
             os.remove(pdf_path)
-            self.load_pdfs(default_pdfs_path)
 
     def get_pdf_thumbnail(self, pdf_path, size=(100, 150)):
         try:
@@ -1111,27 +1174,31 @@ class SERPManagerGUI(ctk.CTk):
         if thumbnail:
             img_tk = ImageTk.PhotoImage(thumbnail)
 
-            tile_frame = ctk.CTkFrame(frame, width=width, height=250, fg_color=fg)
-            tile_frame.grid(row=row, column=col, padx=10, pady=10)
+            tile_frame = ctk.CTkFrame(frame, width=width, height=250, fg_color=bg)
+            tile_frame.grid(row=row, column=col, padx=7, pady=10, ipadx=0, ipady=0)
             tile_frame.grid_propagate(False)
-
-            label_image = ctk.CTkLabel(tile_frame, image=img_tk, text="", text_color=text_fg)
-            # label_image.image = img_tk
-            label_image.pack(pady=15, padx=20)
 
             file_name = os.path.basename(pdf_path)
             if len(file_name) > 15:
                 file_name = file_name[:15] + "..."
-            label_text = ctk.CTkLabel(tile_frame, text=file_name)
-            label_text.pack()
 
-            tile_frame.bind("<Button-1>", lambda e, path=pdf_path: self.open_pdf(path))
+            tile_button = ctk.CTkButton(
+                tile_frame,
+                text=file_name,
+                image=img_tk,                   
+                compound="top",
+                text_color=text_fg,
+                hover_color=btn_hvr,
+                fg_color=fg,
+                command=lambda path=pdf_path: self.open_pdf(path)
+            )
+            tile_button.pack(fill="both", side="top", padx=0, pady=0, ipadx=7, ipady=15)
 
     def open_pdf(self, pdf_path):
         try:
             if platform.system() == "Linux":
                 os.system(f"xdg-open \"{pdf_path}\"")
-            elif platform.system() == "Darwin":  # macOS
+            elif platform.system() == "Darwin":  # macOS                            
                 os.system(f"open \"{pdf_path}\"")
             elif platform.system() == "Windows":
                 os.system(f"start \"\" \"{pdf_path}\"")
@@ -1142,8 +1209,8 @@ class SERPManagerGUI(ctk.CTk):
 
     def load_pdfs(self, directory):
         try:
-            self.scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
-            self.scrollable_frame.pack(side="top", fill="both", padx=0, pady=0, expand=True)
+            for widget in self.scrollable_frame.winfo_children():
+                widget.destroy()
 
             pdf_files = [f for f in os.listdir(directory) if f.endswith('.pdf')]
             if not pdf_files:
