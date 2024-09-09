@@ -21,6 +21,11 @@ import platform
 import json
 import shutil
 import os
+import warnings
+
+warnings.filterwarnings("ignore", 
+                        message="CTkLabel Warning: Given image is not CTkImage but",
+                        module="customtkinter")
 
 # Default settings
 ctk.set_appearance_mode("light")
@@ -34,7 +39,7 @@ btn_hvr = "#7F56D9"
 btn_active = "#6941C6"
 text_fg = "#53389E"
 
-class SERPManagerGUI():
+class SERPManagerGUI(ctk.CTk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
@@ -55,22 +60,19 @@ class SERPManagerGUI():
                 if self.role not in ["student", "admin"]:
                     raise ValueError("Invalid role")
 
-            try:                                                        
-                # Create the main application window
-                self.root = ctk.CTk()  
-
+            try:               
                 # Loads the icons
                 setup_icons()
 
                 # Window configurations
-                self.root.title("SERP-Manager (Developed By Saifullah Balghari)")
-                self.root.geometry("1366x768")
-                self.root.resizable(False, False)
-                self.root.configure(fg_color=text_fg)   
-                self.root.iconbitmap(None, None)
-                self.root.grid_rowconfigure(0, weight=1) 
-                self.root.grid_rowconfigure(1, weight=15)
-                self.root.grid_columnconfigure(0, weight=1)
+                self.title("SERP-Manager (Developed By Saifullah Balghari)")
+                self.geometry("1366x768")
+                self.resizable(False, False)
+                self.configure(fg_color=text_fg)   
+                self.iconbitmap(None, None)
+                self.grid_rowconfigure(0, weight=1) 
+                self.grid_rowconfigure(1, weight=15)
+                self.grid_columnconfigure(0, weight=1)
 
                 # Create the header frame
                 self.create_header_frame()
@@ -79,11 +81,11 @@ class SERPManagerGUI():
                 self.create_main_frame()
 
                 # Run the main loop
-                self.root.mainloop()
+                self.mainloop()
 
             except Exception as e:
                 print(e)
-                
+
         except Exception as e:
             print(e)
 
@@ -94,7 +96,7 @@ class SERPManagerGUI():
     def create_header_frame(self):
 
         # Create the header frame
-        self.header_frame = ctk.CTkFrame(self.root, fg_color=bg, corner_radius=0)
+        self.header_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
         self.header_frame.pack(padx=0, pady=(0, 1), side="top", fill="x", ipadx=10, ipady=10)
 
         # Header frame configuration
@@ -185,7 +187,7 @@ class SERPManagerGUI():
     def create_main_frame(self):
 
         # Create the main frame
-        self.main_frame = ctk.CTkFrame(self.root, fg_color=bg, corner_radius=0)
+        self.main_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
         self.main_frame.pack(fill="both", expand=True, padx=0, pady=0)
         self.main_frame.pack_propagate(False)
 
@@ -572,7 +574,7 @@ class SERPManagerGUI():
             border_width=1,
             border_color=text_fg,
             fg_color=bg,
-            command=self.root.destroy
+            command=self.destroy
         )
         close_btn.pack(side="right", padx=5, pady=5)
 
@@ -1048,20 +1050,20 @@ class SERPManagerGUI():
 
     def show_profile(self):
         if self.show_profile_toplevel_window is None or not self.show_profile_toplevel_window.winfo_exists():
-            self.show_profile_toplevel_window = show_profile.CurrentAccount(self.root)
+            self.show_profile_toplevel_window = show_profile.CurrentAccount(self)
         else:
             self.show_profile_toplevel_window.focus()
 
 # helper function for show home section
     def contact_us_toplevel(self):
         if self.contact_us_toplevel_window is None or not self.contact_us_toplevel_window.winfo_exists():
-            self.contact_us_toplevel_window = contact_us.ContactUs(self.root)
+            self.contact_us_toplevel_window = contact_us.ContactUs(self)
         else:
             self.contact_us_toplevel_window.focus()
 
     def manage_news_toplevel(self):
         if self.manage_news_toplevel_window is None or not self.manage_news_toplevel_window.winfo_exists():
-            self.manage_news_toplevel_window = manage_news.ManageNews(self.root)
+            self.manage_news_toplevel_window = manage_news.ManageNews(self)
         else:
             self.manage_news_toplevel_window.focus()
 

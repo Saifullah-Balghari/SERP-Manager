@@ -71,7 +71,6 @@ def setup_icons():
     global icons
 
     # Populate icons
-    
     icons["phy_icon"] = ImageTk.PhotoImage(Image.open(physics_icon_path).resize((100, 100), Image.LANCZOS))
     icons["chem_icon"] = ImageTk.PhotoImage(Image.open(chemistry_icon_path).resize((100, 100), Image.LANCZOS))
     icons["bio_icon"] = ImageTk.PhotoImage(Image.open(biology_icon_path).resize((100, 100), Image.LANCZOS))

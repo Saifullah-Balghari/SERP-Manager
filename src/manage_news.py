@@ -141,7 +141,7 @@ class ManageNews(ctk.CTkToplevel):
         
         # Read the existing news from the file
         try:
-            with open(f"{base_path}/news.txt", "r") as f:
+            with open(news_txt_path, "r") as f:
                 news_lines = f.readlines()
                 # Ensure there are exactly 4 lines
                 if len(news_lines) >= 4:
