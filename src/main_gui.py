@@ -14,6 +14,7 @@ from PIL import Image, ImageTk                  # pillow
 from . import contact_us
 from . import manage_news
 from . import show_profile
+from . import manage_exams
 from .settings import *
 
 # Inbuilt imports
@@ -775,111 +776,37 @@ class SERPManagerGUI(ctk.CTk):
 
             # Edit Exam Buttons frame
             edit_exam_btn_frame = ctk.CTkFrame(self.main_frame, fg_color=bg)
-            edit_exam_btn_frame.pack(side="bottom", fill="x", padx=20, pady=0)
+            edit_exam_btn_frame.pack(side="bottom", fill="x", padx=10, pady=5)
 
             # Add SSC-I Exam
             add_ssc_1_exam_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
                 image=add_exams_button_icon,
-                text="Edit SSC-I Exam",
+                text="Edit Exams",
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr,
+                command=self.manage_exams_toplevel,
                 height=12,
                 width=40,
             )
             add_ssc_1_exam_btn.grid(row=0, column=0,padx=5, pady=(0, 5), sticky="we")
 
-            # Remove SSC-I Exam
-            remove_ssc_1_exam_btn = ctk.CTkButton(
+            # Refresh button
+            refresh_btn = ctk.CTkButton(
                 edit_exam_btn_frame,
-                image=delete_paper_button_icon,
-                text="Remove SSC-I Exam",
+                image=refresh_pdfs_button_icon,
+                text="Refresh",
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr,
+                command=self.show_examinations,
                 height=12,
                 width=40,
             )
-            remove_ssc_1_exam_btn.grid(row=0, column=1, padx=5, pady=(0, 5), sticky="we")
+            refresh_btn.grid(row=0, column=1, padx=5, pady=(0, 5), sticky="we")
 
-            # Add SSC-II Exam
-            add_ssc_2_exam_btn = ctk.CTkButton(
-                edit_exam_btn_frame,
-                image=add_exams_button_icon,
-                text="Edit SSC-II Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr,
-                height=12,
-                width=40,
-            )
-            add_ssc_2_exam_btn.grid(row=0, column=2, padx=5, pady=(0, 5), sticky="we")
-
-            # Remove SSC-II Exam
-            remove_ssc_2_exam_btn = ctk.CTkButton(
-                edit_exam_btn_frame,
-                image=delete_paper_button_icon,
-                text="Remove SSC-II Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr,
-                height=12,
-                width=40,
-            )
-            remove_ssc_2_exam_btn.grid(row=0, column=3, padx=5, pady=(0, 5), sticky="we")
-
-            # Add HSSC-I Exam
-            add_hssc_1_exam_btn = ctk.CTkButton(
-                edit_exam_btn_frame,
-                image=add_exams_button_icon,
-                text="Add HSSC-I Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr,
-                height=12,
-                width=40,
-            )
-            add_hssc_1_exam_btn.grid(row=0, column=4,padx=5, pady=(0, 5), sticky="we")
-
-            # Remove HSSC-I Exam
-            remove_hssc_1_exam_btn = ctk.CTkButton(
-                edit_exam_btn_frame,
-                image=delete_paper_button_icon,
-                text="Remove HSSC-I Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr,
-                height=12,
-                width=40,
-            )
-            remove_hssc_1_exam_btn.grid(row=0, column=5, padx=5, pady=(0, 5), sticky="we")
-
-            # Add HSSC-II Exam
-            add_hssc_2_exam_btn = ctk.CTkButton(
-                edit_exam_btn_frame,
-                image=add_exams_button_icon,
-                text="Add HSSC-II Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr,
-                height=12,
-                width=40,
-            )
-            add_hssc_2_exam_btn.grid(row=0, column=6, padx=5, pady=(0, 5), sticky="we")
-
-            # Remove HSSC-II Exam
-            remove_hssc_2_exam_btn = ctk.CTkButton(
-                edit_exam_btn_frame,
-                image=delete_paper_button_icon,
-                text="Remove HSSC-II Exam",
-                text_color=text_fg_2,
-                fg_color=btn_active,
-                hover_color=btn_hvr,
-                height=12,
-                width=40,
-            )
-            remove_hssc_2_exam_btn.grid(row=0, column=7, padx=5, pady=(0, 5), sticky="we")
+            self.manage_exams_toplevel_window = None
 
         def load_subjects(file_path):
             try:    
@@ -1104,6 +1031,13 @@ class SERPManagerGUI(ctk.CTk):
             self.manage_news_toplevel_window = manage_news.ManageNews(self)
         else:
             self.manage_news_toplevel_window.focus()
+
+# helper function for show examination section
+    def manage_exams_toplevel(self):
+        if self.manage_exams_toplevel_window is None or not self.manage_exams_toplevel_window.winfo_exists():
+            self.manage_exams_toplevel_window = manage_exams.ManageExams(self)
+        else:
+            self.manage_exams_toplevel_window.focus()
 
 # helper functions for show papers section
     def search_paper(self):

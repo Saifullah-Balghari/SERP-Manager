@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
+from tkinter import messagebox
 
 from .settings import *
 
@@ -63,17 +64,7 @@ class CurrentAccount(ctk.CTkToplevel):
             text=f"Role:     \t\t {self.role}",
             anchor="w",
         )
-        self.role.grid(pady=(5, 0), padx=20, row=3, column=1, columnspan=2, sticky="ew")
-    
-        self.delete_button = ctk.CTkButton(
-            main_frame,
-            text="Delete Profile",
-            text_color=fg,
-            command=None,
-            hover_color=btn_hvr,
-            fg_color=btn_active
-        )
-        self.delete_button.grid(pady=20, padx=(20, 5), row=7, column=1)
+        self.role.grid(pady=(5, 0), padx=20, row=3, column=1, columnspan=2, sticky="ew")    
 
         self.close_button = ctk.CTkButton(
             main_frame,
