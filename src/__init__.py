@@ -1,8 +1,5 @@
 from . import login_win
 from . import main_gui
-from .settings import *
-
-import os
 
 root = login_win.LoginGui()
 def login():

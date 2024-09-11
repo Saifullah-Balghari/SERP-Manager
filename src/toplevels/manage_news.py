@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from .settings import *
+from ..settings import *
 
 bg = "#FCFAFF"
 fg = "#F4EBFF"

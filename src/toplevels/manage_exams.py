@@ -1,7 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox, Menu
 
-from .settings import *  # Import your JSON paths from settings
+from ..settings import *
 
 import json
 import os
@@ -191,11 +191,12 @@ class ManageExams(ctk.CTkToplevel):
 
     def create_buttons(self):
         """
-        Creates control buttons for Save, Cancel, Undo, Redo, and Select All.
+        Creates control buttons for Save, reset, close and help.
         """
         button_frame = ctk.CTkFrame(self, fg_color=bg)
         button_frame.pack(pady=10)
-
+        
+        # Help button
         save_button = ctk.CTkButton(
             button_frame, 
             text="Save", 
@@ -205,6 +206,7 @@ class ManageExams(ctk.CTkToplevel):
         )
         save_button.grid(row=0, column=0, padx=10)
 
+        # Reset button
         reset_button = ctk.CTkButton(
             button_frame, 
             text="Reset", 
@@ -214,6 +216,7 @@ class ManageExams(ctk.CTkToplevel):
         )
         reset_button.grid(row=0, column=1, padx=10)
 
+        # Close button
         close_button = ctk.CTkButton(
             button_frame, 
             text="Close", 
@@ -223,6 +226,7 @@ class ManageExams(ctk.CTkToplevel):
         )
         close_button.grid(row=0, column=2, padx=10)
 
+        # Help button
         help_button = ctk.CTkButton(
             button_frame, 
             text="Help", 

@@ -11,10 +11,10 @@ from pdf2image import convert_from_path
 from PIL import Image, ImageTk                  # pillow
 
 # Local imports
-from . import contact_us
-from . import manage_news
-from . import show_profile
-from . import manage_exams
+from .toplevels import contact_us
+from .toplevels import manage_news
+from .toplevels import show_profile
+from .toplevels import manage_exams
 from .settings import *
 
 # Inbuilt imports
@@ -41,7 +41,7 @@ btn_active = "#6941C6"
 text_fg = "#53389E"
 
 class SERPManagerGUI(ctk.CTk):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):        
         super().__init__(*args, **kwargs)
     
         try:
@@ -121,7 +121,7 @@ class SERPManagerGUI(ctk.CTk):
             anchor="center",
             command=self.show_home
         )
-        self.home_button.pack(padx=10, pady=5, side="left")
+        self.home_button.pack(ipadx=10, padx=10, pady=5, side="left")
 
         # Exams button
         self.exams_button = ctk.CTkButton(
@@ -136,7 +136,7 @@ class SERPManagerGUI(ctk.CTk):
             anchor="center",
             command=self.show_examinations
         )
-        self.exams_button.pack(padx=0, pady=5, side="left")
+        self.exams_button.pack(ipadx=10, padx=0, pady=5, side="left")
 
         # Results button
         self.results_button = ctk.CTkButton(
@@ -151,7 +151,7 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg,
             command=self.show_results                           
         )
-        self.results_button.pack(padx=(10,0), pady=5, side="left")
+        self.results_button.pack(ipadx=10, padx=(10,0), pady=5, side="left")
 
         # Papers button
         self.papers_button = ctk.CTkButton(
@@ -166,7 +166,7 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg,
             command=self.show_papers
         )
-        self.papers_button.pack(padx=10, pady=5, side="left")
+        self.papers_button.pack(ipadx=10, padx=10, pady=5, side="left")
 
         # Profile button
         self.profile_button = ctk.CTkButton(
@@ -294,7 +294,7 @@ class SERPManagerGUI(ctk.CTk):
 
         go_to_papers_button = ctk.CTkButton(
             shortcut_1_frame,
-            text="Go to papers ->",
+            text="Go to papers",
             fg_color=btn_active,
             hover_color=btn_hvr,
             width=50,
@@ -334,7 +334,7 @@ class SERPManagerGUI(ctk.CTk):
 
         go_to_exams_button = ctk.CTkButton(
             shortcut_2_frame,
-            text="Go to Exams ->",
+            text="Go to Exams",
             fg_color=btn_active,
             hover_color=btn_hvr,
             width=50,
@@ -368,7 +368,7 @@ class SERPManagerGUI(ctk.CTk):
 
         go_to_results_button = ctk.CTkButton(
             shortcut_3_frame,
-            text="Go to Results ->",
+            text="Go to Results",
             fg_color=btn_active,
             hover_color=btn_hvr,
             width=50,
