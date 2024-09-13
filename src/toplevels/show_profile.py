@@ -3,6 +3,7 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 
 from ..settings import *
+from ..helpers import accounts
 
 bg = "#FCFAFF"
 fg = "#F4EBFF"
@@ -15,63 +16,89 @@ class CurrentAccount(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.title("")
+        self.title("Your Profile")
+        self.geometry("400x320")
         self.resizable(False, False)
+        self.configure(fg_color=bg) 
 
+        # reading the current account information
         with open(current_role_path, 'r') as f:
                 text = f.read()        
-                self.username, self.role = text.split()
+                username, password = text.split()
 
+        account = accounts.get_account(username, password)
+        self.username = account['username']
+        self.password = account['password']
+        self.role = account['role']
+        self.created_at = account['created_at']
+
+        
         self.widget()
 
     def widget(self):
 
         main_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
-        main_frame.pack(fill="both", expand=True)
+        main_frame.pack(fill="both", expand=True, padx=0, pady=0)
 
-        self.acc_icon = Image.open(acc_icon_path).resize((200, 200), Image.LANCZOS)
+        self.acc_icon = Image.open(acc_icon_path).resize((80, 80), Image.LANCZOS)
         self.acc_icon_photo = ImageTk.PhotoImage(self.acc_icon)
 
-        self.acc_icon_label = ctk.CTkLabel(
+        self.acc_icon = ctk.CTkLabel(
             main_frame,
             image=self.acc_icon_photo,
             text=""
         )
-        self.acc_icon_label.grid(pady=20, padx=10, row=0, column=0, rowspan=8, sticky="nsew")
-
-        self.login_label = ctk.CTkLabel(
-            main_frame,
-            text="Current Account",
-            text_color=text_fg,
-            anchor="center",
-            font=("Helvetica", 26, "bold")
-        )
-        self.login_label.grid(pady=10, padx=10, row=0, column=1, columnspan=2, sticky="nsew")
+        self.acc_icon.pack(fill="x", side="top", pady=5)
 
         self.username_label = ctk.CTkLabel(
             main_frame,
-            text=f"Username: \t {self.username} ",
+            text=self.username.title(),
             text_color=text_fg,
-            font=("Helvetica", 16),
-            anchor="w",
+            font=("Helvetica", 22),
         )
-        self.username_label.grid(pady=(5, 0), padx=20, row=1, column=1, columnspan=2, sticky="ew")
+        self.username_label.pack(fill="x", side="top", pady=2)
 
-        self.role = ctk.CTkLabel(
-            main_frame,
+        # Details
+        self.details_frame = ctk.CTkFrame(self, fg_color=fg)
+        self.details_frame.pack(expand="true",fill="both", padx=20, side="top", pady=20, ipady=30, ipadx=30)
+
+        # User name     
+        self.user_name_label = ctk.CTkLabel(
+            self.details_frame,
+            text=f"Username: {self.username}",
             text_color=text_fg,
-            font=("Helvetica", 16),
-            text=f"Role:     \t\t {self.role}",
             anchor="w",
+            font=("Helvetica", 14)
         )
-        self.role.grid(pady=(5, 0), padx=20, row=3, column=1, columnspan=2, sticky="ew")    
+        self.user_name_label.pack(fill="x", pady=5, padx=20)
 
-        self.close_button = ctk.CTkButton(
-            main_frame,
-            text="Close",
-            text_color=text_fg_2,
-            command=self.destroy,
-            hover_color=btn_hvr,
-            fg_color=btn_active
+        # Password
+        self.user_name_label = ctk.CTkLabel(
+            self.details_frame,
+            text=f"Password: {self.password}",
+            text_color=text_fg,
+            anchor="w",
+            font=("Helvetica", 14)
         )
-        self.close_button.grid(pady=20, padx=(5, 20), ipadx=30, row=7, column=2)
+        self.user_name_label.pack(fill="x", pady=5, padx=20)
+
+        # Role
+        self.role_label = ctk.CTkLabel(
+            self.details_frame,
+            text=f"Role: {self.role}",
+            text_color=text_fg,
+            anchor="w",
+            font=("Helvetica", 14)
+        )
+        self.role_label.pack(fill="x", pady=5, padx=20)
+
+        # DateCreated
+        self.date_created_label = ctk.CTkLabel(
+            self.details_frame,
+            text=f"Date Created: {self.created_at}",
+            text_color=text_fg,
+            anchor="w",
+            font=("Helvetica", 14)
+        )
+        self.date_created_label.pack(fill="x", pady=5, padx=20)
+

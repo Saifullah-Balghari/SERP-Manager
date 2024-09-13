@@ -3,7 +3,7 @@ from tkinter import messagebox
 import customtkinter as ctk
 
 from .settings import *
-from . import accounts
+from .helpers import accounts
 
 ctk.set_appearance_mode("light")
 
@@ -21,130 +21,238 @@ class LoginGui(ctk.CTk):
 
         self.title("Login Menu")
 
-        self.login_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
+        self.side_img = CTkImage(Image.open(side_icon_path), size=(300, 480))
+        self.name_icon = CTkImage(Image.open(name_icon_path), size=(20,20))
+        self.password_icon = CTkImage(Image.open(password_icon_path), size=(17,17))                     
+
+        self.login_frame = ctk.CTkFrame(self, fg_color="#FFF", corner_radius=0)
         self.login_frame.grid(sticky="nsew")
 
-        self.acc_icon = Image.open(acc_icon_path).resize((300, 300), Image.LANCZOS)
-        self.acc_icon_photo = ImageTk.PhotoImage(self.acc_icon)
+        self.login()
 
-        self.acc_icon_label = ctk.CTkLabel(
-            self.login_frame,
-            image=self.acc_icon_photo,
-            text=""
-        )
-        self.acc_icon_label.grid(pady=20, padx=10, row=0, column=0, rowspan=8, sticky="nsew")
+    def login(self):
 
-        self.login_label = ctk.CTkLabel(
-            self.login_frame,
-            text="Login Menu",
-            text_color=text_fg,
-            anchor="center",
-            font=("Helvetica", 26, "bold")
-        )
-        self.login_label.grid(pady=10, padx=10, row=0, column=1, columnspan=2, sticky="nsew")
+        for widget in self.login_frame.winfo_children():
+            widget.destroy()
 
-        self.username_label = ctk.CTkLabel(
-            self.login_frame,
-            text="Username:",
-            text_color=text_fg,
-            anchor="w",
-            font=("Helvetica", 16)
-        )
-        self.username_label.grid(pady=(5, 0), padx=20, row=1, column=1, columnspan=2, sticky="ew")
-        self.username_entry = ctk.CTkEntry(self.login_frame)
-        self.username_entry.grid(pady=(0, 5), padx=20, row=2, column=1, columnspan=2, sticky="ew")
+        ctk.CTkLabel(master=self.login_frame, text="", image=self.side_img).pack(expand=True, side="left")
 
-        self.password_label = ctk.CTkLabel(
-            self.login_frame,
-            text_color=text_fg,
-            text="Password:",
-            anchor="w",
-            font=("Helvetica", 16)
-        )
-        self.password_label.grid(pady=(5, 0), padx=20, row=3, column=1, columnspan=2, sticky="ew")
-        self.password_entry = ctk.CTkEntry(self.login_frame, show="*")
-        self.password_entry.grid(pady=(0, 5), padx=20, row=4, column=1, columnspan=2, sticky="ew")
+        frame = ctk.CTkFrame(master=self.login_frame, width=300, height=480, fg_color=bg)
+        frame.pack_propagate(0)
+        frame.pack(expand=True, side="right")
 
-        self.role_label = ctk.CTkLabel(
-            self.login_frame,
-            text="Role:",
-            text_color=text_fg,
-            anchor="w",
-            font=("Helvetica", 16)
-        )
-        self.role_label.grid(pady=(5, 0), padx=20, row=5, column=1, sticky="nsew")
+        ctk.CTkLabel(
+            master=frame, 
+            text="Welcome Back!", 
+            text_color=text_fg, 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 24)          
+        ).pack(anchor="w", pady=(50, 5), padx=(25, 0))
 
-        self.role_combobox = ctk.CTkOptionMenu(
-            self.login_frame, 
-            values=["Student", "Admin"], 
-            fg_color=btn_active_2, 
+        ctk.CTkLabel(
+            master=frame, 
+            text="Sign in to your account", 
+            text_color="#7E7E7E", 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 12)
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame, 
+            text="  Username:", 
+            text_color=text_fg, 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 14), 
+            image=self.name_icon, 
+            compound="left"
+        ).pack(anchor="w", pady=(38, 0), padx=(25, 0))
+
+        self.username_entry = ctk.CTkEntry(
+            master=frame, 
+            width=225, 
+            fg_color=fg, 
+            border_color=text_fg, 
+            border_width=1, 
             text_color=text_fg
         )
-        self.role_combobox.grid(pady=(0, 5), padx=20, row=6, column=1, columnspan=2, sticky="ew")
-        self.role_combobox.set("Student")
+        self.username_entry.pack(anchor="w", padx=(25, 0))
 
-        self.signup_button = ctk.CTkButton(
-            self.login_frame,
-            text="Sign Up",
+        ctk.CTkLabel(
+            master=frame, 
+            text="  Password:", 
+            text_color=text_fg, 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 14), 
+            image=self.password_icon, 
+            compound="left"
+        ).pack(anchor="w", pady=(21, 0), padx=(25, 0))
+
+        self.password_entry = ctk.CTkEntry(
+            master=frame, 
+            width=225, 
+            fg_color=fg, 
+            border_color=text_fg, 
+            border_width=1, 
             text_color=text_fg,
-            font=("Helvetica", 18, "bold"),
-            command=self.signup,
-            hover_color=bg,
-            fg_color=btn_active_2
+            show="*"
         )
-        self.signup_button.grid(pady=20, padx=(20, 5), row=7, column=1)
+        self.password_entry.pack(anchor="w", padx=(25, 0))
 
-        if self.role_combobox.get() == "Admin":
-            self.signup_button.configure(state="disabled")
-
-        self.login_button = ctk.CTkButton(
-            self.login_frame,
-            text="Sign In",
-            text_color=text_fg_2,
-            font=("Helvetica", 18, "bold"),
+        ctk.CTkButton(
+            master=frame, 
+            text="Sign In", 
+            fg_color=btn_active, 
+            hover_color=btn_hvr, 
+            font=("Helvetica", 12), 
+            text_color=text_fg_2, 
             command=self.verified,
-            hover_color=btn_hvr,
-            fg_color=btn_active
+            width=225
+        ).pack(anchor="w", pady=(40, 0), padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame, 
+            text="< Sign Up", 
+            fg_color=bg, 
+            hover_color=fg, 
+            font=("Helvetica", 12), 
+            text_color=text_fg, 
+            command=self.signup,
+            width=225, 
+        ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
+
+    def signup(self):
+
+        for widget in self.login_frame.winfo_children():
+            widget.destroy()
+
+        ctk.CTkLabel(master=self.login_frame, text="", image=self.side_img).pack(expand=True, side="right")
+
+        frame = ctk.CTkFrame(master=self.login_frame, width=300, height=480, fg_color="#ffffff")
+        frame.pack_propagate(0)
+        frame.pack(expand=True, side="left")
+
+        ctk.CTkLabel(
+            master=frame, 
+            text="Welcome!", 
+            text_color=text_fg, 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 24)
+        ).pack(anchor="w", pady=(50, 5), padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame, 
+            text="Create a new account", 
+            text_color="#7E7E7E",
+            anchor="w",
+            justify="left",
+            font=("Helvetica", 12)
+        ).pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame, 
+            text="  Username:", 
+            text_color=text_fg, 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 14), 
+            image=self.name_icon, 
+            compound="left"
+        ).pack(anchor="w", pady=(38, 0), padx=(25, 0))
+
+        self.username_entry = ctk.CTkEntry(
+            master=frame, 
+            width=225, 
+            fg_color=fg, 
+            border_color=text_fg, 
+            border_width=1, 
+            text_color=text_fg
         )
-        self.login_button.grid(pady=20, padx=(5, 20), row=7, column=2)
+        self.username_entry.pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkLabel(
+            master=frame, 
+            text="  Password:", 
+            text_color=text_fg, 
+            anchor="w", 
+            justify="left", 
+            font=("Helvetica", 14), 
+            image=self.password_icon, 
+            compound="left"
+        ).pack(anchor="w", pady=(21, 0), padx=(25, 0))
+
+        self.password_entry = ctk.CTkEntry(
+            master=frame, 
+            width=225, 
+            fg_color=fg, 
+            border_color=text_fg, 
+            border_width=1, 
+            text_color=text_fg,
+            show="*"
+        )
+        self.password_entry.pack(anchor="w", padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame, 
+            text="Sign Up", 
+            fg_color=btn_active, 
+            hover_color=btn_hvr, 
+            font=("Helvetica", 12), 
+            text_color=text_fg_2,
+            command=self.create_account,
+            width=225
+        ).pack(anchor="w", pady=(40, 0), padx=(25, 0))
+
+        ctk.CTkButton(
+            master=frame, 
+            text="Login >", 
+            fg_color=bg, 
+            hover_color=fg, 
+            font=("Helvetica", 12), 
+            text_color=text_fg, 
+            command=self.login,
+            width=225, 
+        ).pack(anchor="w", pady=(20, 0), padx=(25, 0))
 
     def verified(self) -> bool:
         self.username = self.username_entry.get()
         self.password = self.password_entry.get()
-        self.role = self.role_combobox.get()
 
-        if self.username == "" or self.password == "" or self.role == "":
+        if self.username == "" or self.password == "":
             messagebox.showerror("Login Failed", "All fields are required!")
             return False
         
-        if accounts.verify_account(self.username, self.password, self.role):
+        if accounts.verify_account(self.username, self.password):
             self.save_current_user()
             self.destroy()
             return True
-        
+    
         else:
             messagebox.showerror("Login Failed", "Invalid credentials!")
             return False
 
-    def signup(self) -> None:
-        self.username: str = self.username_entry.get()
-        self.password: str = self.password_entry.get()
-        self.role: str = self.role_combobox.get()
+    def create_account(self) -> None:
+        self.username = self.username_entry.get()
+        self.password = self.password_entry.get()
 
-        if self.username == "" or self.password == "" or self.role == "":
+        if self.username == "" or self.password == "":
             messagebox.showerror("Signup Failed", "All fields are required!")
             return
 
-        if accounts.verify_account(self.username, self.password, self.role):
+        if accounts.verify_account(self.username, self.password):
             messagebox.showerror("Signup Failed", "Account already exists!")
             return
 
         try:
-            accounts.add_account(self.username, self.password, self.role)
+            accounts.add_account(self.username, self.password)
             messagebox.showinfo("Signup Successful", "Account created successfully!")
         except Exception as e:
             messagebox.showerror("Signup Failed", f"Failed to create account: {e}")
 
     def save_current_user(self):
         with open(current_role_path, "w") as file:
-                file.write(self.username + " " + self.role)
+                file.write(self.username + " " + self.password)

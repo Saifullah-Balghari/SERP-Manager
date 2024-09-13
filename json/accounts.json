@@ -1,56 +1,20 @@
 [
     {
-        "username": "Saifullah",
-        "password": "09900",
-        "role": "Student",
-        "created_at": "2024-09-04T15:25:40.522690"
-    },
-    {
-        "username": "asdfg",
-        "password": "asfd",
-        "role": "Student",
-        "created_at": "2024-09-04T21:58:55.750092"
-    },
-    {
-        "username": "Shoaib",
-        "password": "0909",
-        "role": "Admin",
-        "created_at": "2024-09-04T22:35:52.352338"
-    },
-    {
-        "username": "Saif",
-        "password": "0909",
-        "role": "Admin",
-        "created_at": "2024-09-05T17:59:18.556473"
-    },
-    {
-        "username": "Saifullah Balghari",
-        "password": "09900",
-        "role": "Admin",
-        "created_at": "2024-09-08T11:35:15.397813"
-    },
-    {
-        "username": "Balghari",
-        "password": "61051",
-        "role": "Admin",
-        "created_at": "2024-09-08T12:19:41.523726"
-    },
-    {
-        "username": "Jamal-ud-din",
-        "password": "12345",
-        "role": "Student",
-        "created_at": "2024-09-08T16:32:52.253790"
-    },
-    {
-        "username": "test",
-        "password": "1234",
-        "role": "Admin",
-        "created_at": "2024-09-09T20:58:16.254554"
-    },
-    {
         "username": "Test_Account_1",
         "password": "pre-0-s@ifull@h",
         "role": "Student",
         "created_at": "2024-09-09T21:02:12.816750"
+    },
+    {
+        "username": "1",
+        "password": "1",
+        "role": "Student",
+        "created_at": "2024-09-12T16:40:41.786694"
+    },
+    {
+        "username": "Saifullah-Balghari",
+        "password": "09900",
+        "role": "Admin",
+        "created_at": "2024-09-12T17:14:10.756299"
     }
 ]

@@ -1,9 +1,9 @@
-from .settings import *
+from ..settings import *
 
 import json
 from datetime import datetime
 
-def add_account(username, password, role):
+def add_account(username, password):
     try:
         # Open the file in read mode, handle if the file does not exist or is empty
         with open(acc_json_path, 'r') as file:
@@ -20,7 +20,7 @@ def add_account(username, password, role):
     new_account = {
         'username': username,
         'password': password,
-        'role': role,
+        'role': "Student",
         'created_at': datetime.now().isoformat()
     }                                                   
 
@@ -31,7 +31,7 @@ def add_account(username, password, role):
     with open(acc_json_path, 'w') as file:
         json.dump(accounts, file, indent=4)
 
-def verify_account(username, password, role):
+def verify_account(username, password):
     try:
         # Open the file in read mode, handle if the file does not exist or is empty
         with open(acc_json_path, 'r') as file:
@@ -46,7 +46,27 @@ def verify_account(username, password, role):
 
     # Iterate over the accounts to find a matching account
     for account in accounts:
-        if account['username'] == username and account['password'] == password and account['role'] == role:
+        if account['username'] == username and account['password'] == password:
             return True
 
     return False
+
+def get_account(username, password):
+    try:
+        # Open the file in read mode, handle if the file does not exist or is empty
+        with open(acc_json_path, 'r') as file:
+            try:
+                accounts = json.load(file)
+            except json.JSONDecodeError:
+                # If file is empty or contains invalid JSON, return None
+                return None
+    except FileNotFoundError:
+        # If the file is not found, return None
+        return None
+
+    # Iterate over the accounts to find a matching account
+    for account in accounts:
+        if account['username'] == username and account['password'] == password:
+            return account
+
+    return None

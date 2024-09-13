@@ -15,6 +15,7 @@ from .toplevels import contact_us
 from .toplevels import manage_news
 from .toplevels import show_profile
 from .toplevels import manage_exams
+from .helpers import accounts
 from .settings import *
 
 # Inbuilt imports
@@ -22,13 +23,8 @@ import platform
 import json
 import shutil
 import os
-import warnings
 
-warnings.filterwarnings("ignore", 
-                        message="CTkLabel Warning: Given image is not CTkImage but",
-                        module="customtkinter")
-
-# Default settings
+# Default settings for ctk
 ctk.set_appearance_mode("light")
 ctk.set_default_color_theme("blue")
 
@@ -40,8 +36,9 @@ btn_hvr = "#7F56D9"
 btn_active = "#6941C6"
 text_fg = "#53389E"
 
+
 class SERPManagerGUI(ctk.CTk):
-    def __init__(self, *args, **kwargs):        
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
     
         try:
@@ -50,16 +47,15 @@ class SERPManagerGUI(ctk.CTk):
 
             # Variables declarations
             self.selected_button = None
-            self.role = "student"
+            self.role = ""
 
             # Load the current role from the file
             with open(current_role_path, 'r') as f:
                 text = f.read()        
-                self.username, self.role = text.split()
-                self.role = self.role.lower().strip()
+                self.username, self.password = text.split()
 
-                if self.role not in ["student", "admin"]:
-                    raise ValueError("Invalid role")
+            account = accounts.get_account(self.username, self.password)
+            self.role = account['role'].lower()                     
 
             try:               
                 # Loads the icons
@@ -122,6 +118,21 @@ class SERPManagerGUI(ctk.CTk):
             command=self.show_home
         )
         self.home_button.pack(ipadx=10, padx=10, pady=5, side="left")
+
+        # Students button
+        self.student_button = ctk.CTkButton(
+            button_frame,
+            text="Students",
+            text_color=text_fg,
+            width=80,
+            height=30,
+            image=students_button_icon,
+            font=("Helvetica", 18,"bold"),
+            hover_color=btn_hvr,
+            anchor="center",
+            command=self.show_students
+        )
+        self.student_button.pack(ipadx=10, padx=10, pady=5, side="left")
 
         # Exams button
         self.exams_button = ctk.CTkButton(
@@ -199,7 +210,7 @@ class SERPManagerGUI(ctk.CTk):
     def set_button_state(self, selected_button):
 
         # Reset the button state
-        for button in [self.home_button, self.exams_button, self.results_button, self.papers_button]:
+        for button in [self.home_button, self.exams_button, self.results_button, self.papers_button, self.student_button]:
             button.configure(fg_color="transparent", text_color=text_fg)
 
         # Set the selected button state
@@ -241,7 +252,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Wellcome message frame
         wellcome_message_frame = ctk.CTkFrame(self.main_frame, height=60, fg_color=bg)
-        wellcome_message_frame.pack(side="top", fill="x", padx=5, pady=(0, 0))
+        wellcome_message_frame.pack(side="top", fill="x", padx=5, pady=(5, 0))
 
         # Title Label
         logo_label = ctk.CTkLabel(
@@ -249,7 +260,7 @@ class SERPManagerGUI(ctk.CTk):
             text="Welcome To SERP-Manager",
             text_color=text_fg,
             font=("Helvetica", 30, "bold")
-                 )
+        )
         logo_label.pack(side="top", fill="x")
 
         # Introduction Label
@@ -620,6 +631,98 @@ class SERPManagerGUI(ctk.CTk):
             fg_color=btn_active,
         )
         refresh_button.pack(side="left", padx=5, pady=5)
+
+    def show_students(self):
+        self.clear_main_frame()
+        self.set_button_state(self.student_button)
+
+        # add student form frame 
+        student_form_frame = ctk.CTkFrame(self.main_frame)
+        student_form_frame.pack(fill="both", expand=True, padx=20, pady=50)
+        
+        title_label = ctk.CTkLabel(
+            student_form_frame,
+            text="Add Students",
+            font=("helvetica", 30, "bold"),
+            text_color=text_fg      
+        )
+        title_label.pack(pady=5, fill="x", side="top")
+
+        instrucion_label = ctk.CTkLabel(
+            student_form_frame,
+            text="Enter the details below, submit and wait for the confirmation message.",
+            font=("Helvetica", 16),
+            text_color=text_fg
+        )
+        instrucion_label.pack(side="top", fill="x", pady=20, padx=20)
+
+        entries_frame = ctk.CTkFrame(student_form_frame)
+        entries_frame.pack(fill="x", side="top", padx=20, pady=10)
+
+        # admission number input
+        admission_label = ctk.CTkLabel(entries_frame, text="Admission Number:", font=("Helvetica", 14), text_color=text_fg)
+        admission_label.grid(row=0, column=0, padx=5, pady=10)
+        admission_entry = ctk.CTkEntry(entries_frame)
+        admission_entry.grid(row=0, column=1, padx=5, pady=10)       
+
+        # roll number input
+        roll_label = ctk.CTkLabel(entries_frame, text="Roll Number:", font=("Helvetica", 14), text_color=text_fg)
+        roll_label.grid(row=1, column=0, padx=5, pady=10)
+        roll_entry = ctk.CTkEntry(entries_frame)
+        roll_entry.grid(row=1, column=1, padx=5, pady=10)        
+
+        # student name input
+        name_label = ctk.CTkLabel(entries_frame, text="Name:", font=("Helvetica", 13), text_color=text_fg)
+        name_label.grid(row=2, column=0, padx=5, pady=10)
+        name_entry = ctk.CTkEntry(entries_frame)
+        name_entry.grid(row=2, column=1, padx=5, pady=10)        
+
+        # father name input
+        father_label = ctk.CTkLabel(entries_frame, text="Father's Name:", font=("Helvetica", 14), text_color=text_fg)
+        father_label.grid(row=3, column=0, padx=5, pady=10)
+        father_entry = ctk.CTkEntry(entries_frame)
+        father_entry.grid(row=3, column=1, padx=5, pady=10)      
+
+        # level input
+        level_label = ctk.CTkLabel(entries_frame, text="Level:", font=("Helvetica", 14), text_color=text_fg)
+        level_label.grid(row=4, column=0, padx=5, pady=10)
+        level_optionbox = ctk.CTkEntry(entries_frame, placeholder_text="SSC or HSSC")
+        level_optionbox.grid(row=4, column=1, padx=5, pady=10)
+
+        # year input
+        year_label = ctk.CTkLabel(entries_frame, text="Year:", font=("Helvetica", 14), text_color=text_fg)
+        year_label.grid(row=0, column=2, padx=(65, 5), pady=10)
+        year_optionbox = ctk.CTkEntry(entries_frame, placeholder_text="1st or 2nd")
+        year_optionbox.grid(row=0, column=3, padx=5, pady=10)        
+
+        # contact number input
+        contact_label = ctk.CTkLabel(entries_frame, text="Contact Number:", font=("Helvetica", 14), text_color=text_fg)
+        contact_label.grid(row=1, column=2, padx=(65, 5), pady=10)
+        contact_entry = ctk.CTkEntry(entries_frame, placeholder_text="+92XXXXXXXXXX")
+        contact_entry.grid(row=1, column=3, padx=5, pady=10)     
+        
+        # email adddress imput
+        email_label = ctk.CTkLabel(entries_frame, text="Email Address:", font=("Helvetica", 14), text_color=text_fg)
+        email_label.grid(row=2, column=2, padx=(65, 5), pady=10)
+        email_entry = ctk.CTkEntry(entries_frame, placeholder_text="abc@xyz.com")
+        email_entry.grid(row=2, column=3, padx=5, pady=10)       
+
+        # physical address input
+        address_label = ctk.CTkLabel(entries_frame, text="Physical Address:", font=("Helvetica", 14), text_color=text_fg)
+        address_label.grid(row=3, column=2, padx=(65, 5), pady=10)
+        address_entry = ctk.CTkEntry(entries_frame)
+        address_entry.grid(row=3, column=3, padx=5, pady=10)
+
+        # submit button
+        submit_button = ctk.CTkButton(
+            student_form_frame,
+            text="Submit",
+            command=self.submit_student,
+            text_color=text_fg_2,
+            hover_color=btn_hvr,
+            fg_color=btn_active
+        )
+        submit_button.pack(side="right", padx=10, pady=10)
 
     def show_examinations(self):
         """
@@ -1013,13 +1116,13 @@ class SERPManagerGUI(ctk.CTk):
         # Load the pdfs to the main scrollable frame
         self.load_pdfs(default_pdfs_path)
 
+# helper function for show home section
     def show_profile(self):
         if self.show_profile_toplevel_window is None or not self.show_profile_toplevel_window.winfo_exists():
             self.show_profile_toplevel_window = show_profile.CurrentAccount(self)
         else:
             self.show_profile_toplevel_window.focus()
 
-# helper function for show home section
     def contact_us_toplevel(self):
         if self.contact_us_toplevel_window is None or not self.contact_us_toplevel_window.winfo_exists():
             self.contact_us_toplevel_window = contact_us.ContactUs(self)
@@ -1031,6 +1134,10 @@ class SERPManagerGUI(ctk.CTk):
             self.manage_news_toplevel_window = manage_news.ManageNews(self)
         else:
             self.manage_news_toplevel_window.focus()
+
+# helper functions for show add student section
+    def submit_student(self):
+        raise NotImplementedError
 
 # helper function for show examination section
     def manage_exams_toplevel(self):
