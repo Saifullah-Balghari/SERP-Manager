@@ -16,6 +16,7 @@ from .toplevels import manage_news
 from .toplevels import show_profile
 from .toplevels import manage_exams
 from .helpers import accounts
+from .helpers import database as db
 from .settings import *
 
 # Inbuilt imports
@@ -31,7 +32,7 @@ ctk.set_default_color_theme("blue")
 # Color scheme
 bg = "#FCFAFF"
 fg = "#F4EBFF"
-text_fg_2 = "#FFFFFF"
+text_fg_2 = "#FFFFFF"   
 btn_hvr = "#7F56D9"
 btn_active = "#6941C6"
 text_fg = "#53389E"
@@ -94,7 +95,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Create the header frame
         self.header_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
-        self.header_frame.pack(padx=0, pady=(0, 1), side="top", fill="x", ipadx=10, ipady=10)
+        self.header_frame.pack(padx=0, pady=(0, 0), side="top", fill="x", ipadx=10, ipady=10)
 
         # Header frame configuration
         self.header_frame.pack_propagate(False)         
@@ -250,16 +251,28 @@ class SERPManagerGUI(ctk.CTk):
         self.clear_main_frame()
         self.set_button_state(self.home_button)
 
+
+        # Main Scrollable Frame
+        main_scrollable_frame = ctk.CTkScrollableFrame(
+            self.main_frame, 
+            fg_color=bg,
+            border_width=2,
+            border_color=btn_active,
+            scrollbar_button_color=btn_active, 
+            scrollbar_button_hover_color=btn_hvr, 
+            )
+        main_scrollable_frame.pack(fill="both", expand="true", padx=5, pady=5)
+
         # Wellcome message frame
-        wellcome_message_frame = ctk.CTkFrame(self.main_frame, height=60, fg_color=bg)
-        wellcome_message_frame.pack(side="top", fill="x", padx=5, pady=(5, 0))
+        wellcome_message_frame = ctk.CTkFrame(main_scrollable_frame, height=60, fg_color=bg)
+        wellcome_message_frame.pack(side="top", fill="x", padx=5, pady=5)
 
         # Title Label
         logo_label = ctk.CTkLabel(
             wellcome_message_frame,
             text="Welcome To SERP-Manager",
             text_color=text_fg,
-            font=("Helvetica", 30, "bold")
+            font=("Helvetica", 26, "bold")
         )
         logo_label.pack(side="top", fill="x")
 
@@ -267,155 +280,30 @@ class SERPManagerGUI(ctk.CTk):
         intro_label = ctk.CTkLabel(
             wellcome_message_frame,
             text="Manage examinations, results, and much more...",
-            text_color=text_fg,
-            font=("Helvetica", 14)
+            text_color="grey",
+            font=("Helvetica", 12)
         )
         intro_label.pack(side="top", fill="x")
 
-        # Main Scrollable Frame
-        main_scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
-        main_scrollable_frame.pack(fill="both", expand="true", padx=(10, 0), pady=0, ipadx=0, ipady=0)
-
-        # Shortcuts Frame
-        about_n_shortcuts_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)          
-        about_n_shortcuts_frame.pack(side="top", fill="x", expand="true", padx=5, pady=0)
-
-        # Shortcut 1
-        shortcut_1_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
-        shortcut_1_frame.grid(row=0, column=0, padx=28, pady=10, sticky="nsew")
-
-        shortcut_1_icon = ctk.CTkLabel(shortcut_1_frame, text="", image=icons["shortcut_1_icon"], height=120, width=120)
-        shortcut_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
-
-        shortcut_1_text = ctk.CTkLabel(
-            shortcut_1_frame,
-            text="Papers",
-            text_color=text_fg,
-            font=("Helvetica", 16)
-        )
-        shortcut_1_text.grid(row=0, column=1, padx=10, pady=(10, 0))
-
-        shortcut_1_sub_text = ctk.CTkLabel(
-            shortcut_1_frame,
-            text="Keep track of your past and\n model papers, read them, delete them\n and add more papers etc.",
-            text_color=text_fg,
-            font=("Helvetica", 12)
-        )
-        shortcut_1_sub_text.grid(row=1, column=1, padx=10, pady=0)
-
-        go_to_papers_button = ctk.CTkButton(
-            shortcut_1_frame,
-            text="Go to papers",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            width=50,
-            height=10,
-            command=self.show_papers
-        )
-        go_to_papers_button.grid(row=2, column=1, padx=10, ipadx=1, ipady=1, pady=(0, 10))
-
-        # Shortcut 2
-        shortcut_2_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
-        shortcut_2_frame.grid(row=0, column=1, padx=28, pady=10, sticky="nsew")
-
-        shortcut_2_icon = ctk.CTkLabel(
-            shortcut_2_frame,
-            text="",
-            image=icons["shortcut_2_icon"],
-            height=120,
-            width=120
-        )
-        shortcut_2_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
-
-        shortcut_2_text = ctk.CTkLabel(
-            shortcut_2_frame,
-            text="Examinations",
-            text_color=text_fg,
-            font=("Helvetica", 16)
-        )
-        shortcut_2_text.grid(row=0, column=1, padx=10, pady=(10, 0))
-
-        shortcut_2_sub_text = ctk.CTkLabel(
-            shortcut_2_frame,
-            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be \nableto change, remove or add exams.",
-            text_color=text_fg,
-            font=("Helvetica", 12)
-        )
-        shortcut_2_sub_text.grid(row=1, column=1, padx=10, pady=0)
-
-        go_to_exams_button = ctk.CTkButton(
-            shortcut_2_frame,
-            text="Go to Exams",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            width=50,
-            height=10,
-            command=self.show_examinations
-            )
-        go_to_exams_button.grid(row=2, column=1, padx=10, ipady=1, ipadx=1, pady=(0, 10))
-
-        # Shortcut 3
-        shortcut_3_frame = ctk.CTkFrame(about_n_shortcuts_frame, fg_color=fg)
-        shortcut_3_frame.grid(row=0, column=2, padx=28          , pady=10, sticky="nsew")
-
-        shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=icons["shortcut_3_icon"], height=120, width=120)
-        shortcut_3_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
-
-        shortcut_3_text = ctk.CTkLabel(
-            shortcut_3_frame,
-            text="Results",
-            text_color=text_fg,
-            font=("Helvetica", 16)
-        )
-        shortcut_3_text.grid(row=0, column=1, padx=10, pady=(10, 0))
-
-        shortcut_3_sub_text = ctk.CTkLabel(
-            shortcut_3_frame,
-            text="See the results of recent\n examination. The teachers will be able\nto add and remove the results.",
-            text_color=text_fg,
-            font=("Helvetica", 12)
-        )
-        shortcut_3_sub_text.grid(row=1, column=1, padx=10, pady=0)
-
-        go_to_results_button = ctk.CTkButton(
-            shortcut_3_frame,
-            text="Go to Results",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            width=50,
-            height=10,
-            command=self.show_results
-            )
-        go_to_results_button.grid(row=2, column=1, padx=10, ipady=1, ipadx=1, pady=(0, 10))
-
         # news and updates frame
         news_n_updates = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
-        news_n_updates.pack(side="top", fill="both", padx=5, pady=0)
+        news_n_updates.pack(fill="both", padx=0, pady=0)
 
-        title_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, bg_color=bg)
-        title_frame.pack(side="top", fill="x", padx=10, pady=0)
-
-        news_icon = ctk.CTkLabel(
-            title_frame,
-            text="",
-            image=icons["news_icon"],
-            height=120,
-            width=120
-        )
-        news_icon.grid(row=0, column=0, sticky="w", padx=(10, 0), pady=0)
         title_label = ctk.CTkLabel(
-            title_frame,
+            news_n_updates,
             fg_color=bg,
             bg_color=bg,
+            image=icons["news_icon"],
+            compound="top",
             text="News and Updates",
             text_color=text_fg,
-            font=("Helvetica", 26, "bold")
+            font=("Helvetica", 22, "bold")
         )
-        title_label.grid(row=0, column=1, sticky="w", padx=(0, 10), pady=0)
+        title_label.pack(fill="x", pady=(30, 0))
 
         # News frame
-        news_frame = ctk.CTkFrame(news_n_updates, fg_color=bg, corner_radius=0)
-        news_frame.pack(fill="x", padx=30, pady=(0, 10))
+        news_frame = ctk.CTkFrame(news_n_updates, fg_color=fg, corner_radius=0)
+        news_frame.pack(fill="x", padx=30, pady=10)
 
         with open(news_txt_path, "rb") as f:
             lines = f.readlines()
@@ -427,7 +315,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # news 1
         news_1_frame = ctk.CTkFrame(news_frame, fg_color=fg)
-        news_1_frame.pack(fill="x", padx=0, pady=(0, 2))
+        news_1_frame.pack(fill="x", padx=0, pady=0)
 
         news_arrow = ctk.CTkLabel(
             news_1_frame,
@@ -501,13 +389,156 @@ class SERPManagerGUI(ctk.CTk):
         )
         news_4_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
 
+        shortcuts_pframe = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
+        shortcuts_pframe.pack(fill="x", padx=0, pady=0)
+
+        title_label = ctk.CTkLabel(
+            shortcuts_pframe,
+            fg_color=bg,
+            image=icons["shortcuts_icon"],
+            compound="top",
+            text="Shortcuts",               
+            text_color=text_fg,
+            font=("Helvetica", 22, "bold")
+        )
+        title_label.pack(side="top", fill="x", pady=(30, 0))
+
+        # Shortcuts Frame
+        shortcuts_frame = ctk.CTkFrame(shortcuts_pframe, fg_color=fg)          
+        shortcuts_frame.pack(fill="x", padx=30, pady=10)
+        
+        # Shortcut 1
+        shortcut_1_frame = ctk.CTkFrame(shortcuts_frame, fg_color=fg)
+        shortcut_1_frame.grid(row=0, column=0, padx=(10, 20), pady=10, sticky="nsew")
+
+        shortcut_1_icon = ctk.CTkLabel(
+            shortcut_1_frame, 
+            text="", 
+            image=icons["shortcut_1_icon"], 
+            height=120, 
+            width=120
+        )
+        shortcut_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
+
+        shortcut_1_text = ctk.CTkLabel(
+            shortcut_1_frame,
+            text="Papers",
+            text_color=text_fg,
+            font=("Helvetica", 16)
+        )
+        shortcut_1_text.grid(row=0, column=1, padx=10, pady=(10, 0))
+
+        shortcut_1_sub_text = ctk.CTkLabel(
+            shortcut_1_frame,
+            text="Keep track of your past and\n model papers, read them, delete them\n and add more papers etc.",
+            text_color=text_fg,
+            font=("Helvetica", 12)
+        )
+        shortcut_1_sub_text.grid(row=1, column=1, padx=10, pady=0)
+
+        go_to_papers_button = ctk.CTkButton(
+            shortcut_1_frame,
+            text="Go to papers",
+            fg_color=btn_active,
+            hover_color=btn_hvr,
+            width=50,
+            height=10,
+            command=self.show_papers
+        )
+        go_to_papers_button.grid(row=2, column=1, padx=10, ipadx=1, ipady=1, pady=(0, 10))
+
+        # Shortcut 2
+        shortcut_2_frame = ctk.CTkFrame(shortcuts_frame, fg_color=fg)
+        shortcut_2_frame.grid(row=0, column=1, padx=20, pady=10, sticky="nsew")
+
+        shortcut_2_icon = ctk.CTkLabel(
+            shortcut_2_frame,
+            text="",
+            image=icons["shortcut_2_icon"],
+            height=120,
+            width=120
+        )
+        shortcut_2_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
+
+        shortcut_2_text = ctk.CTkLabel(
+            shortcut_2_frame,
+            text="Examinations",
+            text_color=text_fg,
+            font=("Helvetica", 16)
+        )
+        shortcut_2_text.grid(row=0, column=1, padx=10, pady=(10, 0))
+
+        shortcut_2_sub_text = ctk.CTkLabel(
+            shortcut_2_frame,
+            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be \nableto change, remove or add exams.",
+            text_color=text_fg,
+            font=("Helvetica", 12)
+        )
+        shortcut_2_sub_text.grid(row=1, column=1, padx=10, pady=0)
+
+        go_to_exams_button = ctk.CTkButton(
+            shortcut_2_frame,
+            text="Go to Exams",
+            fg_color=btn_active,
+            hover_color=btn_hvr,
+            width=50,
+            height=10,
+            command=self.show_examinations
+            )
+        go_to_exams_button.grid(row=2, column=1, padx=10, ipady=1, ipadx=1, pady=(0, 10))
+
+        # Shortcut 3
+        shortcut_3_frame = ctk.CTkFrame(shortcuts_frame, fg_color=fg)
+        shortcut_3_frame.grid(row=0, column=2, padx=30, pady=10, sticky="nsew")
+
+        shortcut_3_icon = ctk.CTkLabel(shortcut_3_frame, text="", image=icons["shortcut_3_icon"], height=120, width=120)
+        shortcut_3_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
+
+        shortcut_3_text = ctk.CTkLabel(
+            shortcut_3_frame,
+            text="Results",
+            text_color=text_fg,
+            font=("Helvetica", 16)
+        )
+        shortcut_3_text.grid(row=0, column=1, padx=10, pady=(10, 0))
+
+        shortcut_3_sub_text = ctk.CTkLabel(
+            shortcut_3_frame,
+            text="See the results of recent\n examination. The teachers will be able\nto add and remove the results.",
+            text_color=text_fg,
+            font=("Helvetica", 12)
+        )
+        shortcut_3_sub_text.grid(row=1, column=1, padx=10, pady=0)
+
+        go_to_results_button = ctk.CTkButton(
+            shortcut_3_frame,
+            text="Go to Results",
+            fg_color=btn_active,
+            hover_color=btn_hvr,
+            width=50,
+            height=10,
+            command=self.show_results
+            )
+        go_to_results_button.grid(row=2, column=1, padx=10, ipady=1, ipadx=1, pady=(0, 10))
+        
+        title_label = ctk.CTkLabel(
+            shortcuts_pframe,
+            fg_color=bg,
+            image=icons["help_icon"],
+            compound="top",
+            text="Roles and Help",
+            text_color=text_fg,
+            font=("Helvetica", 22, "bold")
+        )
+        title_label.pack(fill="x", pady=(30, 0))
+
         # about us and Roles frame
-        about_roles_and_us = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
-        about_roles_and_us.pack(side="top", fill="both", padx=30, pady=(20, 10))
+        about_roles_and_help = ctk.CTkFrame(shortcuts_pframe, fg_color=fg)
+        about_roles_and_help.pack(fill="x", padx=30, pady=10)
 
         # admin role
-        role_1_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
-        role_1_frame.grid(row=0, column=0, padx=7, pady=20, sticky="nsew")
+        role_1_frame = ctk.CTkFrame(about_roles_and_help, fg_color=fg)
+        role_1_frame.grid(row=0, column=0, padx=10, pady=20, sticky="nsew")
 
         role_1_icon = ctk.CTkLabel(role_1_frame, text="", image=icons["role_1_icon"], height=120, width=120)
         role_1_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
@@ -529,8 +560,8 @@ class SERPManagerGUI(ctk.CTk):
         role_1_sub_text.grid(row=1, column=1, padx=8, pady=0)
 
         # student role
-        role_2_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
-        role_2_frame.grid(row=0, column=1, padx=8, pady=20, sticky="nsew")
+        role_2_frame = ctk.CTkFrame(about_roles_and_help, fg_color=fg)
+        role_2_frame.grid(row=0, column=1, padx=10, pady=20, sticky="nsew")
 
         role_2_icon = ctk.CTkLabel(role_2_frame, text="", image=icons["role_2_icon"], height=120, width=120)
         role_2_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
@@ -551,15 +582,15 @@ class SERPManagerGUI(ctk.CTk):
         )
         role_2_sub_text.grid(row=1, column=1, padx=10, pady=0)
 
-        # help & feedback
-        help_frame = ctk.CTkFrame(about_roles_and_us, fg_color=fg)
-        help_frame.grid(row=0, column=2, padx=8, pady=20, sticky="nsew")
+        # support & feedback
+        support_frame = ctk.CTkFrame(about_roles_and_help, fg_color=fg)
+        support_frame.grid(row=0, column=2, padx=10, pady=20, sticky="nsew")
 
-        about_us_icon = ctk.CTkLabel(help_frame, text="", image=icons["help_icon"], height=120, width=120)
+        about_us_icon = ctk.CTkLabel(support_frame, text="", image=icons["support_icon"], height=120, width=120)
         about_us_icon.grid(row=0, column=0,rowspan=3, padx=(10, 0), pady=10)
 
         help_text = ctk.CTkLabel(
-            help_frame,
+            support_frame,
             text="Help & Feedback",
             text_color=text_fg,
             font=("Helvetica", 18)
@@ -567,7 +598,7 @@ class SERPManagerGUI(ctk.CTk):
         help_text.grid(row=0, column=1, padx=10, pady=(10, 5))
 
         help_sub_text = ctk.CTkLabel(
-            help_frame,
+            support_frame,
             text="Have you been in any kind of issue\n while using our program and want it to be\n fixed? Please let us know and we will try\n our best to fix it ASAP.",
             text_color=text_fg,
             font=("Helvetica", 13)
@@ -575,8 +606,8 @@ class SERPManagerGUI(ctk.CTk):
         help_sub_text.grid(row=1, column=1, padx=10, ipadx=5, pady=5)
 
         # buttons frame
-        buttons_frame = ctk.CTkFrame(self.main_frame, fg_color=bg)
-        buttons_frame.pack(side="bottom", fill="x", padx=0, pady=0, ipady=0)
+        buttons_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
+        buttons_frame.pack(side="bottom", fill="x", padx=30, pady=0, ipady=0)
 
         # close button
         close_btn = ctk.CTkButton(
@@ -612,8 +643,8 @@ class SERPManagerGUI(ctk.CTk):
                 text="Edit News",
                 command=self.manage_news_toplevel,
                 text_color=text_fg_2,
-                image=edit_button_icon,
                 hover_color=btn_hvr,
+                image=edit_button_icon,
                 fg_color=btn_active,
             )
             add_news_button.pack(side="left", padx=5, pady=5)
@@ -636,93 +667,143 @@ class SERPManagerGUI(ctk.CTk):
         self.clear_main_frame()
         self.set_button_state(self.student_button)
 
-        # add student form frame 
-        student_form_frame = ctk.CTkFrame(self.main_frame)
-        student_form_frame.pack(fill="both", expand=True, padx=20, pady=50)
-        
-        title_label = ctk.CTkLabel(
-            student_form_frame,
-            text="Add Students",
-            font=("helvetica", 30, "bold"),
-            text_color=text_fg      
-        )
-        title_label.pack(pady=5, fill="x", side="top")
+        main_scrollable_frame = ctk.CTkScrollableFrame(
+            self.main_frame, 
+            fg_color=bg,
+            border_width=2,
+            border_color=btn_active,
+            scrollbar_button_color=btn_active, 
+            scrollbar_button_hover_color=btn_hvr, 
+            )
+        main_scrollable_frame.pack(fill="both", expand="true", padx=5, pady=5)
 
-        instrucion_label = ctk.CTkLabel(
-            student_form_frame,
-            text="Enter the details below, submit and wait for the confirmation message.",
-            font=("Helvetica", 16),
+        title_label = ctk.CTkLabel(
+            main_scrollable_frame,
+            image=icons["add_icon"],
+            compound="top",
+            text="Add Students",
+            font=("helvetica", 22, "bold"),
             text_color=text_fg
         )
-        instrucion_label.pack(side="top", fill="x", pady=20, padx=20)
+        title_label.pack(fill="x", side="top", pady=(10, 0))
 
-        entries_frame = ctk.CTkFrame(student_form_frame)
-        entries_frame.pack(fill="x", side="top", padx=20, pady=10)
+        sub_title_label = ctk.CTkLabel(
+            main_scrollable_frame,
+            text="Enter the details below, submit and wait for the confirmation message.",
+            font=("Helvetica", 12),
+            text_color="grey"
+        )
+        sub_title_label.pack(side="top", fill="x",pady=(0, 5))
 
-        # admission number input
-        admission_label = ctk.CTkLabel(entries_frame, text="Admission Number:", font=("Helvetica", 14), text_color=text_fg)
-        admission_label.grid(row=0, column=0, padx=5, pady=10)
-        admission_entry = ctk.CTkEntry(entries_frame)
-        admission_entry.grid(row=0, column=1, padx=5, pady=10)       
+        # add student form frame 
+        student_form_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
+        student_form_frame.pack(padx=30, pady=10, ipadx=20)
 
         # roll number input
-        roll_label = ctk.CTkLabel(entries_frame, text="Roll Number:", font=("Helvetica", 14), text_color=text_fg)
-        roll_label.grid(row=1, column=0, padx=5, pady=10)
-        roll_entry = ctk.CTkEntry(entries_frame)
-        roll_entry.grid(row=1, column=1, padx=5, pady=10)        
+        roll_label = ctk.CTkLabel(student_form_frame, text="Roll Number:", font=("Helvetica", 14), text_color=text_fg)
+        roll_label.grid(row=0, column=0, padx=5, pady=10)
+        self.roll_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.roll_entry.grid(row=0, column=1, padx=5, pady=10)        
 
         # student name input
-        name_label = ctk.CTkLabel(entries_frame, text="Name:", font=("Helvetica", 13), text_color=text_fg)
-        name_label.grid(row=2, column=0, padx=5, pady=10)
-        name_entry = ctk.CTkEntry(entries_frame)
-        name_entry.grid(row=2, column=1, padx=5, pady=10)        
+        name_label = ctk.CTkLabel(student_form_frame, text="Name:", font=("Helvetica", 13), text_color=text_fg)
+        name_label.grid(row=1, column=0, padx=5, pady=10)
+        self.name_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.name_entry.grid(row=1, column=1, padx=5, pady=10)        
 
         # father name input
-        father_label = ctk.CTkLabel(entries_frame, text="Father's Name:", font=("Helvetica", 14), text_color=text_fg)
-        father_label.grid(row=3, column=0, padx=5, pady=10)
-        father_entry = ctk.CTkEntry(entries_frame)
-        father_entry.grid(row=3, column=1, padx=5, pady=10)      
+        father_label = ctk.CTkLabel(student_form_frame, text="Father's Name:", font=("Helvetica", 14), text_color=text_fg)
+        father_label.grid(row=2, column=0, padx=5, pady=10)
+        self.father_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.father_entry.grid(row=2, column=1, padx=5, pady=10)      
+
+        # institution name input
+        institution_label = ctk.CTkLabel(student_form_frame, text="Institution:", font=("Helvetica", 14), text_color=text_fg)
+        institution_label.grid(row=3, column=0, padx=5, pady=10)
+        self.institution_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.institution_entry.grid(row=3, column=1, padx=5, pady=10)
 
         # level input
-        level_label = ctk.CTkLabel(entries_frame, text="Level:", font=("Helvetica", 14), text_color=text_fg)
+        level_label = ctk.CTkLabel(student_form_frame, text="Level:", font=("Helvetica", 14), text_color=text_fg)
         level_label.grid(row=4, column=0, padx=5, pady=10)
-        level_optionbox = ctk.CTkEntry(entries_frame, placeholder_text="SSC or HSSC")
-        level_optionbox.grid(row=4, column=1, padx=5, pady=10)
+        self.level_entry = ctk.CTkEntry(student_form_frame, placeholder_text="SSC or HSSC", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.level_entry.grid(row=4, column=1, padx=5, pady=10)
 
         # year input
-        year_label = ctk.CTkLabel(entries_frame, text="Year:", font=("Helvetica", 14), text_color=text_fg)
+        year_label = ctk.CTkLabel(student_form_frame, text="Year:", font=("Helvetica", 14), text_color=text_fg)
         year_label.grid(row=0, column=2, padx=(65, 5), pady=10)
-        year_optionbox = ctk.CTkEntry(entries_frame, placeholder_text="1st or 2nd")
-        year_optionbox.grid(row=0, column=3, padx=5, pady=10)        
+        self.year_entry = ctk.CTkEntry(student_form_frame, placeholder_text="1st or 2nd", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.year_entry.grid(row=0, column=3, padx=5, pady=10)
 
         # contact number input
-        contact_label = ctk.CTkLabel(entries_frame, text="Contact Number:", font=("Helvetica", 14), text_color=text_fg)
+        contact_label = ctk.CTkLabel(student_form_frame, text="Contact Number:", font=("Helvetica", 14), text_color=text_fg)
         contact_label.grid(row=1, column=2, padx=(65, 5), pady=10)
-        contact_entry = ctk.CTkEntry(entries_frame, placeholder_text="+92XXXXXXXXXX")
-        contact_entry.grid(row=1, column=3, padx=5, pady=10)     
+        self.contact_entry = ctk.CTkEntry(student_form_frame, placeholder_text="+92XXXXXXXXXX", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.contact_entry.grid(row=1, column=3, padx=5, pady=10)
         
         # email adddress imput
-        email_label = ctk.CTkLabel(entries_frame, text="Email Address:", font=("Helvetica", 14), text_color=text_fg)
+        email_label = ctk.CTkLabel(student_form_frame, text="Email Address:", font=("Helvetica", 14), text_color=text_fg)
         email_label.grid(row=2, column=2, padx=(65, 5), pady=10)
-        email_entry = ctk.CTkEntry(entries_frame, placeholder_text="abc@xyz.com")
-        email_entry.grid(row=2, column=3, padx=5, pady=10)       
+        self.email_entry = ctk.CTkEntry(student_form_frame, placeholder_text="abc@xyz.com", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.email_entry.grid(row=2, column=3, padx=5, pady=10)
 
         # physical address input
-        address_label = ctk.CTkLabel(entries_frame, text="Physical Address:", font=("Helvetica", 14), text_color=text_fg)
+        address_label = ctk.CTkLabel(student_form_frame, text="Physical Address:", font=("Helvetica", 14), text_color=text_fg)
         address_label.grid(row=3, column=2, padx=(65, 5), pady=10)
-        address_entry = ctk.CTkEntry(entries_frame)
-        address_entry.grid(row=3, column=3, padx=5, pady=10)
+        self.address_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
+        self.address_entry.grid(row=3, column=3, padx=5, pady=10)
 
         # submit button
         submit_button = ctk.CTkButton(
-            student_form_frame,
+            main_scrollable_frame,
             text="Submit",
             command=self.submit_student,
             text_color=text_fg_2,
             hover_color=btn_hvr,
             fg_color=btn_active
         )
-        submit_button.pack(side="right", padx=10, pady=10)
+        submit_button.pack(padx=10, pady=10)
+
+        title_label2 = ctk.CTkLabel(
+            main_scrollable_frame,
+            image=icons["get_std"],
+            compound="top",
+            text="Get Student's Info",
+            text_color=text_fg,
+            font=("helvetica", 22, "bold"),
+            fg_color=bg,
+        )
+        title_label2.pack(fill="x", pady=(30, 0))
+
+        sub_title_label = ctk.CTkLabel(
+            main_scrollable_frame,
+            text="Search for a Student in the Database by Roll Number.",
+            font=("Helvetica", 12),
+            text_color="grey"
+        )
+        sub_title_label.pack(fill="x",pady=(0, 5))
+
+        search_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
+        search_frame.pack(side="top", fill="x", padx=500, pady=5)
+
+        get_std_info_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
+        get_std_info_frame.pack(fill="both", expand="true", padx=30, pady=10)
+
+        roll_no_entry = ctk.CTkEntry(self.search_frame, placeholder_text="Enter roll number...", width=300)
+        roll_no_entry.pack(side="right", padx=5, pady=5)
+
+        roll_no = roll_no_entry.get()
+
+        search_btn = ctk.CTkButton(
+            search_frame,
+            text="Search",
+            width=100,
+            fg_color=btn_active,
+            command=lambda get_std_info_frame, roll_no: self.show_student_info(get_std_info_frame, roll_no),
+            hover_color=btn_hvr
+        )
+        search_btn.pack(side="right", padx=5, pady=5)
+        
 
     def show_examinations(self):
         """
@@ -759,9 +840,13 @@ class SERPManagerGUI(ctk.CTk):
         # Create the scrollable frame
         scrollable_frame = ctk.CTkScrollableFrame(
             self.main_frame,
-            fg_color=bg
+            fg_color=bg,
+            border_width=2,
+            border_color=btn_active,
+            scrollbar_button_color=btn_active, 
+            scrollbar_button_hover_color=btn_hvr, 
         )
-        scrollable_frame.pack(fill="both", expand=True, side="top", pady=0)
+        scrollable_frame.pack(fill="both", expand=True, side="top", pady=5, padx=5)
 
         # Ongoing Exams
         current_exams = ctk.CTkFrame(scrollable_frame, fg_color=bg)
@@ -1001,9 +1086,20 @@ class SERPManagerGUI(ctk.CTk):
         self.clear_main_frame()
         self.set_button_state(self.results_button)
 
+
+        self.scrollable_frame = ctk.CTkScrollableFrame(
+            self.main_frame, 
+            fg_color=bg,
+            border_width=2,
+            border_color=btn_active,
+            scrollbar_button_color=btn_active, 
+            scrollbar_button_hover_color=btn_hvr, 
+        )
+        self.scrollable_frame.pack(side="top", fill="both", padx=5, ipadx=0, pady=5, expand=True)
+
         # Main frame
         self.results_main_frame = ctk.CTkFrame(
-            self.main_frame,
+            self.scrollable_frame,
             fg_color=bg,
             bg_color=bg
         )
@@ -1044,8 +1140,15 @@ class SERPManagerGUI(ctk.CTk):
         self.clear_main_frame()
         self.set_button_state(self.papers_button)
 
-        self.scrollable_frame = ctk.CTkScrollableFrame(self.main_frame, fg_color=bg)
-        self.scrollable_frame.pack(side="top", fill="both", padx=0, ipadx=0, pady=0, expand=True)
+        self.scrollable_frame = ctk.CTkScrollableFrame(
+            self.main_frame, 
+            fg_color=bg,
+            border_width=2,
+            border_color=btn_active,
+            scrollbar_button_color=btn_active, 
+            scrollbar_button_hover_color=btn_hvr, 
+        )
+        self.scrollable_frame.pack(side="top", fill="both", padx=5, ipadx=0, pady=5, expand=True)
 
         # Buttons frame
         self.button_frame = ctk.CTkFrame(
@@ -1110,7 +1213,16 @@ class SERPManagerGUI(ctk.CTk):
         search_paper_button.pack(side="right", padx=(2, 10), pady=0)
         
         # Search entry
-        self.search_entry = ctk.CTkEntry(self.button_frame, placeholder_text="Search here...", placeholder_text_color=text_fg, width=200, height=12)
+        self.search_entry = ctk.CTkEntry(
+            self.button_frame, 
+            placeholder_text="Search here...", 
+            placeholder_text_color=text_fg, 
+            width=200, 
+            height=12,
+            fg_color=fg,
+            border_width=1,
+            border_color=btn_active
+        )
         self.search_entry.pack(side="right", padx=(5, 2), pady=5)
 
         # Load the pdfs to the main scrollable frame
@@ -1137,7 +1249,36 @@ class SERPManagerGUI(ctk.CTk):
 
 # helper functions for show add student section
     def submit_student(self):
-        raise NotImplementedError
+        roll_no = self.roll_entry.get()
+        student_name = self.name_entry.get()
+        std_father_name = self.father_entry.get()
+        institution = self.institution_entry.get()
+        level = self.level_entry.get()
+        year = self.year_entry.get()
+        contact_no = self.contact_entry.get()
+        mail = self.email_entry.get()
+        address = self.address_entry.get()
+
+        if not roll_no or not student_name or not std_father_name or not institution or not level or not year or not contact_no or not mail or not address:
+            messagebox.showerror("Error", "All fields are required.")
+            return
+        elif db.student_exist(roll_no):
+            messagebox.showerror("Error", "Student with the same roll number already exists.")
+            return
+
+        if db.add_student(roll_no, student_name, std_father_name, institution, level, year, contact_no, mail, address,):
+            messagebox.showinfo("Success", "Student added successfully.")
+        else:
+            messagebox.showerror("Error", "Failed to add student check the logs.")
+
+    def show_student_info(self, parent_frame, roll_no):
+        info = db.get_student(roll_no)
+
+        for widget in parent_frame.winfo_children():
+            widget.destroy()
+            
+        frame = ctk.CTkFrame(parent_frame, fg_color=bg)
+        frame.pack()
 
 # helper function for show examination section
     def manage_exams_toplevel(self):

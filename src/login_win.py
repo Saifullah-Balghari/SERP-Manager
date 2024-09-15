@@ -23,7 +23,7 @@ class LoginGui(ctk.CTk):
 
         self.side_img = CTkImage(Image.open(side_icon_path), size=(300, 480))
         self.name_icon = CTkImage(Image.open(name_icon_path), size=(20,20))
-        self.password_icon = CTkImage(Image.open(password_icon_path), size=(17,17))                     
+        self.password_icon = CTkImage(Image.open(password_icon_path), size=(18,18))                     
 
         self.login_frame = ctk.CTkFrame(self, fg_color="#FFF", corner_radius=0)
         self.login_frame.grid(sticky="nsew")
@@ -256,3 +256,4 @@ class LoginGui(ctk.CTk):
     def save_current_user(self):
         with open(current_role_path, "w") as file:
                 file.write(self.username + " " + self.password)
+                

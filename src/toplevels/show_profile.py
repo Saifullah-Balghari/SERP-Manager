@@ -32,7 +32,6 @@ class CurrentAccount(ctk.CTkToplevel):
         self.role = account['role']
         self.created_at = account['created_at']
 
-        
         self.widget()
 
     def widget(self):
