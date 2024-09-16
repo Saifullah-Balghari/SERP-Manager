@@ -94,7 +94,7 @@ def get_student(roll_no):
     try:
         with connection:
             c.execute('''
-            SELECT roll_number, name, father_name, level, year, contact_no, mail, address 
+            SELECT name, father_name, institution, level, year, contact_no, mail, address 
             FROM students 
             WHERE roll_number = ?
             ''', (roll_no,)
@@ -104,9 +104,9 @@ def get_student(roll_no):
         
         if student_info:
             return {
-                "roll_number": student_info[0],
-                "name": student_info[1],
-                "father_name": student_info[2],
+                "name": student_info[0 ],
+                "father_name": student_info[1],
+                "institution": student_info[2],
                 "level": student_info[3],
                 "year": student_info[4],
                 "contact_no": student_info[5],
@@ -191,6 +191,29 @@ def student_exist(roll_no):
             )
         count = c.fetchone()[0]
         return count > 0
+    except sqlite3.OperationalError as e:
+        print(f"Operational error: {e}")
+        return False
+    except sqlite3.DatabaseError as e:
+        print(f"Database error: {e}")
+        return False
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+        return False
+    
+def delete_student(roll_no):
+    try:
+        with connection:
+            c.execute('''
+            DELETE FROM students 
+            WHERE roll_number = ?
+            ''', (roll_no,)
+            )
+        print("Student deleted successfully.")
+        return True
+    except sqlite3.IntegrityError as e:
+        print(f"Integrity error: {e}")
+        return False
     except sqlite3.OperationalError as e:
         print(f"Operational error: {e}")
         return False

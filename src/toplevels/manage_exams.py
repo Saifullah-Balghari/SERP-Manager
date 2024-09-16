@@ -176,9 +176,6 @@ class ManageExams(ctk.CTkToplevel):
             "2. Keys (like 'subject' or 'date') must be enclosed in double quotes, and values must be either a number, string, boolean, array, or object.\n"
             "3. Avoid using special characters or leaving any syntax errors (e.g., missing commas, mismatched brackets).\n"
             "4. Edit the data directly in the text box. Click 'Save' to apply your changes.\n"
-            "5. Use 'Undo' to revert your last changes if you make a mistake.\n"
-            "6. Use 'Select All' to highlight all text for easy editing or copying.\n"
-            "7. Click 'Cancel' to discard changes or 'Help' for this guide if you need more information."
         )
         messagebox.showinfo("Help", help_message, parent=self)
 

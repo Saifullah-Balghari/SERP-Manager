@@ -15,6 +15,7 @@ from .toplevels import contact_us
 from .toplevels import manage_news
 from .toplevels import show_profile
 from .toplevels import manage_exams
+from .toplevels import show_student
 from .helpers import accounts
 from .helpers import database as db
 from .settings import *
@@ -667,143 +668,74 @@ class SERPManagerGUI(ctk.CTk):
         self.clear_main_frame()
         self.set_button_state(self.student_button)
 
-        main_scrollable_frame = ctk.CTkScrollableFrame(
+        main_frame = ctk.CTkFrame(
             self.main_frame, 
             fg_color=bg,
             border_width=2,
             border_color=btn_active,
-            scrollbar_button_color=btn_active, 
-            scrollbar_button_hover_color=btn_hvr, 
             )
-        main_scrollable_frame.pack(fill="both", expand="true", padx=5, pady=5)
+        main_frame.pack(expand="true", padx=5, pady=5)
 
-        title_label = ctk.CTkLabel(
-            main_scrollable_frame,
-            image=icons["add_icon"],
-            compound="top",
-            text="Add Students",
-            font=("helvetica", 22, "bold"),
-            text_color=text_fg
-        )
-        title_label.pack(fill="x", side="top", pady=(10, 0))
+        if self.role == "admin":
+            # add button
+            add_student_button = ctk.CTkButton(
+                main_frame,
+                text="Add Student",
+                fg_color=bg,
+                command=self.add_student_toplevel,
+                text_color=text_fg,
+                hover_color=fg,
+                width=100,
+                height=100,
+                image=icons["add_icon"],
+                compound="top",
+                font=("helvetica", 18, "bold")
+            )
+            add_student_button.pack(side="left", padx=10, pady=10, ipadx=5, ipady=5)
+            self.add_student_toplevel_window = None
 
-        sub_title_label = ctk.CTkLabel(
-            main_scrollable_frame,
-            text="Enter the details below, submit and wait for the confirmation message.",
-            font=("Helvetica", 12),
-            text_color="grey"
-        )
-        sub_title_label.pack(side="top", fill="x",pady=(0, 5))
+            # get button
+            get_button = ctk.CTkButton(
+                main_frame,
+                fg_color=bg,
+                text="Get Students",
+                command=self.get_student_toplevel,
+                text_color=text_fg,
+                width=100,
+                height=100,
+                hover_color=fg,
+                image=icons["get_icon"],
+                compound="top",
+                font=("helvetica", 18, "bold")
+            )
+            get_button.pack(side="left", padx=10, pady=10, ipadx=5, ipady=5)
+            self.get_student_toplevel_window = None
 
-        # add student form frame 
-        student_form_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
-        student_form_frame.pack(padx=30, pady=10, ipadx=20)
+            # delete button
+            delete_button = ctk.CTkButton(
+                main_frame,
+                fg_color=bg,
+                text="Delete Student",
+                command=self.del_student_toplevel,
+                text_color=text_fg,
+                hover_color=fg,
+                width=100,
+                height=100,
+                image=icons["del_icon"],
+                compound="top",
+                font=("helvetica", 18, "bold")
+            )
+            delete_button.pack(side="left", padx=10, pady=10, ipadx=5, ipady=5)
+            self.del_student_toplevel_window = None
 
-        # roll number input
-        roll_label = ctk.CTkLabel(student_form_frame, text="Roll Number:", font=("Helvetica", 14), text_color=text_fg)
-        roll_label.grid(row=0, column=0, padx=5, pady=10)
-        self.roll_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.roll_entry.grid(row=0, column=1, padx=5, pady=10)        
-
-        # student name input
-        name_label = ctk.CTkLabel(student_form_frame, text="Name:", font=("Helvetica", 13), text_color=text_fg)
-        name_label.grid(row=1, column=0, padx=5, pady=10)
-        self.name_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.name_entry.grid(row=1, column=1, padx=5, pady=10)        
-
-        # father name input
-        father_label = ctk.CTkLabel(student_form_frame, text="Father's Name:", font=("Helvetica", 14), text_color=text_fg)
-        father_label.grid(row=2, column=0, padx=5, pady=10)
-        self.father_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.father_entry.grid(row=2, column=1, padx=5, pady=10)      
-
-        # institution name input
-        institution_label = ctk.CTkLabel(student_form_frame, text="Institution:", font=("Helvetica", 14), text_color=text_fg)
-        institution_label.grid(row=3, column=0, padx=5, pady=10)
-        self.institution_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.institution_entry.grid(row=3, column=1, padx=5, pady=10)
-
-        # level input
-        level_label = ctk.CTkLabel(student_form_frame, text="Level:", font=("Helvetica", 14), text_color=text_fg)
-        level_label.grid(row=4, column=0, padx=5, pady=10)
-        self.level_entry = ctk.CTkEntry(student_form_frame, placeholder_text="SSC or HSSC", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.level_entry.grid(row=4, column=1, padx=5, pady=10)
-
-        # year input
-        year_label = ctk.CTkLabel(student_form_frame, text="Year:", font=("Helvetica", 14), text_color=text_fg)
-        year_label.grid(row=0, column=2, padx=(65, 5), pady=10)
-        self.year_entry = ctk.CTkEntry(student_form_frame, placeholder_text="1st or 2nd", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.year_entry.grid(row=0, column=3, padx=5, pady=10)
-
-        # contact number input
-        contact_label = ctk.CTkLabel(student_form_frame, text="Contact Number:", font=("Helvetica", 14), text_color=text_fg)
-        contact_label.grid(row=1, column=2, padx=(65, 5), pady=10)
-        self.contact_entry = ctk.CTkEntry(student_form_frame, placeholder_text="+92XXXXXXXXXX", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.contact_entry.grid(row=1, column=3, padx=5, pady=10)
-        
-        # email adddress imput
-        email_label = ctk.CTkLabel(student_form_frame, text="Email Address:", font=("Helvetica", 14), text_color=text_fg)
-        email_label.grid(row=2, column=2, padx=(65, 5), pady=10)
-        self.email_entry = ctk.CTkEntry(student_form_frame, placeholder_text="abc@xyz.com", width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.email_entry.grid(row=2, column=3, padx=5, pady=10)
-
-        # physical address input
-        address_label = ctk.CTkLabel(student_form_frame, text="Physical Address:", font=("Helvetica", 14), text_color=text_fg)
-        address_label.grid(row=3, column=2, padx=(65, 5), pady=10)
-        self.address_entry = ctk.CTkEntry(student_form_frame, width=400, corner_radius=5, fg_color=fg, border_color=btn_active)
-        self.address_entry.grid(row=3, column=3, padx=5, pady=10)
-
-        # submit button
-        submit_button = ctk.CTkButton(
-            main_scrollable_frame,
-            text="Submit",
-            command=self.submit_student,
-            text_color=text_fg_2,
-            hover_color=btn_hvr,
-            fg_color=btn_active
-        )
-        submit_button.pack(padx=10, pady=10)
-
-        title_label2 = ctk.CTkLabel(
-            main_scrollable_frame,
-            image=icons["get_std"],
-            compound="top",
-            text="Get Student's Info",
-            text_color=text_fg,
-            font=("helvetica", 22, "bold"),
-            fg_color=bg,
-        )
-        title_label2.pack(fill="x", pady=(30, 0))
-
-        sub_title_label = ctk.CTkLabel(
-            main_scrollable_frame,
-            text="Search for a Student in the Database by Roll Number.",
-            font=("Helvetica", 12),
-            text_color="grey"
-        )
-        sub_title_label.pack(fill="x",pady=(0, 5))
-
-        search_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
-        search_frame.pack(side="top", fill="x", padx=500, pady=5)
-
-        get_std_info_frame = ctk.CTkFrame(main_scrollable_frame, fg_color=bg)
-        get_std_info_frame.pack(fill="both", expand="true", padx=30, pady=10)
-
-        roll_no_entry = ctk.CTkEntry(self.search_frame, placeholder_text="Enter roll number...", width=300)
-        roll_no_entry.pack(side="right", padx=5, pady=5)
-
-        roll_no = roll_no_entry.get()
-
-        search_btn = ctk.CTkButton(
-            search_frame,
-            text="Search",
-            width=100,
-            fg_color=btn_active,
-            command=lambda get_std_info_frame, roll_no: self.show_student_info(get_std_info_frame, roll_no),
-            hover_color=btn_hvr
-        )
-        search_btn.pack(side="right", padx=5, pady=5)
-        
+        else:
+            ctk.CTkLabel(
+                main_frame, 
+                fg_color=bg, 
+                text_color=text_fg,
+                text="You must be an administrator to add, get or remove any students from the database!",
+                font=("helvetica", 18, "bold")
+            ).pack(padx=50, pady=50)
 
     def show_examinations(self):
         """
@@ -1247,40 +1179,27 @@ class SERPManagerGUI(ctk.CTk):
         else:
             self.manage_news_toplevel_window.focus()
 
-# helper functions for show add student section
-    def submit_student(self):
-        roll_no = self.roll_entry.get()
-        student_name = self.name_entry.get()
-        std_father_name = self.father_entry.get()
-        institution = self.institution_entry.get()
-        level = self.level_entry.get()
-        year = self.year_entry.get()
-        contact_no = self.contact_entry.get()
-        mail = self.email_entry.get()
-        address = self.address_entry.get()
-
-        if not roll_no or not student_name or not std_father_name or not institution or not level or not year or not contact_no or not mail or not address:
-            messagebox.showerror("Error", "All fields are required.")
-            return
-        elif db.student_exist(roll_no):
-            messagebox.showerror("Error", "Student with the same roll number already exists.")
-            return
-
-        if db.add_student(roll_no, student_name, std_father_name, institution, level, year, contact_no, mail, address,):
-            messagebox.showinfo("Success", "Student added successfully.")
+# helper functions for show students section
+    def add_student_toplevel(self):
+        if self.add_student_toplevel_window is None or not self.add_student_toplevel_window.winfo_exists():
+            self.add_student_toplevel_window = show_student.AddStudent(self)
         else:
-            messagebox.showerror("Error", "Failed to add student check the logs.")
+            self.add_student_toplevel_window.focus()
 
-    def show_student_info(self, parent_frame, roll_no):
-        info = db.get_student(roll_no)
+    def get_student_toplevel(self):
+        if self.get_student_toplevel_window is None or not self.get_student_toplevel_window.winfo_exists():
+            self.get_student_toplevel_window = show_student.GetStudent(self)
+        else:
+            self.get_student_toplevel_window.focus()
 
-        for widget in parent_frame.winfo_children():
-            widget.destroy()
-            
-        frame = ctk.CTkFrame(parent_frame, fg_color=bg)
-        frame.pack()
+    def del_student_toplevel(self):
+        if self.del_student_toplevel_window is None or not self.del_student_toplevel_window.winfo_exists():
+            self.del_student_toplevel_window = show_student.DeleteStudent(self)
+        else:
+            self.del_student_toplevel_window.focus()
 
 # helper function for show examination section
+    
     def manage_exams_toplevel(self):
         if self.manage_exams_toplevel_window is None or not self.manage_exams_toplevel_window.winfo_exists():
             self.manage_exams_toplevel_window = manage_exams.ManageExams(self)

@@ -110,4 +110,5 @@ def setup_icons():
     icons["support_icon"] = ImageTk.PhotoImage(Image.open(support_icon_path).resize((100, 100), Image.LANCZOS))
 
     icons["add_icon"] = ImageTk.PhotoImage(Image.open(add_exams_icon_path).resize((60, 60), Image.LANCZOS))
-    icons["get_std"] = ImageTk.PhotoImage(Image.open(get_std_icon_path).resize((60, 60), Image.LANCZOS))
+    icons["get_icon"] = ImageTk.PhotoImage(Image.open(get_std_icon_path).resize((60, 60), Image.LANCZOS))
+    icons["del_icon"] = ImageTk.PhotoImage(Image.open(delete_icon_path).resize((60, 60), Image.LANCZOS))
