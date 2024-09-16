@@ -13,7 +13,8 @@ class ManageNews(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.title("")
+        self.title("Toplevel - Edit News")
+        self.resizable(False, False)
 
         self.title = ctk.CTkLabel(
             self,

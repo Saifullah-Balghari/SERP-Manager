@@ -18,7 +18,7 @@ class ManageExams(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.title("Edit the Datesheets of the Examinations")
+        self.title("Toplevel - Edit Datesheets")
         self.geometry("900x600")
 
         self.file_paths = { 

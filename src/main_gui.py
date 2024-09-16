@@ -64,7 +64,7 @@ class SERPManagerGUI(ctk.CTk):
                 setup_icons()
 
                 # Window configurations
-                self.title("SERP-Manager (Developed By Saifullah Balghari)")
+                self.title("SERP - Developed By Saifullah Balghari")
                 self.geometry("1366x768")
                 self.resizable(False, False)
                 self.configure(fg_color=text_fg)   
@@ -827,7 +827,13 @@ class SERPManagerGUI(ctk.CTk):
         ssc_1_label.pack(fill="x")
 
         # SSC-I contents
-        self.ssc_1_content_frame = ctk.CTkScrollableFrame(ssc_1_frame, fg_color=bg, orientation="horizontal")
+        self.ssc_1_content_frame = ctk.CTkScrollableFrame(
+            ssc_1_frame, 
+            fg_color=bg, 
+            orientation="horizontal",
+            scrollbar_button_color=fg, 
+            scrollbar_button_hover_color=btn_hvr 
+        )
         self.ssc_1_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
         # SSC-II
@@ -842,7 +848,13 @@ class SERPManagerGUI(ctk.CTk):
         ssc_2_label.pack(fill="x")
 
         # SSC-II contents
-        self.ssc_2_content_frame = ctk.CTkScrollableFrame(ssc_2_frame, fg_color=bg, orientation="horizontal")
+        self.ssc_2_content_frame = ctk.CTkScrollableFrame(
+            ssc_2_frame, 
+            fg_color=bg, 
+            orientation="horizontal",
+            scrollbar_button_color=fg, 
+            scrollbar_button_hover_color=btn_hvr
+        )
         self.ssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
         # HSSC exams
@@ -874,7 +886,13 @@ class SERPManagerGUI(ctk.CTk):
         hssc_1_label.pack(fill="x")
 
         # HSSC-I contents
-        self.hssc_1_content_frame = ctk.CTkScrollableFrame(hssc_1_frame, fg_color=bg, orientation="horizontal")
+        self.hssc_1_content_frame = ctk.CTkScrollableFrame(
+            hssc_1_frame, 
+            fg_color=bg, 
+            orientation="horizontal",
+            scrollbar_button_color=fg, 
+            scrollbar_button_hover_color=btn_hvr
+        )
         self.hssc_1_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
         # HSSC-II
@@ -889,7 +907,13 @@ class SERPManagerGUI(ctk.CTk):
         hssc_2_label.pack(fill="x")
 
         # HSSC-II contents
-        self.hssc_2_content_frame = ctk.CTkScrollableFrame(hssc_2_frame, fg_color=bg, orientation="horizontal")
+        self.hssc_2_content_frame = ctk.CTkScrollableFrame(
+            hssc_2_frame, 
+            fg_color=bg, 
+            orientation="horizontal",
+            scrollbar_button_color=fg, 
+            scrollbar_button_hover_color=btn_hvr
+        )
         self.hssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
 
         if self.role == "admin": 
@@ -987,28 +1011,28 @@ class SERPManagerGUI(ctk.CTk):
 
         if not ssc1_subjects:
             ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            ssc1_label.pack(fill="x", pady=50)
+            ssc1_label.pack(pady=50)
         else:
             for subject in ssc1_subjects:
                 create_subject_frame(self.ssc_1_content_frame, subject)
 
         if not ssc2_subjects:
             ssc2_label = ctk.CTkLabel(self.ssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            ssc2_label.pack(fill="x", pady=50)
+            ssc2_label.pack(pady=50)
         else:
             for subject in ssc2_subjects:
                 create_subject_frame(self.ssc_2_content_frame, subject)
 
         if not hssc1_subjects:
             hssc1_label = ctk.CTkLabel(self.hssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            hssc1_label.pack(fill="x", pady=50)
+            hssc1_label.pack(pady=50)
         else:
             for subject in hssc1_subjects:
                 create_subject_frame(self.hssc_1_content_frame, subject)
 
         if not hssc2_subjects:
             hssc2_label = ctk.CTkLabel(self.hssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            hssc2_label.pack(fill="x", pady=50)
+            hssc2_label.pack(pady=50)
         else:
             for subject in hssc2_subjects:
                 create_subject_frame(self.hssc_2_content_frame, subject)

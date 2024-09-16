@@ -21,6 +21,7 @@ class AddStudent(ctk.CTkToplevel):
         self.title("TopLevel - Add Student")
         self.geometry("1200x500")
         self.configure(fg_color=bg)
+        self.resizable(False, False)
 
         self.widget()
     
@@ -156,6 +157,7 @@ class GetStudent(ctk.CTkToplevel):
 
         self.title("TopLevel - Get Student")
         self.geometry("1200x500")
+        self.resizable(False, False)
         self.configure(fg_color=bg)
 
         get_icon = ImageTk.PhotoImage(Image.open(get_std_icon_path).resize((60, 60)), Image.LANCZOS)
@@ -279,6 +281,7 @@ class DeleteStudent(ctk.CTkToplevel):
         self.title("TopLevel - Delete Student")
         self.geometry("700x300")
         self.configure(fg_color=bg)
+        self.resizable(False, False)
 
         del_icon = ImageTk.PhotoImage(Image.open(delete_icon_path).resize((60, 60)), Image.LANCZOS)
 

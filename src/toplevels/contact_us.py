@@ -11,7 +11,7 @@ class ContactUs(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.title("")
+        self.title("Toplevel - Contact Us")
         self.resizable(False, False)
 
         main_frame = ctk.CTkFrame(

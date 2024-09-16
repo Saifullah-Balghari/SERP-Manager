@@ -16,7 +16,7 @@ class CurrentAccount(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.title("Your Profile")
+        self.title("Toplevel - Your Profile")
         self.geometry("400x320")
         self.resizable(False, False)
         self.configure(fg_color=bg) 
