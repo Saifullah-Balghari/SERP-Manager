@@ -49,7 +49,6 @@ class AddStudent(ctk.CTkToplevel):
         main_frame = ctk.CTkFrame(master=self, fg_color=bg, border_width=2, border_color=btn_active)
         main_frame.pack(fill="both", expand=True, padx=5, pady=5)
 
-
         student_form_frame = ctk.CTkFrame(main_frame, fg_color=bg)
         student_form_frame.pack(padx=30, pady=10, ipadx=20)
 
@@ -345,7 +344,5 @@ class DeleteStudent(ctk.CTkToplevel):
                 if db.delete_student(roll_no):
                     messagebox.showinfo("Success", "Student deleted successfully.", parent=self)
                     self.roll_no_entry.delete(0, "end")
-            else:
-                return
         else:
             messagebox.showerror("Error", "Failed to delete student. Please check the roll number and try again.", parent=self)
