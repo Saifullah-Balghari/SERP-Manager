@@ -15,6 +15,9 @@ class ManageNews(ctk.CTkToplevel):
 
         self.title("Toplevel - Edit News")
         self.resizable(False, False)
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         self.title = ctk.CTkLabel(
             self,

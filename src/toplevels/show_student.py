@@ -22,6 +22,9 @@ class AddStudent(ctk.CTkToplevel):
         self.geometry("1200x500")
         self.configure(fg_color=bg)
         self.resizable(False, False)
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         self.widget()
     
@@ -158,6 +161,9 @@ class GetStudent(ctk.CTkToplevel):
         self.geometry("1200x500")
         self.resizable(False, False)
         self.configure(fg_color=bg)
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         get_icon = ImageTk.PhotoImage(Image.open(get_std_icon_path).resize((60, 60)), Image.LANCZOS)
 
@@ -182,7 +188,14 @@ class GetStudent(ctk.CTkToplevel):
         student_search_frame = ctk.CTkFrame(self, fg_color=bg)
         student_search_frame.pack(padx=30, pady=10, ipadx=20)
 
-        self.roll_no_entry = ctk.CTkEntry(student_search_frame, placeholder_text="Enter roll number...", width=300)
+        self.roll_no_entry = ctk.CTkEntry(
+            student_search_frame, 
+            placeholder_text="Enter roll number...", 
+            width=300, 
+            corner_radius=5, 
+            fg_color=fg, 
+            border_color=btn_active
+        )
         self.roll_no_entry.pack(side="right", padx=5, pady=5)
 
         search_btn = ctk.CTkButton(
@@ -281,6 +294,9 @@ class DeleteStudent(ctk.CTkToplevel):
         self.geometry("700x300")
         self.configure(fg_color=bg)
         self.resizable(False, False)
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         del_icon = ImageTk.PhotoImage(Image.open(delete_icon_path).resize((60, 60)), Image.LANCZOS)
 
@@ -337,7 +353,7 @@ class DeleteStudent(ctk.CTkToplevel):
               Name: {student["name"]}\n
               Father name: {student["father_name"]}\n
               Institution: {student["institution"]}\n 
-            Do you want to delete?
+            Do you want to delete?      
             """
             confirmed = messagebox.askyesno("Student found!", message, parent=self)
             if confirmed:

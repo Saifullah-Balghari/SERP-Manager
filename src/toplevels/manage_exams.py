@@ -20,6 +20,9 @@ class ManageExams(ctk.CTkToplevel):
 
         self.title("Toplevel - Edit Datesheets")
         self.geometry("900x600")
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         self.file_paths = { 
             "SSC-I": ssc1_json_path,

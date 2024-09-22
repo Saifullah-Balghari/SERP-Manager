@@ -225,9 +225,9 @@ def add_result_2_pm_ssc(roll_no, exam_name, math, physics, chemistry, biology, p
     try:
         with connection:
             c.execute('''
-            INSERT INTO ssc_cs_results (roll_number, exam_name, math, physics, chemistry,
+            INSERT INTO ssc_pm_results (roll_number, exam_name, math, physics, chemistry, biology,
                                 pak_studies, islamiyat, urdu, english, total_marks)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (roll_no, exam_name, math, physics, chemistry, biology,
                 pak_studies, islamiyat, urdu, english, total_marks)
             )
@@ -277,9 +277,9 @@ def add_result_2_pm_hssc(roll_no, exam_name, physics, chemistry, biology,
     try:
         with connection:
             c.execute('''
-            INSERT INTO hssc_pm_results (roll_number, exam_name, math, physics, chemistry,
+            INSERT INTO hssc_pm_results (roll_number, exam_name, physics, chemistry, biology
                                 islamiyat_pak_studies, urdu, english, total_marks)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (roll_no, exam_name, physics, chemistry, biology,
                 islamiyat_pak_studies, urdu, english, total_marks)
             )
@@ -322,11 +322,12 @@ def get_results_4_cs_ssc(roll_no):
         
         if result_info:
             return {
-                "roll_n0": roll_no,
+                "roll_no": roll_no,
                 "name": student_info[0],
                 "father_name": student_info[1],
-                "level": student_info[2],
-                "year": student_info[3],
+                "institution" : student_info[2],
+                "level": student_info[3],
+                "year": student_info[4],
                 "exam_name": result_info[0],
                 "math": result_info[1],
                 "physics": result_info[2],
@@ -374,11 +375,12 @@ def get_results_4_pm_ssc(roll_no):
         
         if result_info:
             return {
-                "roll_n0": roll_no,
+                "roll_no": roll_no,
                 "name": student_info[0],
                 "father_name": student_info[1],
-                "level": student_info[2],
-                "year": student_info[3],
+                "institution" : student_info[2],
+                "level": student_info[3],
+                "year": student_info[4],
                 "exam_name": result_info[0],
                 "math": result_info[1],
                 "physics": result_info[2],
@@ -426,11 +428,12 @@ def get_results_4_cs_hssc(roll_no):
         
         if result_info:
             return {
-                "roll_n0": roll_no,
+                "roll_no": roll_no,
                 "name": student_info[0],
                 "father_name": student_info[1],
-                "level": student_info[2],
-                "year": student_info[3],
+                "institution" : student_info[2],
+                "level": student_info[3],
+                "year": student_info[4],
                 "exam_name": result_info[0],
                 "math": result_info[1],
                 "physics": result_info[2],
@@ -476,11 +479,12 @@ def get_results_4_pm_hssc(roll_no):
         
         if result_info:
             return {
-                "roll_n0": roll_no,
+                "roll_no": roll_no,
                 "name": student_info[0],
                 "father_name": student_info[1],
-                "level": student_info[2],
-                "year": student_info[3],
+                "institution" : student_info[2],
+                "level": student_info[3],
+                "year": student_info[4],
                 "exam_name": result_info[0],
                 "chemistry": result_info[1],
                 "physics": result_info[2],

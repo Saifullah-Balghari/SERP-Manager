@@ -20,6 +20,9 @@ class CurrentAccount(ctk.CTkToplevel):
         self.geometry("400x320")
         self.resizable(False, False)
         self.configure(fg_color=bg) 
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         # reading the current account information
         with open(current_role_path, 'r') as f:

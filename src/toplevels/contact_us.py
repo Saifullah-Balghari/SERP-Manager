@@ -13,6 +13,9 @@ class ContactUs(ctk.CTkToplevel):
 
         self.title("Toplevel - Contact Us")
         self.resizable(False, False)
+        self.attributes("-topmost", True)
+        self.update()
+        self.grab_set()
 
         main_frame = ctk.CTkFrame(
             self,
