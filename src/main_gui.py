@@ -9,7 +9,6 @@ import customtkinter as ctk
 from tkinter import messagebox, filedialog      # tk
 from pdf2image import convert_from_path
 from PIL import Image, ImageTk                  # pillow
-import CTkTable as ctkt
 
 # Local imports
 from .toplevels import contact_us
@@ -18,13 +17,13 @@ from .toplevels import show_profile
 from .toplevels import manage_exams
 from .toplevels import show_student
 from .toplevels import show_results
+from .components.results import get_results
+from .components.examination import datesheet
 from .helpers import accounts
-from .helpers import database as db
 from .settings import *
 
 # Inbuilt imports
 import platform
-import json
 import shutil
 import os
 
@@ -68,7 +67,7 @@ class SERPManagerGUI(ctk.CTk):
                 # Window configurations
                 self.title("SERP - Developed By Saifullah Balghari")
                 self.geometry("1366x768")
-                self.resizable(False, False)
+                self.resizable(1, 1)
                 self.configure(fg_color=text_fg)   
                 self.iconbitmap(None, None)
                 self.grid_rowconfigure(0, weight=1) 
@@ -97,108 +96,99 @@ class SERPManagerGUI(ctk.CTk):
     def create_header_frame(self):
 
         # Create the header frame
-        self.header_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
-        self.header_frame.pack(padx=0, pady=(0, 0), side="top", fill="x", ipadx=10, ipady=10)
+        self.sidebar_frame = ctk.CTkFrame(self, fg_color=btn_active, corner_radius=0)
+        self.sidebar_frame.pack(fill="y", side="left", padx=0, pady=0)
 
-        # Header frame configuration
-        self.header_frame.pack_propagate(False)         
-        self.header_frame.configure(height=40)
+        # Sidebar frame configuration
+        self.sidebar_frame.pack_propagate(False)         
+        self.sidebar_frame.configure(width=200)
 
-        # Create the button frame
-        button_frame = ctk.CTkFrame(self.header_frame, fg_color="transparent")
-        button_frame.pack(padx=10, pady=(10, 0), side="top", fill="x")
+        logo_label = ctk.CTkLabel(
+            self.sidebar_frame,
+            text="S E R P",
+            text_color=text_fg_2,
+            font=("Kumar One Outline", -42)
+        )
+        logo_label.pack(padx=5, pady=(10, 100),side="top", fill="x")
 
         # Home button
         self.home_button = ctk.CTkButton(
-            button_frame,
+            self.sidebar_frame,
             text="Home",
             text_color=text_fg,
-            width=80,
-            height=30,
             image=home_button_icon,
-            font=("Helvetica", -18,"bold"),
+            font=("Helvetica", -14,),
             hover_color=btn_hvr,
-            anchor="center",
+            anchor="w",
             command=self.show_home
         )
-        self.home_button.pack(ipadx=10, padx=10, pady=5, side="left")
+        self.home_button.pack(padx=30, pady=10, fill="x")
 
         # Students button
         self.student_button = ctk.CTkButton(
-            button_frame,
+            self.sidebar_frame,
             text="Students",
             text_color=text_fg,
-            width=80,
-            height=30,
             image=students_button_icon,
-
-            font=("Helvetica", -18,"bold"),
+            font=("Helvetica", -14,),
             hover_color=btn_hvr,
-            anchor="center",
+            anchor="w",
             command=self.show_students
         )
-        self.student_button.pack(ipadx=10, padx=10, pady=5, side="left")
+        self.student_button.pack(padx=30, pady=10, fill="x")
 
         # Exams button
         self.exams_button = ctk.CTkButton(
-            button_frame,
+            self.sidebar_frame,
             text="Exams",
-            width=80,
             image=exam_button_icon,
-            height=30,
-            font=("Helvetica", -18, "bold"),
+            font=("Helvetica", -14,),
             hover_color=btn_hvr,
             text_color=text_fg,
-            anchor="center",
+            anchor="w",
             command=self.show_examinations
         )
-        self.exams_button.pack(ipadx=10, padx=0, pady=5, side="left")
+        self.exams_button.pack(padx=30, pady=10, fill="x")
 
         # Results button
         self.results_button = ctk.CTkButton(
-            button_frame,
+            self.sidebar_frame,
             text="Results",
             image=result_button_icon,
-            width=80,
-            height=30,
-            font=("Helvetica", -18, "bold"),
+            font=("Helvetica", -14,),
             hover_color=btn_hvr,
-            anchor="center",
+            anchor="w",            
             text_color=text_fg,
             command=self.show_results                           
         )
-        self.results_button.pack(ipadx=10, padx=(10,0), pady=5, side="left")
+        self.results_button.pack(padx=30, pady=10, fill="x")
 
         # Papers button
         self.papers_button = ctk.CTkButton(
-            button_frame,
+            self.sidebar_frame,
             text="Papers",
             image=paper_button_icon,
-            width=80,
-            height=30,
-            font=("Helvetica", -18, "bold"),
-            hover_color=btn_hvr,                            
-            anchor="center",
+            font=("Helvetica", -14,),
+            hover_color=btn_hvr,         
+            anchor="w",
             text_color=text_fg,
             command=self.show_papers
         )
-        self.papers_button.pack(ipadx=10, padx=10, pady=5, side="left")
+        self.papers_button.pack(padx=30, pady=10, fill="x")
 
         # Profile button
         self.profile_button = ctk.CTkButton(
-            button_frame,
+            self.sidebar_frame,
             text=self.username,
             image=acc_button_icon,
-            font=("Helvetica", -18, "bold"),
-            hover_color=fg,
-            width=80,
-            height=30,
-            anchor="center",
-            fg_color="transparent",
-            text_color=text_fg,
+            font=("Helvetica", -14),
+            hover_color=btn_hvr,
+            anchor="w", 
+            fg_color=btn_active,
+            text_color=text_fg_2,
             command=self.show_profile
         )
-        self.profile_button.pack(padx=10, pady=5, side="right")
+        self.profile_button.pack(padx=30, pady=20, side="bottom", fill="x")
         
         self.show_profile_toplevel_window = None
 
@@ -206,7 +196,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Create the main frame
         self.main_frame = ctk.CTkFrame(self, fg_color=bg, corner_radius=0)
-        self.main_frame.pack(fill="both", expand=True, padx=0, pady=0)
+        self.main_frame.pack(fill="both", expand="true", padx=0, pady=0, side="right")
         self.main_frame.pack_propagate(False)
 
         # Set the home section as the main frame
@@ -216,10 +206,10 @@ class SERPManagerGUI(ctk.CTk):
 
         # Reset the button state
         for button in [self.home_button, self.exams_button, self.results_button, self.papers_button, self.student_button]:
-            button.configure(fg_color="transparent", text_color=text_fg)
+            button.configure(fg_color=btn_active, text_color=text_fg_2)
 
         # Set the selected button state
-        selected_button.configure(text_color=text_fg_2, fg_color=btn_active)
+        selected_button.configure(text_color=text_fg, fg_color=fg)
 
 # main sections
     def show_home(self):
@@ -260,8 +250,6 @@ class SERPManagerGUI(ctk.CTk):
         main_scrollable_frame = ctk.CTkScrollableFrame(
             self.main_frame, 
             fg_color=bg,
-            border_width=2,
-            border_color=btn_active,
             scrollbar_button_color=btn_active, 
             scrollbar_button_hover_color=btn_hvr, 
             )
@@ -741,33 +729,7 @@ class SERPManagerGUI(ctk.CTk):
             ).pack(padx=50, pady=50)
 
     def show_examinations(self):
-        """
-        Code Hierarchy:
-
-        -> scrollable_frame
-            > current_exams
-                > content_frame
-                    > ssc_exams_frame
-                        > ssc_contents_frame
-                            > ssc_1_frame
-                                > ssc_1_content_frame
-                            > ssc_2_frame
-                                > ssc_2_content_frame
-                            > ssc_current_exams_config_btn_frame
-                    > hssc_exams_frame
-                        > hssc_contents_frame
-                            > hssc_1_frame
-                                > hssc_1_content_frame
-                            > hssc_2_frame
-                                > hssc_2_content_frame
-                            > hssc_current_exams_config_btn_frame
-            > about_exams_frame
-                > exams_info_content_frame
-                    > assessment_info_frame
-                    > term_info_frame
-                    > preboard_info_frame
-                    > final_info_frame
-        """
+        
         # Clear the main frame and set the button state
         self.clear_main_frame()
         self.set_button_state(self.exams_button)
@@ -776,148 +738,13 @@ class SERPManagerGUI(ctk.CTk):
         scrollable_frame = ctk.CTkScrollableFrame(
             self.main_frame,
             fg_color=bg,
-            border_width=2,
-            border_color=btn_active,
             scrollbar_button_color=btn_active, 
             scrollbar_button_hover_color=btn_hvr, 
         )
         scrollable_frame.pack(fill="both", expand=True, side="top", pady=5, padx=5)
 
-        # Ongoing Exams
-        current_exams = ctk.CTkFrame(scrollable_frame, fg_color=bg)
-        current_exams.pack(fill="x", padx=10, pady=(0, 0))
-
-        # Title
-        current_exams_label = ctk.CTkLabel(
-            current_exams,
-            text="Current Exams",
-            text_color=text_fg,
-            fg_color=bg,
-            font=("Helvetica", 22, "bold")
-        )
-        current_exams_label.pack(fill="x", padx=10, pady=0, ipady=0)
-
-        # Main content frame
-        content_frame = ctk.CTkFrame(current_exams, fg_color=bg)                                
-        content_frame.pack(fill="x", padx=0, pady=0)
-
-        # SSC Exams
-        ssc_exams_frame = ctk.CTkFrame(content_frame)
-        ssc_exams_frame.pack(side="top", fill="x", padx=(0, 0), pady=0)
-
-        ssc_label = ctk.CTkLabel(
-            ssc_exams_frame,
-            text="SSC Exams",
-            text_color=text_fg,
-            fg_color=bg,
-            font=("Helvetica", 16, "bold")
-        )
-        ssc_label.pack(fill="x")
-
-        # SSC content frame
-        ssc_contents_frame = ctk.CTkFrame(ssc_exams_frame, fg_color=bg)
-        ssc_contents_frame.pack(fill="x", padx=0, pady=0, expand="true")
-        
-        # SSC-I
-        ssc_1_frame = ctk.CTkFrame(ssc_contents_frame, fg_color=bg)
-        ssc_1_frame.pack(side="top", fill="x", padx=(0, 0), pady=0, ipady=0)
-
-        ssc_1_label = ctk.CTkLabel(
-            ssc_1_frame,
-            text="SSC-I",
-            text_color=text_fg,
-        )
-        ssc_1_label.pack(fill="x")
-
-        # SSC-I contents
-        self.ssc_1_content_frame = ctk.CTkScrollableFrame(
-            ssc_1_frame, 
-            fg_color=bg, 
-            orientation="horizontal",
-            scrollbar_button_color=fg, 
-            scrollbar_button_hover_color=btn_hvr 
-        )
-        self.ssc_1_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
-
-        # SSC-II
-        ssc_2_frame = ctk.CTkFrame(ssc_contents_frame, fg_color=bg)
-        ssc_2_frame.pack(side="top", fill="x", padx=(0, 0), pady=0, ipady=0)
-
-        ssc_2_label = ctk.CTkLabel(
-            ssc_2_frame,
-            text="SSC-II",
-            text_color=text_fg,
-        )
-        ssc_2_label.pack(fill="x")
-
-        # SSC-II contents
-        self.ssc_2_content_frame = ctk.CTkScrollableFrame(
-            ssc_2_frame, 
-            fg_color=bg, 
-            orientation="horizontal",
-            scrollbar_button_color=fg, 
-            scrollbar_button_hover_color=btn_hvr
-        )
-        self.ssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
-
-        # HSSC exams
-        hssc_exams_frame = ctk.CTkFrame(content_frame, fg_color=bg)
-        hssc_exams_frame.pack(side="top", fill="x", padx=(0, 0), pady=5)
-
-        hssc_label = ctk.CTkLabel(
-            hssc_exams_frame,
-            text="HSSC Exams",
-            text_color=text_fg,
-            fg_color=bg,
-            font=("Helvetica", 16, "bold")
-        )
-        hssc_label.pack(fill="x")
-
-        # HSSC contents frame
-        hssc_contents_frame = ctk.CTkFrame(hssc_exams_frame, fg_color=bg)
-        hssc_contents_frame.pack(fill="x", padx=0, pady=0, expand="true")
-
-        # HSSC-I
-        hssc_1_frame = ctk.CTkFrame(hssc_contents_frame, fg_color=bg)
-        hssc_1_frame.pack(side="top", fill="x", padx=(0, 0), pady=0, ipady=0)
-
-        hssc_1_label = ctk.CTkLabel(
-            hssc_1_frame,
-            text="HSSC-I",
-            text_color=text_fg,
-        )
-        hssc_1_label.pack(fill="x")
-
-        # HSSC-I contents
-        self.hssc_1_content_frame = ctk.CTkScrollableFrame(
-            hssc_1_frame, 
-            fg_color=bg, 
-            orientation="horizontal",
-            scrollbar_button_color=fg, 
-            scrollbar_button_hover_color=btn_hvr
-        )
-        self.hssc_1_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
-
-        # HSSC-II
-        hssc_2_frame = ctk.CTkFrame(hssc_contents_frame, fg_color=bg)
-        hssc_2_frame.pack(side="top", fill="x", padx=(0, 0), pady=0, ipady=0)
-
-        hssc_2_label = ctk.CTkLabel(
-            hssc_2_frame,
-            text="HSSC-II",
-            text_color=text_fg,
-        )
-        hssc_2_label.pack(fill="x")
-
-        # HSSC-II contents
-        self.hssc_2_content_frame = ctk.CTkScrollableFrame(
-            hssc_2_frame, 
-            fg_color=bg, 
-            orientation="horizontal",
-            scrollbar_button_color=fg, 
-            scrollbar_button_hover_color=btn_hvr
-        )
-        self.hssc_2_content_frame.pack(fill="x", padx=0, pady=0, ipady=0)
+        # populate the scrollable frame with the datsheets
+        datesheet.GetDatesheet(scrollable_frame)
 
         if self.role == "admin": 
 
@@ -955,120 +782,27 @@ class SERPManagerGUI(ctk.CTk):
 
             self.manage_exams_toplevel_window = None
 
-        def load_subjects(file_path):
-            try:    
-                with open(file_path, 'r') as file:
-                    data = json.load(file)
-                    return data.get("subjects", [])
-            except json.JSONDecodeError:
-                print(f"Error: The file {file_path} is not a valid JSON file or is empty.")
-                return []
-            except FileNotFoundError:
-                print(f"Error: The file {file_path} was not found.")
-                return []
-        
-        # Loads subject's icons respectively
-        subject_icon_map = {
-            "Physics": icons["phy_icon"],
-            "Chemistry": icons["chem_icon"],
-            "Biology": icons["bio_icon"],
-            "Computer Science": icons["cs_icon"],
-            "Islamiyat": icons["isl_icon"],
-            "Mathematics": icons["math_icon"],
-            "Urdu": icons["urdu_icon"],
-            "Pakistan Studies": icons["ps_icon"],
-            "English": icons["eng_icon"]
-        }
-
-        def create_subject_frame(parent_frame, subject_data):
-            subject_name = subject_data["subject_name"]
-
-            icon = subject_icon_map.get(subject_name, icons.get("default_icon"))
-
-            sub_frame = ctk.CTkFrame(parent_frame, fg_color=fg)         
-            sub_frame.pack(side="left", padx=5, pady=0)
-
-            sub_icon = ctk.CTkLabel(sub_frame, text="", image=icon, height=80, width=80)
-            sub_icon.grid(row=0, column=0, rowspan=3, padx=(10, 0), pady=10)
-
-            sub_text = ctk.CTkLabel(
-                sub_frame,
-                text=subject_name,
-                text_color=text_fg,
-                font=("Helvetica", 16)
-            )
-            sub_text.grid(row=0, column=1, padx=5, pady=(5, 0))
-
-            sub_sub_text = ctk.CTkLabel(
-                sub_frame,
-                text=f"Date: {subject_data['date']}\nDay: {subject_data['day']}\nTime: {subject_data['time']}\nExamination: {subject_data['Examination']}",
-                text_color=text_fg,
-                font=("Helvetica", 12)
-            )
-            sub_sub_text.grid(row=1, column=1, padx=5, ipadx=2, pady=(0, 5))
-
-        ssc1_subjects = load_subjects(ssc1_json_path)
-        ssc2_subjects = load_subjects(ssc2_json_path)
-        hssc1_subjects = load_subjects(hssc1_json_path)
-        hssc2_subjects = load_subjects(hssc2_json_path)
-
-        if not ssc1_subjects:
-            ssc1_label = ctk.CTkLabel(self.ssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            ssc1_label.pack(pady=50)
-        else:
-            for subject in ssc1_subjects:
-                create_subject_frame(self.ssc_1_content_frame, subject)
-
-        if not ssc2_subjects:
-            ssc2_label = ctk.CTkLabel(self.ssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            ssc2_label.pack(pady=50)
-        else:
-            for subject in ssc2_subjects:
-                create_subject_frame(self.ssc_2_content_frame, subject)
-
-        if not hssc1_subjects:
-            hssc1_label = ctk.CTkLabel(self.hssc_1_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            hssc1_label.pack(pady=50)
-        else:
-            for subject in hssc1_subjects:
-                create_subject_frame(self.hssc_1_content_frame, subject)
-
-        if not hssc2_subjects:
-            hssc2_label = ctk.CTkLabel(self.hssc_2_content_frame, text="No ongoing exams", font=("Helvetica", 18), text_color=text_fg)
-            hssc2_label.pack(pady=50)
-        else:
-            for subject in hssc2_subjects:
-                create_subject_frame(self.hssc_2_content_frame, subject)
-
     def show_results(self):
         # clears the main frame and sets the button state
         self.clear_main_frame()
         self.set_button_state(self.results_button)
 
-
         scrollable_frame = ctk.CTkScrollableFrame(
             self.main_frame, 
             fg_color=bg,
-            border_width=2,
-            border_color=btn_active,
             scrollbar_button_color=btn_active, 
-            scrollbar_button_hover_color=btn_hvr, 
+            scrollbar_button_hover_color=btn_hvr,   
         )
         scrollable_frame.pack(fill="both", expand="true", padx=5, pady=5)
 
         get_result_frame = ctk.CTkFrame(scrollable_frame, fg_color=bg)
-        get_result_frame.pack(expand="true", fill="both", padx=10, pady=10)
-
-        stats_frame = ctk.CTkFrame(scrollable_frame, fg_color=bg)
-        stats_frame.pack(expand="true", fill="both", padx=10, pady=10)
-
-
+        get_result_frame.pack(side="top", expand="true", fill="both", padx=10, pady=10)
 
         search_frame = ctk.CTkFrame(get_result_frame, fg_color=bg)
         search_frame.pack(side="top", padx=10, pady=10)
 
         result_frame = ctk.CTkFrame(get_result_frame, fg_color=bg)
-        result_frame.pack(padx=5, pady=5, expand="true")
+        result_frame.pack(padx=10, pady=10, expand="true")
 
         search_entry = ctk.CTkEntry(search_frame, placeholder_text="Enter roll no...", width=200, corner_radius=5, fg_color=fg, border_color=btn_active)
         search_entry.pack(side="left", padx=5, pady=5)
@@ -1077,53 +811,54 @@ class SERPManagerGUI(ctk.CTk):
             search_frame,
             text="Search",
             fg_color=btn_active,
-            command=lambda: self.get_result(result_frame, search_entry),
+            command=lambda: get_results.GetResult(result_frame, search_entry),
             hover_color=btn_hvr
         )
         search_btn.pack(side="right", padx=5, pady=5)
 
-        btn_frame = ctk.CTkFrame(scrollable_frame, fg_color=bg)
-        btn_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+        if self.role == "admin":
+            btn_frame = ctk.CTkFrame(scrollable_frame, fg_color=bg)
+            btn_frame.pack(side="bottom", padx=10, pady=10)
 
-        btn1 = ctk.CTkButton(
-            btn_frame,
-            text="Add CS SSC",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            command=self.add2csssc_toplevel
-        )
-        btn1.pack(side="left", padx=5, pady=5)
-        self.add2csssc_toplevel_window = None
+            btn1 = ctk.CTkButton(
+                btn_frame,
+                text="Add CS SSC",
+                fg_color=btn_active,
+                hover_color=btn_hvr,
+                command=self.add2csssc_toplevel
+            )
+            btn1.pack(side="left", padx=5, pady=5)  
+            self.add2csssc_toplevel_window = None
 
-        btn2 = ctk.CTkButton(
-            btn_frame,
-            text="Add PM SSC",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            command=self.add2pmssc_toplevel
-        )
-        btn2.pack(side="left", padx=5, pady=5)
-        self.add2pmssc_toplevel_window = None
+            btn2 = ctk.CTkButton(
+                btn_frame,
+                text="Add PM SSC",
+                fg_color=btn_active,
+                hover_color=btn_hvr,
+                command=self.add2pmssc_toplevel
+            )
+            btn2.pack(side="left", padx=5, pady=5)
+            self.add2pmssc_toplevel_window = None
 
-        btn3 = ctk.CTkButton(
-            btn_frame,
-            text="Add CS HSSC",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            command=self.add2cshssc_toplevel
-        )
-        btn3.pack(side="left", padx=5, pady=5)
-        self.add2cshssc_toplevel_window = None
+            btn3 = ctk.CTkButton(
+                btn_frame,
+                text="Add CS HSSC",
+                fg_color=btn_active,
+                hover_color=btn_hvr,
+                command=self.add2cshssc_toplevel
+            )
+            btn3.pack(side="left", padx=5, pady=5)
+            self.add2cshssc_toplevel_window = None
 
-        btn4 = ctk.CTkButton(
-            btn_frame,
-            text="Add PM HSSC",
-            fg_color=btn_active,
-            hover_color=btn_hvr,
-            command=self.add2pmhssc_toplevel
-        )
-        btn4.pack(side="left", padx=5, pady=5)
-        self.add2pmhssc_toplevel_window = None
+            btn4 = ctk.CTkButton(
+                btn_frame,
+                text="Add PM HSSC",
+                fg_color=btn_active,
+                hover_color=btn_hvr,
+                command=self.add2pmhssc_toplevel
+            )
+            btn4.pack(side="left", padx=5, pady=5)
+            self.add2pmhssc_toplevel_window = None
 
     def show_papers(self):
         # Clear the main frame and set the button state
@@ -1133,8 +868,6 @@ class SERPManagerGUI(ctk.CTk):
         self.scrollable_frame = ctk.CTkScrollableFrame(
             self.main_frame, 
             fg_color=bg,
-            border_width=2,
-            border_color=btn_active,
             scrollbar_button_color=btn_active, 
             scrollbar_button_hover_color=btn_hvr, 
         )
@@ -1264,498 +997,6 @@ class SERPManagerGUI(ctk.CTk):
             self.manage_exams_toplevel_window.focus()
 
 # helper function for show results section
-    def get_result(self, result_frame, search_entry):
-
-        for widget in result_frame.winfo_children():
-            widget.destroy()
-
-        roll_no = search_entry.get()
-        
-        if not roll_no.isdigit():
-            messagebox.showerror("Error", "Invalid Roll Number!")
-            return
-
-        result = db.get_results_4_cs_ssc(roll_no)
-        
-        if result:
-            name = result["name"]
-            father_name = result["father_name"]
-            institution = result["institution"]
-            exam_name = result["exam_name"]
-            math = int(result["math"])
-            physics = int(result["physics"])
-            chemistry = int(result["chemistry"])
-            computer = int(result["computer"])
-            pak_studies = int(result["pak_studies"])
-            islamiyat = int(result["islamiyat"])
-            urdu = int(result["urdu"])
-            english = int(result["english"])
-
-            title = ctk.CTkLabel(
-                result_frame,
-                text=f"Result for SSC {exam_name} ICS",
-                font=("Helvetica", -22, "bold"),
-                fg_color=bg,
-                text_color=text_fg
-            )
-            title.pack(pady=5, fill="x")
-
-            marks1 = [math, physics, chemistry, computer, urdu, english]
-            marks2 = [pak_studies, islamiyat]
-            obt_marks = sum(marks1) + sum(marks2)
-
-            if (math > 27 and physics > 27 and chemistry > 27 and computer > 27 and english > 27 and urdu > 27) and (pak_studies > 18 and islamiyat > 18):
-                remarks = f"Pass with {obt_marks} marks"
-            else:
-                remarks = "Failed"
-
-            ctk.CTkLabel(
-                result_frame, 
-                text=f"Name: {name.capitalize()}\nFather: {father_name.capitalize()}\nInstitution: {institution.capitalize()}\nResult: {remarks}",
-                font=("Helvetica", -14),
-                fg_color=bg,
-                justify="left",
-                anchor="w",
-                text_color=text_fg
-            ).pack(fill="x", pady=10, padx=10)
-
-            def get_grade(subject_marks, total_marks):
-                percent = subject_marks/total_marks*100
-                if percent >= 80:
-                    return "A+"
-                elif percent >= 70:
-                    return "A"
-                elif percent >= 60:
-                    return "B"
-                elif percent >= 50:
-                    return "C"
-                elif percent >= 45:
-                    return "D"
-                elif percent >= 40:
-                    return "E"
-                else:
-                    return "F"
-                
-
-            def get_gpa(subject_marks, total_marks):
-                percent = subject_marks/total_marks*100
-                if percent >= 90:
-                    return 4.0
-                elif percent >= 80:
-                    return 3.5
-                elif percent >= 70:
-                    return 3.0
-                elif percent >= 60:
-                    return 2.5
-                elif percent >= 50:
-                    return 2.0
-                elif percent >= 40:
-                    return 1.0
-                else:
-                    return 0.0
-                
-            def get_cgpa(gpas):
-                if not gpas:
-                    return 0.0  
-
-                total_gpa = sum(gpas)
-                number_of_subjects = len(gpas)
-
-                cgpa = total_gpa / number_of_subjects
-                return round(cgpa, 2)
-
-            marks_data = [
-                ["Subjects", "Marks", "Grade", "GPA"],
-                ["Math", math, get_grade(math, 75), get_gpa(math, 75)],
-                ["Physics", physics, get_grade(physics, 75), get_gpa(physics, 75)],
-                ["Chemistry", chemistry, get_grade(chemistry, 75), get_gpa(chemistry, 75)],
-                ["Computer", computer, get_grade(computer, 75), get_gpa(computer, 75)],
-                ["Pak Studies", pak_studies, get_grade(pak_studies, 50), get_gpa(pak_studies, 50)],
-                ["Islamiyat", islamiyat, get_grade(islamiyat, 50), get_gpa(islamiyat, 50)],
-                ["Urdu", urdu, get_grade(urdu, 75), get_gpa(urdu, 75)],
-                ["English", english, get_grade(english, 75), get_gpa(english, 75)],
-            ]
-            
-            t1 = ctk.CTkFrame(result_frame, fg_color=bg)
-            t1.pack(fill="x", padx=5, pady=10,)
-
-            table = ctkt.CTkTable(master=t1, values=marks_data, colors=[fg, bg], header_color=btn_active, hover_color=btn_hvr)
-            table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-            table.pack(expand=True)
-
-            gpas = [get_gpa(m, 75) for m in marks1] + [get_gpa(m, 50) for m in marks2]
-
-            marks_data = [
-                ["Total Marks", "Obt Marks", "Grade", "CGPA"],
-                [550, obt_marks, get_grade(obt_marks, 550), get_cgpa(gpas)],
-            ]
-            t2 = ctk.CTkFrame(result_frame, fg_color=bg)
-            t2.pack(fill="x", padx=5, pady=10,)
-
-            table = ctkt.CTkTable(master=t2, values=marks_data, colors=[fg, fg], header_color=btn_active, hover_color=btn_hvr)
-            table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-            table.pack(expand=True)
-
-        else:
-            result = db.get_results_4_pm_ssc(roll_no)
-        
-            if result:
-                name = result["name"]
-                father_name = result["father_name"]
-                institution = result["institution"]
-                exam_name = result["exam_name"]
-                math = int(result["math"])
-                physics = int(result["physics"])
-                chemistry = int(result["chemistry"])
-                biology = int(result["biology"])
-                pak_studies = int(result["pak_studies"])
-                islamiyat = int(result["islamiyat"])
-                urdu = int(result["urdu"])
-                english = int(result["english"])
-
-                title = ctk.CTkLabel(
-                    result_frame,
-                    text=f"Result for SSC {exam_name} Pre Medical",
-                    font=("Helvetica", -22, "bold"),
-                    fg_color=bg,
-                    text_color=text_fg
-                )
-                title.pack(pady=5, fill="x")
-
-                marks1 = [math, physics, chemistry, biology, urdu, english]
-                marks2 = [pak_studies, islamiyat]
-                obt_marks = sum(marks1) + sum(marks2)
-
-                if (math > 27 and physics > 27 and chemistry > 27 and biology > 27 and english > 27 and urdu > 27) and (pak_studies > 18 and islamiyat > 18):
-                    remarks = f"Pass with {obt_marks} marks"
-                else:
-                    remarks = "Failed"
-
-                ctk.CTkLabel(
-                    result_frame, 
-                    text=f"Name: {name.capitalize()}\nFather: {father_name.capitalize()}\nInstitution: {institution.capitalize()}\nResult: {remarks}",
-                    font=("Helvetica", -14),
-                    fg_color=bg,
-                    justify="left",
-                    anchor="w",
-                    text_color=text_fg
-                ).pack(fill="x", pady=10, padx=10)
-
-                def get_grade(subject_marks, total_marks):
-                    percent = subject_marks/total_marks*100
-                    if percent >= 80:
-                        return "A+"
-                    elif percent >= 70:
-                        return "A"
-                    elif percent >= 60:
-                        return "B"
-                    elif percent >= 50:
-                        return "C"
-                    elif percent >= 45:
-                        return "D"
-                    elif percent >= 40:
-                        return "E"
-                    else:
-                        return "F"
-                    
-
-                def get_gpa(subject_marks, total_marks):
-                    percent = subject_marks/total_marks*100
-                    if percent >= 90:
-                        return 4.0
-                    elif percent >= 80:
-                        return 3.5
-                    elif percent >= 70:
-                        return 3.0
-                    elif percent >= 60:
-                        return 2.5
-                    elif percent >= 50:
-                        return 2.0
-                    elif percent >= 40:
-                        return 1.0
-                    else:
-                        return 0.0
-                    
-                def get_cgpa(gpas):
-                    if not gpas:
-                        return 0.0  
-
-                    total_gpa = sum(gpas)
-                    number_of_subjects = len(gpas)
-
-                    cgpa = total_gpa / number_of_subjects
-                    return round(cgpa, 2)
-
-                marks_data = [
-                    ["Subjects", "Marks", "Grade", "GPA"],
-                    ["Math", math, get_grade(math, 75), get_gpa(math, 75)],
-                    ["Physics", physics, get_grade(physics, 75), get_gpa(physics, 75)],
-                    ["Chemistry", chemistry, get_grade(chemistry, 75), get_gpa(chemistry, 75)],
-                    ["Biology", biology, get_grade(biology, 75), get_gpa(biology, 75)],
-                    ["Pak Studies", pak_studies, get_grade(pak_studies, 50), get_gpa(pak_studies, 50)],
-                    ["Islamiyat", islamiyat, get_grade(islamiyat, 50), get_gpa(islamiyat, 50)],
-                    ["Urdu", urdu, get_grade(urdu, 75), get_gpa(urdu, 75)],
-                    ["English", english, get_grade(english, 75), get_gpa(english, 75)],
-                ]
-                
-                t1 = ctk.CTkFrame(result_frame, fg_color=bg)
-                t1.pack(fill="x", padx=5, pady=10,)
-
-                table = ctkt.CTkTable(master=t1, values=marks_data, colors=[fg, bg], header_color=btn_active, hover_color=btn_hvr)
-                table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-                table.pack(expand=True)
-
-                gpas = [get_gpa(m, 75) for m in marks1] + [get_gpa(m, 50) for m in marks2]
-
-                marks_data = [
-                    ["Total Marks", "Obt Marks", "Grade", "CGPA"],
-                    [550, obt_marks, get_grade(obt_marks, 550), get_cgpa(gpas)],
-                ]
-                t2 = ctk.CTkFrame(result_frame, fg_color=bg)
-                t2.pack(fill="x", padx=5, pady=10,)
-
-                table = ctkt.CTkTable(master=t2, values=marks_data, colors=[fg, fg], header_color=btn_active, hover_color=btn_hvr)
-                table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-                table.pack(expand=True)
-
-            else:
-                result = db.get_results_4_cs_hssc(roll_no)
-        
-                if result:
-                    name = result["name"]
-                    father_name = result["father_name"]
-                    institution = result["institution"]
-                    exam_name = result["exam_name"]
-                    math = result["math"]
-                    physics = result["physics"]
-                    computer = result["computer"]
-                    islamiyat_pak_studies = result["islamiyat/pak_studies"]
-                    urdu = result["urdu"]
-                    english = result["english"]
-
-                    title = ctk.CTkLabel(
-                        result_frame,
-                        text=f"Result for hSSC {exam_name} ICS",
-                        font=("Helvetica", -22, "bold"),
-                        fg_color=bg,
-                        text_color=text_fg
-                    )
-                    title.pack(pady=5, fill="x")
-
-                    marks1 = [math, physics, computer, urdu, english]
-                    marks2 = [islamiyat_pak_studies]
-                    obt_marks = sum(marks1) + sum(marks2)
-
-                    if math > 33 and physics > 33 and english > 33 and urdu > 33 and computer > 33 and islamiyat_pak_studies > 27:
-                        remarks = f"Pass with {obt_marks} marks"
-                    else:
-                        remarks = "Failed"
-
-                    ctk.CTkLabel(
-                        result_frame, 
-                        text=f"Name: {name.capitalize()}\nFather: {father_name.capitalize()}\nInstitution: {institution.capitalize()}\nResult: {remarks}",
-                        font=("Helvetica", -14),
-                        fg_color=bg,
-                        justify="left",
-                        anchor="w",
-                        text_color=text_fg
-                    ).pack(fill="x", pady=10, padx=10)
-
-                    def get_grade(subject_marks, total_marks):
-                        percent = subject_marks/total_marks*100
-                        if percent >= 80:
-                            return "A+"
-                        elif percent >= 70:
-                            return "A"
-                        elif percent >= 60:
-                            return "B"
-                        elif percent >= 50:
-                            return "C"
-                        elif percent >= 45:
-                            return "D"
-                        elif percent >= 40:
-                            return "E"
-                        else:
-                            return "F"
-                        
-
-                    def get_gpa(subject_marks, total_marks):
-                        percent = subject_marks/total_marks*100
-                        if percent >= 90:
-                            return 4.0
-                        elif percent >= 80:
-                            return 3.5
-                        elif percent >= 70:
-                            return 3.0
-                        elif percent >= 60:
-                            return 2.5
-                        elif percent >= 50:
-                            return 2.0
-                        elif percent >= 40:
-                            return 1.0
-                        else:
-                            return 0.0
-                        
-                    def get_cgpa(gpas):
-                        if not gpas:
-                            return 0.0  
-
-                        total_gpa = sum(gpas)
-                        number_of_subjects = len(gpas)
-
-                        cgpa = total_gpa / number_of_subjects
-                        return round(cgpa, 2)
-
-                    marks_data = [
-                        ["Subjects", "Marks", "Grade", "GPA"],
-                        ["Math", math, get_grade(math, 100), get_gpa(math, 100)],
-                        ["Physics", physics, get_grade(physics, 100), get_gpa(physics, 100)],
-                        ["Computer Science", computer, get_grade(computer, 100), get_gpa(computer, 100)],
-                        ["Pak Studies/Islamiyat", islamiyat_pak_studies, get_grade(islamiyat_pak_studies, 50), get_gpa(islamiyat_pak_studies, 50)],
-                        ["Urdu", urdu, get_grade(urdu, 100), get_gpa(urdu, 100)],
-                        ["English", english, get_grade(english, 100), get_gpa(english, 100)],
-                    ]
-                    
-                    t1 = ctk.CTkFrame(result_frame, fg_color=bg)
-                    t1.pack(fill="x", padx=5, pady=10,)
-
-                    table = ctkt.CTkTable(master=t1, values=marks_data, colors=[fg, bg], header_color=btn_active, hover_color=btn_hvr)
-                    table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-                    table.pack(expand=True)
-
-                    gpas = [get_gpa(m, 100) for m in marks1] + [get_gpa(m, 50) for m in marks2]
-
-                    marks_data = [
-                        ["Total Marks", "Obt Marks", "Grade", "CGPA"],
-                        [550, obt_marks, get_grade(obt_marks, 550), get_cgpa(gpas)],
-                    ]
-                    t2 = ctk.CTkFrame(result_frame, fg_color=bg)
-                    t2.pack(fill="x", padx=5, pady=10,)
-
-                    table = ctkt.CTkTable(master=t2, values=marks_data, colors=[fg, fg], header_color=btn_active, hover_color=btn_hvr)
-                    table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-                    table.pack(expand=True)
-                else:
-                    result = db.get_results_4_pm_hssc(roll_no)
-        
-                    if result:
-                        name = result["name"]
-                        father_name = result["father_name"]
-                        institution = result["institution"]
-                        exam_name = result["exam_name"]
-                        chemistry = int(result["chemistry"])
-                        physics = int(result["physics"])
-                        biology = int(result["biology"])
-                        islamiyat_pak_studies = int(result["islamiyat/pak_studies"])
-                        urdu = int(result["urdu"])
-                        english = int(result["english"])
-
-                        title = ctk.CTkLabel(
-                            result_frame,
-                            text=f"Result for HSSC {exam_name} Pre Medical",
-                            font=("Helvetica", -22, "bold"),
-                            fg_color=bg,
-                            text_color=text_fg
-                        )
-                        title.pack(pady=5, fill="x")
-
-                        marks1 = [chemistry, physics, biology, urdu, english]
-                        marks2 = [islamiyat_pak_studies]
-                        obt_marks = sum(marks1) + sum(marks2)
-
-                        if chemistry > 33 and physics > 33 and english > 33 and urdu > 33 and biology > 33 and islamiyat_pak_studies > 27:
-                            remarks = f"Pass with {obt_marks} marks"
-                        else:
-                            remarks = "Failed"
-
-                        ctk.CTkLabel(
-                            result_frame, 
-                            text=f"Name: {name.capitalize()}\nFather: {father_name.capitalize()}\nInstitution: {institution.capitalize()}\nResult: {remarks}",
-                            font=("Helvetica", -14),
-                            fg_color=bg,
-                            justify="left",
-                            anchor="w",
-                            text_color=text_fg
-                        ).pack(fill="x", pady=10, padx=10)
-
-                        def get_grade(subject_marks, total_marks):
-                            percent = subject_marks/total_marks*100
-                            if percent >= 80:
-                                return "A+"
-                            elif percent >= 70:
-                                return "A"
-                            elif percent >= 60:
-                                return "B"
-                            elif percent >= 50:
-                                return "C"
-                            elif percent >= 45:
-                                return "D"
-                            elif percent >= 40:
-                                return "E"
-                            else:
-                                return "F"
-                            
-
-                        def get_gpa(subject_marks, total_marks):
-                            percent = subject_marks/total_marks*100
-                            if percent >= 90:
-                                return 4.0
-                            elif percent >= 80:
-                                return 3.5
-                            elif percent >= 70:
-                                return 3.0
-                            elif percent >= 60:
-                                return 2.5
-                            elif percent >= 50:
-                                return 2.0
-                            elif percent >= 40:
-                                return 1.0
-                            else:
-                                return 0.0
-                            
-                        def get_cgpa(gpas):
-                            if not gpas:
-                                return 0.0  
-
-                            total_gpa = sum(gpas)
-                            number_of_subjects = len(gpas)
-
-                            cgpa = total_gpa / number_of_subjects
-                            return round(cgpa, 2)
-
-                        marks_data = [
-                            ["Subjects", "Marks", "Grade", "GPA"],
-                            ["Chemistry", chemistry, get_grade(chemistry, 100), get_gpa(chemistry, 100)],
-                            ["Physics", physics, get_grade(physics, 100), get_gpa(physics, 100)],
-                            ["Biology", biology, get_grade(biology, 100), get_gpa(biology, 100)],
-                            ["Pak Studies", islamiyat_pak_studies, get_grade(islamiyat_pak_studies, 50), get_gpa(islamiyat_pak_studies, 50)],
-                            ["Urdu", urdu, get_grade(urdu, 100), get_gpa(urdu, 100)],
-                            ["English", english, get_grade(english, 100), get_gpa(english, 100)],
-                        ]
-                        
-                        t1 = ctk.CTkFrame(result_frame, fg_color=bg)
-                        t1.pack(fill="x", padx=5, pady=10,)
-
-                        table = ctkt.CTkTable(master=t1, values=marks_data, colors=[fg, bg], header_color=btn_active, hover_color=btn_hvr)
-                        table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-                        table.pack(expand=True)
-
-                        gpas = [get_gpa(m, 100) for m in marks1] + [get_gpa(m, 50) for m in marks2]
-
-                        marks_data = [
-                            ["Total Marks", "Obt Marks", "Grade", "CGPA"],
-                            [550, obt_marks, get_grade(obt_marks, 550), get_cgpa(gpas)],
-                        ]
-                        t2 = ctk.CTkFrame(result_frame, fg_color=bg)
-                        t2.pack(fill="x", padx=5, pady=10,)
-
-                        table = ctkt.CTkTable(master=t2, values=marks_data, colors=[fg, fg], header_color=btn_active, hover_color=btn_hvr)
-                        table.edit_row(0, text_color=text_fg_2, hover_color=btn_hvr)
-                        table.pack(expand=True)
-
-                    else:
-                        messagebox.showerror("Error", "Result not found!")
-            
     def add2csssc_toplevel(self):
         if self.add2csssc_toplevel_window is None or not self.add2csssc_toplevel_window.winfo_exists():
             self.add2csssc_toplevel_window = show_results.AddResult2CSSSC(self)
@@ -1906,6 +1147,5 @@ class SERPManagerGUI(ctk.CTk):
             print(e)
 
     def clear_main_frame(self):
-
         for widget in self.main_frame.winfo_children():
             widget.destroy()
