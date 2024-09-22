@@ -42,15 +42,15 @@ class GetNews():
         news_frame.pack(fill="x", padx=10, pady=10)
 
         # news 1
-        news_1_frame = ctk.CTkFrame(news_frame, fg_color=fg)
-        news_1_frame.pack(fill="x", padx=0, pady=5)
+        news_1_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
+        news_1_frame.pack(fill="x", padx=5, pady=5)
 
         news_arrow = ctk.CTkLabel(
             news_1_frame,
             image=icons["arrow_icon"],
             text=""
         )
-        news_arrow.pack(side="left", padx=10, pady=0)
+        news_arrow.pack(side="left", padx=5, pady=5)
 
         news_1_text = ctk.CTkLabel(
             news_1_frame,
@@ -58,18 +58,18 @@ class GetNews():
             text_color=text_fg,
             font=("Helvetica", -14)
         )
-        news_1_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
+        news_1_text.pack(side="left", padx=5, pady=5)
 
         # news 2
-        news_2_frame = ctk.CTkFrame(news_frame, fg_color=fg)
-        news_2_frame.pack(fill="x", padx=0, pady=5)
+        news_2_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
+        news_2_frame.pack(fill="x", padx=5, pady=5)
 
         news_arrow = ctk.CTkLabel(
             news_2_frame,
             image=icons["arrow_icon"],
             text=""
         )
-        news_arrow.pack(side="left", padx=10, pady=0)
+        news_arrow.pack(side="left", padx=5, pady=5)
 
         news_2_text = ctk.CTkLabel(
             news_2_frame,
@@ -77,18 +77,18 @@ class GetNews():
             text_color=text_fg,
             font=("Helvetica", -14)
         )
-        news_2_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
+        news_2_text.pack(side="left", padx=5, pady=5)
 
         # news 3
-        news_3_frame = ctk.CTkFrame(news_frame, fg_color=fg)
-        news_3_frame.pack(fill="x", padx=0, pady=5)
+        news_3_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
+        news_3_frame.pack(fill="x", padx=5, pady=5)
 
         news_arrow = ctk.CTkLabel(
             news_3_frame,
             image=icons["arrow_icon"],
             text=""
         )
-        news_arrow.pack(side="left", padx=10, pady=0)
+        news_arrow.pack(side="left", padx=5, pady=5)
 
         news_3_text = ctk.CTkLabel(
             news_3_frame,
@@ -96,18 +96,18 @@ class GetNews():
             text_color=text_fg,
             font=("Helvetica", -14)
         )
-        news_3_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
+        news_3_text.pack(side="left", padx=5, pady=5)
 
         # news 4
-        news_4_frame = ctk.CTkFrame(news_frame, fg_color=fg)
-        news_4_frame.pack(fill="x", padx=0, pady=5)
+        news_4_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
+        news_4_frame.pack(fill="x", padx=5, pady=5)
 
         news_arrow = ctk.CTkLabel(
             news_4_frame,
             image=icons["arrow_icon"],
             text=""
         )
-        news_arrow.pack(side="left", padx=10, pady=0)
+        news_arrow.pack(side="left", padx=5, pady=5)
 
         news_4_text = ctk.CTkLabel(
             news_4_frame,
@@ -115,4 +115,4 @@ class GetNews():
             text_color=text_fg,
             font=("Helvetica", -14)
         )
-        news_4_text.pack(side="left", padx=10, pady=0, ipadx=5, ipady=5)
+        news_4_text.pack(side="left", padx=5, pady=5)

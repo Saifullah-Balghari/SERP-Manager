@@ -570,13 +570,14 @@ class SERPManagerGUI(ctk.CTk):
 
         if self.role == "admin":
             btn_frame = ctk.CTkFrame(self.main_frame, fg_color=bg)
-            btn_frame.pack(side="bottom", fill="x", padx=10, pady=10)
+            btn_frame.pack(side="bottom", fill="x", padx=5, pady=5)
 
             btn1 = ctk.CTkButton(
                 btn_frame,
                 text="Add CS SSC",
                 fg_color=btn_active,
                 height=12,
+                image=add_paper_button_icon,
                 width=40,
                 hover_color=btn_hvr,
                 command=self.add2csssc_toplevel
@@ -589,6 +590,7 @@ class SERPManagerGUI(ctk.CTk):
                 text="Add PM SSC",
                 fg_color=btn_active,
                 height=12,
+                image=add_paper_button_icon,
                 width=40,
                 hover_color=btn_hvr,
                 command=self.add2pmssc_toplevel
@@ -602,6 +604,7 @@ class SERPManagerGUI(ctk.CTk):
                 fg_color=btn_active,
                 height=12,
                 width=40,
+                image=add_paper_button_icon,
                 hover_color=btn_hvr,
                 command=self.add2cshssc_toplevel
             )
@@ -613,6 +616,7 @@ class SERPManagerGUI(ctk.CTk):
                 text="Add PM HSSC",
                 fg_color=btn_active,
                 height=12,
+                image=add_paper_button_icon,
                 width=40,
                 hover_color=btn_hvr,
                 command=self.add2pmhssc_toplevel
