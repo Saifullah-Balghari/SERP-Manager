@@ -212,8 +212,6 @@ class GetDatesheet():
             except FileNotFoundError:
                 print(f"Error: The file {file_path} was not found.")
                 return []
-        
-        
 
     def create_subject_frame(self, parent_frame, subject_data):
         subject_name = subject_data["subject_name"]
@@ -221,7 +219,7 @@ class GetDatesheet():
         icon = self.subject_icon_map.get(subject_name, icons.get("default_icon"))
 
         sub_frame = ctk.CTkFrame(parent_frame, fg_color=fg)         
-        sub_frame.pack(side="left", padx=5, pady=0)
+        sub_frame.pack(side="left", padx=5, pady=0, ipadx=5, ipady=2)
 
         sub_icon = ctk.CTkLabel(sub_frame, text="", image=icon, height=80, width=80)
         sub_icon.grid(row=0, column=0, rowspan=3, padx=(10, 0), pady=10)
@@ -236,7 +234,7 @@ class GetDatesheet():
 
         sub_sub_text = ctk.CTkLabel(
             sub_frame,
-            text=f"Date: {subject_data['date']}\nDay: {subject_data['day']}\nTime: {subject_data['time']}\nExamination: {subject_data['Examination']}",
+            text=f"Date:  {subject_data['date']}\nDay:  {subject_data['day']}\nTime:  {subject_data['time']}\nExamination:  {subject_data['Examination']}",
             text_color=text_fg,
             font=("Helvetica", 12)
         )
