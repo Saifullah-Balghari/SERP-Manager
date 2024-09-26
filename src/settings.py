@@ -51,7 +51,7 @@ try:
     warn_icon_path = os.path.join(base_path, "icons", "warn.png")
     info_icon_path = os.path.join(base_path, "icons", "info.png")
 
-    # Icons of Subjects(books)icons
+    # Icons of Subjects(books) icons
     maths_icon_path = os.path.join(base_path, "icons", "math.png")
     biology_icon_path = os.path.join(base_path, "icons", "bio.png")
     english_icon_path = os.path.join(base_path, "icons", "eng.png")
