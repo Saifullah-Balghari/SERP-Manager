@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from  PIL import Image, ImageTk
-from tkinter import messagebox
 
-from ..settings import *
-from ..helpers import database as db
+from ...settings import *
+from ...helpers import database as db
+from ... import messagebox
 
 # Color scheme
 bg = "#FCFAFF"
@@ -140,17 +140,17 @@ class AddResult2CSSSC(ctk.CTkToplevel):
         total_marks = 550
 
         if not roll_no or not exam_name or not math or not physics or not chemistry or not computer or not pak_studies or not islamiyat or not urdu or not english:
-            messagebox.showerror("Error", "All fields are required!", parent=self)
+            messagebox.show_error("Error", "All fields are required!")
             return
 
         if (not (0 <= int(math) <= 75) or not (0 <= int(physics) <= 75) or not (0 <= int(chemistry) <= 75)or not (0 <= int(computer) <= 75)
              or not (0 <= int(pak_studies) <= 50)or not (0 <= int(islamiyat) <= 50) or not (0 <= int(urdu) <= 75) or not (0 <= int(english) <= 75)):
-            messagebox.showerror("Error", "Marks should be between 0 and 75", parent=self)
+            messagebox.show_error("Error", "Marks should be between 0 and 75")
             return
 
         if db.student_exist(roll_no):
             if db.add_result_2_cs_ssc(roll_no, exam_name, math, physics, chemistry, computer, pak_studies, islamiyat, urdu, english, total_marks):
-                messagebox.showinfo("Success", "Result added successfully!", parent=self)
+                messagebox.show_info("Success", "Result added successfully!")
                 self.roll_entry.delete(0, "end")
                 self.name_entry.delete(0, "end")
                 self.s1_entry.delete(0, "end")
@@ -163,9 +163,9 @@ class AddResult2CSSSC(ctk.CTkToplevel):
                 self.s8_entry.delete(0, "end")
                 return
             else:
-                messagebox.showerror("Error", "Failed to add result!", parent=self)
+                messagebox.show_error("Error", "Failed to add result!")
         else:
-            messagebox.showerror("Error", "Student not found!", parent=self)
+            messagebox.show_error("Error", "Student not found!")
 
 
 class AddResult2PMSSC(ctk.CTkToplevel):
@@ -294,17 +294,17 @@ class AddResult2PMSSC(ctk.CTkToplevel):
         total_marks = 550
 
         if not roll_no or not exam_name or not math or not physics or not chemistry or not biology or not pak_studies or not islamiyat or not urdu or not english:
-            messagebox.showerror("Error", "All fields are required!", parent=self)
+            messagebox.show_error("Error", "All fields are required!")
             return
 
         if (not (0 <= int(math) <= 75) or not (0 <= int(physics) <= 75) or not (0 <= int(chemistry) <= 75)or not (0 <= int(biology) <= 75)
              or not (0 <= int(pak_studies) <= 50)or not (0 <= int(islamiyat) <= 50) or not (0 <= int(urdu) <= 75) or not (0 <= int(english) <= 75)):
-            messagebox.showerror("Error", "Marks should be between 0 and 75", parent=self)
+            messagebox.show_error("Error", "Marks should be between 0 and 75")
             return
 
         if db.student_exist(roll_no):
             if db.add_result_2_pm_ssc(roll_no, exam_name, math, physics, chemistry, biology, pak_studies, islamiyat, urdu, english, total_marks):
-                messagebox.showinfo("Success", "Result added successfully!", parent=self)
+                messagebox.show_info("Success", "Result added successfully!")
                 self.roll_entry.delete(0, "end")
                 self.name_entry.delete(0, "end")
                 self.s1_entry.delete(0, "end")
@@ -316,9 +316,9 @@ class AddResult2PMSSC(ctk.CTkToplevel):
                 self.s7_entry.delete(0, "end")
                 self.s8_entry.delete(0, "end")
             else:
-                messagebox.showerror("Error", "Failed to add result!", parent=self)
+                messagebox.show_error("Error", "Failed to add result!")
         else:
-            messagebox.showerror("Error", "Student not found!", parent=self)
+            messagebox.show_error("Error", "Student not found!")
 
 
 class AddResult2CSHSSC(ctk.CTkToplevel):
@@ -433,16 +433,16 @@ class AddResult2CSHSSC(ctk.CTkToplevel):
         total_marks = 550
 
         if not roll_no.isdigit() or not exam_name or not math or not physics or not computer or not islamiyat_pak_studies or not urdu or not english:
-            messagebox.showerror("Error", "All fields are required!", parent=self)
+            messagebox.show_error("Error", "All fields are required!")
             return
         
         if not (0 <= int(math) <= 100) or not (0 <= int(physics) <= 100) or not (0 <= int(computer) <= 100) or not (0 <= int(urdu) <= 100) or not (0 <= int(english) <= 100) or not (0 <= int(islamiyat_pak_studies) <= 50):
-            messagebox.showerror("Error", "Marks should be between 0 and 100", parent=self)
+            messagebox.show_error("Error", "Marks should be between 0 and 100")
             return
 
         if db.student_exist(roll_no):
             if db.add_result_2_cs_hssc(roll_no, exam_name, math, physics, computer, islamiyat_pak_studies, urdu, english, total_marks):
-                messagebox.showinfo("Success", "Result added successfully!", parent=self)
+                messagebox.show_info("Success", "Result added successfully!")
                 self.roll_entry.delete(0, "end")
                 self.name_entry.delete(0, "end")
                 self.s1_entry.delete(0, "end")
@@ -452,9 +452,9 @@ class AddResult2CSHSSC(ctk.CTkToplevel):
                 self.s5_entry.delete(0, "end")
                 self.s6_entry.delete(0, "end")
             else:
-                messagebox.showerror("Error", "Failed to add result!", parent=self)
+                messagebox.show_error("Error", "Failed to add result!")
         else:
-            messagebox.showerror("Error", "Student not found!", parent=self)
+            messagebox.show_error("Error", "Student not found!")
 
 
 
@@ -570,16 +570,16 @@ class AddResult2PMHSSC(ctk.CTkToplevel):
         total_marks = 550
 
         if not roll_no.isdigit() or not exam_name or not chemistry or not physics or not biology or not islamiyat_pak_studies or not urdu or not english:
-            messagebox.showerror("Error", "All fields are required!", parent=self)
+            messagebox.show_error("Error", "All fields are required!")
             return
         
         if not (0 <= int(chemistry) <= 100) or not (0 <= int(physics) <= 100) or not (0 <= int(biology) <= 100) or not (0 <= int(urdu) <= 100) or not (0 <= int(english) <= 100) or not (0 <= int(islamiyat_pak_studies) <= 50):
-            messagebox.showerror("Error", "Marks should be between 0 and 100", parent=self)
+            messagebox.show_error("Error", "Marks should be between 0 and 100")
             return
 
         if db.student_exist(roll_no):
             if db.add_result_2_pm_hssc(roll_no, exam_name, physics, chemistry, biology, islamiyat_pak_studies, urdu, english, total_marks):
-                messagebox.showinfo("Success", "Result added successfully!", parent=self)
+                messagebox.show_info("Success", "Result added successfully!")
                 self.roll_entry.delete(0, "end")
                 self.name_entry.delete(0, "end")
                 self.s1_entry.delete(0, "end")
@@ -589,6 +589,6 @@ class AddResult2PMHSSC(ctk.CTkToplevel):
                 self.s5_entry.delete(0, "end")
                 self.s6_entry.delete(0, "end")
             else:
-                messagebox.showerror("Error", "Failed to add result!", parent=self)
+                messagebox.show_error("Error", "Failed to add result!")
         else:
-            messagebox.showerror("Error", "Student not found!", parent=self)
+            messagebox.show_error("Error", "Student not found!")

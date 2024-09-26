@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
-from ... settings import *
+from ...settings import *
+from ... import messagebox
 
 import json
 
@@ -207,10 +208,11 @@ class GetDatesheet():
                     data = json.load(file)
                     return data.get("subjects", [])
             except json.JSONDecodeError:
-                print(f"Error: The file {file_path} is not a valid JSON file or is empty.")
+                messagebox.show_error("Error", f"The file {file_path} is not a valid JSON file or is empty.")
                 return []
             except FileNotFoundError:
                 print(f"Error: The file {file_path} was not found.")
+                messagebox.show_error("Error", f"The file {file_path} was not found.")
                 return []
 
     def create_subject_frame(self, parent_frame, subject_data):
@@ -234,7 +236,7 @@ class GetDatesheet():
 
         sub_sub_text = ctk.CTkLabel(
             sub_frame,
-            text=f"Date:  {subject_data['date']}\nDay:  {subject_data['day']}\nTime:  {subject_data['time']}\nExamination:  {subject_data['Examination']}",
+            text=f"Date:  {subject_data['date']}\nDay:  {subject_data['day']}\nTime:  {subject_data['time']}\nExam:  {subject_data['Exam']}",
             text_color=text_fg,
             font=("Helvetica", 12)
         )

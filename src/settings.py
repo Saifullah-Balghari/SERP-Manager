@@ -41,10 +41,15 @@ try:
     side_icon_path = os.path.join(base_path, "icons", "side_img.png")
     password_icon_path = os.path.join(base_path, "icons", "password.png")
     name_icon_path = os.path.join(base_path, "icons", "name.png")
-    help_icon_path = os.path.join(base_path, "icons", "help.png")
     shortcut_icon_path = os.path.join(base_path, "icons", "shortcut.png")
     get_std_icon_path = os.path.join(base_path, "icons", "get_std.png")
     edit_exam_icon_path = os.path.join(base_path, "icons", "edit_paper.png")
+    help_icon_path = os.path.join(base_path, "icons", "help.png")
+    success_icon_path = os.path.join(base_path, "icons", "success.png")
+    error_icon_path = os.path.join(base_path, "icons", "error.png")
+    yes_no_icon_path = os.path.join(base_path, "icons", "yes_no.png")
+    warn_icon_path = os.path.join(base_path, "icons", "warn.png")
+    info_icon_path = os.path.join(base_path, "icons", "info.png")
 
     # Icons of Subjects(books)icons
     maths_icon_path = os.path.join(base_path, "icons", "math.png")
@@ -99,9 +104,10 @@ def setup_icons():
 
     icons["shortcuts_icon"] = ImageTk.PhotoImage(Image.open(shortcut_icon_path).resize((60,60)), Image.LANCZOS) 
 
-    icons["shortcut_1_icon"] = ImageTk.PhotoImage(Image.open(paper_shortcut_icon_path).resize((100, 100), Image.LANCZOS))                  
-    icons["shortcut_2_icon"] = ImageTk.PhotoImage(Image.open(exam_shortcut_icon_path).resize((100, 100), Image.LANCZOS)) 
-    icons["shortcut_3_icon"] = ImageTk.PhotoImage(Image.open(result_shortcut_icon_path).resize((100, 100), Image.LANCZOS))
+    icons["shortcut_1_icon"] = ImageTk.PhotoImage(Image.open(paper_shortcut_icon_path).resize((80, 80), Image.LANCZOS))                  
+    icons["shortcut_2_icon"] = ImageTk.PhotoImage(Image.open(exam_shortcut_icon_path).resize((80, 80), Image.LANCZOS)) 
+    icons["shortcut_3_icon"] = ImageTk.PhotoImage(Image.open(result_shortcut_icon_path).resize((80, 80), Image.LANCZOS))
+    icons["shortcut_4_icon"] = ImageTk.PhotoImage(Image.open(students_icon_path).resize((80, 80), Image.LANCZOS))
 
     icons["help_icon"] = ImageTk.PhotoImage(Image.open(help_icon_path).resize((60,60)), Image.LANCZOS) 
 

@@ -6,20 +6,22 @@
 
 # External imports
 import customtkinter as ctk
-from tkinter import messagebox, filedialog      # tk
+from tkinter import filedialog      # tk
 from pdf2image import convert_from_path
-from PIL import Image, ImageTk                  # pillow
+from PIL import Image, ImageTk      # pillow
 
 # Local imports
-from .toplevels import contact_us
-from .toplevels import manage_news
-from .toplevels import show_profile
-from .toplevels import manage_exams
-from .toplevels import show_student
-from .toplevels import show_results
+from .components.toplevels import contact_us
+from .components.toplevels import manage_news
+from .components.toplevels import show_profile
+from .components.toplevels import manage_exams
+from .components.toplevels import show_student
+from .components.toplevels import show_results
 from .components.results import get_results
 from .components.examination import datesheet
 from .components.home import news
+
+from . import messagebox
 from .helpers import accounts
 from .settings import *
 
@@ -59,7 +61,7 @@ class SERPManagerGUI(ctk.CTk):
                 self.username, self.password = text.split()
 
             account = accounts.get_account(self.username, self.password)
-            self.role = account['role'].lower()                     
+            self.role = account['role'].lower()         
 
             try:               
                 # Loads the icons
@@ -123,7 +125,7 @@ class SERPManagerGUI(ctk.CTk):
             anchor="w",
             command=self.show_home
         )
-        self.home_button.pack(padx=30, pady=10, fill="x")
+        self.home_button.pack(padx=30, pady=5, fill="x", ipady=5, ipadx=5)
 
         # Students button
         self.student_button = ctk.CTkButton(
@@ -136,7 +138,7 @@ class SERPManagerGUI(ctk.CTk):
             anchor="w",
             command=self.show_students
         )
-        self.student_button.pack(padx=30, pady=10, fill="x")
+        self.student_button.pack(padx=30, pady=5, ipady=5, ipadx=5, fill="x")
 
         # Exams button
         self.exams_button = ctk.CTkButton(
@@ -149,7 +151,7 @@ class SERPManagerGUI(ctk.CTk):
             anchor="w",
             command=self.show_examinations
         )
-        self.exams_button.pack(padx=30, pady=10, fill="x")
+        self.exams_button.pack(padx=30, pady=5, fill="x", ipady=5, ipadx=5)
 
         # Results button
         self.results_button = ctk.CTkButton(
@@ -162,7 +164,7 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg,
             command=self.show_results                           
         )
-        self.results_button.pack(padx=30, pady=10, fill="x")
+        self.results_button.pack(padx=30, pady=5, fill="x", ipady=5, ipadx=5)
 
         # Papers button
         self.papers_button = ctk.CTkButton(
@@ -175,7 +177,7 @@ class SERPManagerGUI(ctk.CTk):
             text_color=text_fg,
             command=self.show_papers
         )
-        self.papers_button.pack(padx=30, pady=10, fill="x")
+        self.papers_button.pack(padx=30, pady=5, fill="x", ipady=5, ipadx=5)
 
         # Profile button
         self.profile_button = ctk.CTkButton(
@@ -187,9 +189,9 @@ class SERPManagerGUI(ctk.CTk):
             anchor="w", 
             fg_color=btn_active,
             text_color=text_fg_2,
-            command=self.show_profile
+            command=lambda: show_profile.CurrentAccount(self)
         )
-        self.profile_button.pack(padx=30, pady=20, side="bottom", fill="x")
+        self.profile_button.pack(padx=10, pady=10, side="bottom", fill="x", ipady=2, ipadx=2)
         
         self.show_profile_toplevel_window = None
 
@@ -263,7 +265,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Shortcut 1
         shortcut_1_frame = ctk.CTkFrame(shortcuts_frame, fg_color=bg)
-        shortcut_1_frame.pack(side="left", padx=30, pady=5)
+        shortcut_1_frame.pack(side="left", padx=15, pady=10)
 
         shortcut_1_icon = ctk.CTkLabel(
             shortcut_1_frame, 
@@ -276,7 +278,7 @@ class SERPManagerGUI(ctk.CTk):
 
         shortcut_1_text = ctk.CTkLabel(
             shortcut_1_frame,
-            text="Keep track of your past and\n model papers, read them, delete them\n and add more papers etc.",
+            text="Keep track of your past and\nmodel or any papers, read, delete \nor add more papers",
             text_color=text_fg,
             font=("Helvetica", -14)
         )
@@ -295,7 +297,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Shortcut 2
         shortcut_2_frame = ctk.CTkFrame(shortcuts_frame, fg_color=bg)
-        shortcut_2_frame.pack(side="left", padx=30, pady=5)
+        shortcut_2_frame.pack(side="left", padx=15, pady=10)
 
         shortcut_2_icon = ctk.CTkLabel(
             shortcut_2_frame,
@@ -308,7 +310,7 @@ class SERPManagerGUI(ctk.CTk):
 
         shortcut_2_text = ctk.CTkLabel(
             shortcut_2_frame,
-            text="Stay up to date with ongoing\n examination's datesheets. Teachers will be \nableto change, remove or add exams.",
+            text="Stay up to date with ongoing\n Examinations. Admins will be able to\nconfigure the schedules.",
             text_color=text_fg,
             font=("Helvetica", -14)
         )
@@ -327,7 +329,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Shortcut 3
         shortcut_3_frame = ctk.CTkFrame(shortcuts_frame, fg_color=bg)
-        shortcut_3_frame.pack(side="left", padx=30, pady=5)
+        shortcut_3_frame.pack(side="left", padx=15, pady=10)
 
         shortcut_3_icon = ctk.CTkLabel(
             shortcut_3_frame, text="", 
@@ -339,7 +341,7 @@ class SERPManagerGUI(ctk.CTk):
 
         shortcut_3_text = ctk.CTkLabel(
             shortcut_3_frame,
-            text="See the results of recent\n examination. The teachers will be able\nto add and remove the results.",
+            text="See the results of Exams\nThe admin will be able to add, edit\n or delete the results.",
             text_color=text_fg,
             font=("Helvetica", -14)
         )
@@ -356,6 +358,37 @@ class SERPManagerGUI(ctk.CTk):
             )
         go_to_results_button.pack(padx=5, pady=10, ipadx=5, ipady=1)
 
+        # Shortcut 4
+        shortcut_4_frame = ctk.CTkFrame(shortcuts_frame, fg_color=bg)
+        shortcut_4_frame.pack(side="left", padx=15, pady=10)
+
+        shortcut_4_icon = ctk.CTkLabel(
+            shortcut_4_frame, text="", 
+            image=icons["shortcut_4_icon"], 
+            height=80, 
+            width=80
+        )
+        shortcut_4_icon.pack(padx=5, pady=5)
+
+        shortcut_4_text = ctk.CTkLabel(
+            shortcut_4_frame,
+            text="Add students, Get info\nof a student or delete a student\n from the database.",
+            text_color=text_fg,
+            font=("Helvetica", -14)
+        )
+        shortcut_4_text.pack(padx=5, pady=5)
+
+        go_to_students_button = ctk.CTkButton(
+            shortcut_4_frame,
+            text="Go to Students",
+            fg_color=btn_active,
+            hover_color=btn_hvr,
+            width=50,
+            height=12,
+            command=self.show_students
+            )
+        go_to_students_button.pack(padx=5, pady=10, ipadx=5, ipady=1)
+
         # buttons frame
         buttons_frame = ctk.CTkFrame(self.main_frame, fg_color=bg)
         buttons_frame.pack(side="bottom", fill="x", padx=5, pady=5)
@@ -364,7 +397,7 @@ class SERPManagerGUI(ctk.CTk):
         contact_us_button = ctk.CTkButton(
             buttons_frame,
             text="About Us",
-            command=self.contact_us_toplevel,
+            command=lambda: contact_us.ContactUs(self),
             text_color=text_fg_2,
             height=12,
             width=40,
@@ -375,13 +408,13 @@ class SERPManagerGUI(ctk.CTk):
         contact_us_button.pack(side="left", padx=5, pady=5, ipadx=10)
 
         self.contact_us_toplevel_window = None
-
+        
         if self.role == "admin":
             # Edit news button
             add_news_button = ctk.CTkButton(
                 buttons_frame,
                 text="Edit News",
-                command=self.manage_news_toplevel,
+                command=lambda: manage_news.ManageNews(self),
                 text_color=text_fg_2,
                 hover_color=btn_hvr,
                 height=12,
@@ -425,7 +458,7 @@ class SERPManagerGUI(ctk.CTk):
                 main_frame,
                 text="Add Student",
                 fg_color=bg,
-                command=self.add_student_toplevel,
+                command=lambda: show_student.AddStudent(self),
                 text_color=text_fg,
                 hover_color=fg,
                 width=100,
@@ -442,7 +475,7 @@ class SERPManagerGUI(ctk.CTk):
                 main_frame,
                 fg_color=bg,
                 text="Get Students",
-                command=self.get_student_toplevel,
+                command=lambda: show_student.GetStudent(self),
                 text_color=text_fg,
                 width=100,
                 height=100,
@@ -459,7 +492,7 @@ class SERPManagerGUI(ctk.CTk):
                 main_frame,
                 fg_color=bg,
                 text="Delete Student",
-                command=self.del_student_toplevel,
+                command=lambda: show_student.DeleteStudent(self),
                 text_color=text_fg,
                 hover_color=fg,
                 width=100,
@@ -512,7 +545,7 @@ class SERPManagerGUI(ctk.CTk):
                 text_color=text_fg_2,
                 fg_color=btn_active,
                 hover_color=btn_hvr,
-                command=self.manage_exams_toplevel,
+                command=lambda: manage_exams.ManageExams(self),
                 height=12,
                 width=40,
             )
@@ -531,8 +564,6 @@ class SERPManagerGUI(ctk.CTk):
                 width=40,
             )
             refresh_btn.grid(row=0, column=1, padx=5, pady=(0, 5), sticky="we")
-
-            self.manage_exams_toplevel_window = None
 
     def show_results(self):
         # clears the main frame and sets the button state
@@ -559,6 +590,8 @@ class SERPManagerGUI(ctk.CTk):
         search_entry = ctk.CTkEntry(search_frame, placeholder_text="Enter roll no...", width=200, corner_radius=5, fg_color=fg, border_color=btn_active)
         search_entry.pack(side="left", padx=5, pady=5)
 
+
+
         search_btn = ctk.CTkButton(
             search_frame,
             text="Search",
@@ -580,10 +613,9 @@ class SERPManagerGUI(ctk.CTk):
                 image=add_paper_button_icon,
                 width=40,
                 hover_color=btn_hvr,
-                command=self.add2csssc_toplevel
+                command=lambda: show_results.AddResult2CSSSC(self)
             )
             btn1.pack(side="left", padx=5, pady=5, ipadx=10)  
-            self.add2csssc_toplevel_window = None
 
             btn2 = ctk.CTkButton(
                 btn_frame,
@@ -593,10 +625,9 @@ class SERPManagerGUI(ctk.CTk):
                 image=add_paper_button_icon,
                 width=40,
                 hover_color=btn_hvr,
-                command=self.add2pmssc_toplevel
+                command=lambda: show_results.AddResult2PMSSC(self)
             )
             btn2.pack(side="left", padx=5, pady=5, ipadx=10)
-            self.add2pmssc_toplevel_window = None
 
             btn3 = ctk.CTkButton(
                 btn_frame,
@@ -606,10 +637,9 @@ class SERPManagerGUI(ctk.CTk):
                 width=40,
                 image=add_paper_button_icon,
                 hover_color=btn_hvr,
-                command=self.add2cshssc_toplevel
+                command=lambda: show_results.AddResult2CSHSSC(self)
             )
             btn3.pack(side="left", padx=5, pady=5, ipadx=10)
-            self.add2cshssc_toplevel_window = None
 
             btn4 = ctk.CTkButton(
                 btn_frame,
@@ -619,10 +649,9 @@ class SERPManagerGUI(ctk.CTk):
                 image=add_paper_button_icon,
                 width=40,
                 hover_color=btn_hvr,
-                command=self.add2pmhssc_toplevel
+                command=lambda: show_results.AddResult2PMHSSC(self)
             )
             btn4.pack(side="left", padx=5, pady=5, ipadx=10)
-            self.add2pmhssc_toplevel_window = None
 
     def show_papers(self):
         # Clear the main frame and set the button state
@@ -715,76 +744,6 @@ class SERPManagerGUI(ctk.CTk):
         # Load the pdfs to the main scrollable frame
         self.load_pdfs(default_pdfs_path)
 
-# helper function for show home section
-    def show_profile(self):
-        if self.show_profile_toplevel_window is None or not self.show_profile_toplevel_window.winfo_exists():
-            self.show_profile_toplevel_window = show_profile.CurrentAccount(self)
-        else:
-            self.show_profile_toplevel_window.focus()
-
-    def contact_us_toplevel(self):
-        if self.contact_us_toplevel_window is None or not self.contact_us_toplevel_window.winfo_exists():
-            self.contact_us_toplevel_window = contact_us.ContactUs(self)
-        else:
-            self.contact_us_toplevel_window.focus()
-
-    def manage_news_toplevel(self):
-        if self.manage_news_toplevel_window is None or not self.manage_news_toplevel_window.winfo_exists():
-            self.manage_news_toplevel_window = manage_news.ManageNews(self)
-        else:
-            self.manage_news_toplevel_window.focus()
-
-# helper functions for show students section
-    def add_student_toplevel(self):
-        if self.add_student_toplevel_window is None or not self.add_student_toplevel_window.winfo_exists():
-            self.add_student_toplevel_window = show_student.AddStudent(self)
-        else:
-            self.add_student_toplevel_window.focus()
-
-    def get_student_toplevel(self):
-        if self.get_student_toplevel_window is None or not self.get_student_toplevel_window.winfo_exists():
-            self.get_student_toplevel_window = show_student.GetStudent(self)
-        else:
-            self.get_student_toplevel_window.focus()
-
-    def del_student_toplevel(self):
-        if self.del_student_toplevel_window is None or not self.del_student_toplevel_window.winfo_exists():
-            self.del_student_toplevel_window = show_student.DeleteStudent(self)
-        else:
-            self.del_student_toplevel_window.focus()
-
-# helper function for show examination section
-    def manage_exams_toplevel(self):
-        if self.manage_exams_toplevel_window is None or not self.manage_exams_toplevel_window.winfo_exists():
-            self.manage_exams_toplevel_window = manage_exams.ManageExams(self)
-        else:
-            self.manage_exams_toplevel_window.focus()
-
-# helper function for show results section
-    def add2csssc_toplevel(self):
-        if self.add2csssc_toplevel_window is None or not self.add2csssc_toplevel_window.winfo_exists():
-            self.add2csssc_toplevel_window = show_results.AddResult2CSSSC(self)
-        else:
-            self.add2csssc_toplevel_window.focus()
-
-    def add2pmssc_toplevel(self):
-        if self.add2pmssc_toplevel_window is None or not self.add2pmssc_toplevel_window.winfo_exists():
-            self.add2pmssc_toplevel_window = show_results.AddResult2PMSSC(self)
-        else:
-            self.add2pmssc_toplevel_window.focus()
-
-    def add2cshssc_toplevel(self):
-        if self.add2cshssc_toplevel_window is None or not self.add2cshssc_toplevel_window.winfo_exists():
-            self.add2cshssc_toplevel_window = show_results.AddResult2CSHSSC(self)
-        else:
-            self.add2cshssc_toplevel_window.focus()
-
-    def add2pmhssc_toplevel(self):
-        if self.add2pmhssc_toplevel_window is None or not self.add2pmhssc_toplevel_window.winfo_exists():
-            self.add2pmhssc_toplevel_window = show_results.AddResult2PMHSSC(self)
-        else:
-            self.add2pmhssc_toplevel_window.focus()
-
 # helper functions for show papers section
     def search_paper(self):
         query = self.search_entry.get().strip()
@@ -809,9 +768,9 @@ class SERPManagerGUI(ctk.CTk):
                         col = 0
                         row += 1
             else:
-                messagebox.showinfo("No Results", "No matching papers found.")
+                messagebox.show_error("No Results", "No matching papers found.")
         else:
-            messagebox.showerror("Error", "Please enter a search query.")
+            messagebox.show_error("Error", "Please enter a search query.")
         
     def refresh_pdfs(self):
         self.load_pdfs(default_pdfs_path)
@@ -885,7 +844,7 @@ class SERPManagerGUI(ctk.CTk):
             elif platform.system() == "Windows":
                 os.system(f"start \"\" \"{pdf_path}\"")
             else:
-                messagebox.showerror("Error", "Unsupported OS")
+                messagebox.show_error("Error", "Unsupported OS", error_icon_path)
         except Exception as e:
             print(e)
 
@@ -896,13 +855,13 @@ class SERPManagerGUI(ctk.CTk):
 
             pdf_files = [f for f in os.listdir(directory) if f.endswith('.pdf')]
             if not pdf_files:
-                messagebox.showinfo("Info", "No PDF files found in the directory.")
+                messagebox.show_error("Error", "No PDF files found in the directory", error_icon_path)
                 return
 
             row = 0
             col = 0
             max_columns = 6
-            for i, pdf_file in enumerate(pdf_files):
+            for _, pdf_file in enumerate(pdf_files):
                 pdf_path = os.path.join(directory, pdf_file)
                 self.add_pdf_tile(self.scrollable_frame, pdf_path, row, col)
                 col += 1

@@ -1,9 +1,8 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk
-from tkinter import messagebox
 
-from ..settings import *
-from ..helpers import accounts
+from ...settings import *
+from ...helpers import accounts
 
 bg = "#FCFAFF"
 fg = "#F4EBFF"

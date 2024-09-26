@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from  PIL import Image, ImageTk
-from tkinter import messagebox
 
-from ..settings import *
-from ..helpers import database as db
+from ...settings import *
+from ... import messagebox 
+from ...helpers import database as db
 
 # Color scheme
 bg = "#FCFAFF"
@@ -132,14 +132,14 @@ class AddStudent(ctk.CTkToplevel):
         address = self.address_entry.get()
 
         if not roll_no or not student_name or not std_father_name or not institution or not level or not year or not contact_no or not mail or not address:
-            messagebox.showerror("Error", "All fields are required.", parent=self)
+            messagebox.show_error("Error", "All fields are required.")
             return
         elif db.student_exist(roll_no):
-            messagebox.showerror("Error", "Student with the same roll number already exists.", parent=self)
+            messagebox.show_error("Error", "Student with the same roll number already exists.")
             return
 
         if db.add_student(roll_no, student_name, std_father_name, institution, level, year, contact_no, mail, address,):
-            messagebox.showinfo("Success", "Student added successfully.", parent=self)
+            messagebox.show_info("Success", "Student added successfully.")
             # clears the entries after successful addition
             self.roll_entry.delete(0, "end")
             self.name_entry.delete(0, "end")
@@ -151,7 +151,7 @@ class AddStudent(ctk.CTkToplevel):
             self.email_entry.delete(0, "end")
             self.address_entry.delete(0, "end")
         else:
-            messagebox.showerror("Error", "Failed to add student check the logs.", parent=self) 
+            messagebox.show_error("Error", "Failed to add student check the logs.") 
 
 class GetStudent(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
@@ -213,13 +213,13 @@ class GetStudent(ctk.CTkToplevel):
     def show_student_info(self):
         roll_no = self.roll_no_entry.get()
         if not roll_no:
-            messagebox.showerror("Error", "Please enter a valid roll number.", parent=self)
+            messagebox.show_error("Error", "Please enter a valid roll number.")
             return
         if not roll_no.isdigit():
-            messagebox.showerror("Error", "Roll number should be a number.", parent=self)
+            messagebox.show_error("Error", "Roll number should be a number.")
             return
         if roll_no == 0:
-            messagebox.showerror("Error", "Roll number should not be zero.", parent=self)
+            messagebox.show_error("Error", "Roll number should not be zero.")
             return
         
         # Fetch student data from database based on roll number
@@ -236,7 +236,7 @@ class GetStudent(ctk.CTkToplevel):
             self.address = student_data['address']
 
         else:
-            messagebox.showerror("Error", "No student found with the given roll number.", parent=self)
+            messagebox.show_error("Error", "No student found with the given roll number.")
             return
 
         # destroy previous widgets in the frame
@@ -336,13 +336,13 @@ class DeleteStudent(ctk.CTkToplevel):
     def delete_student(self):
         roll_no = self.roll_no_entry.get()
         if not roll_no:
-            messagebox.showerror("Error", "Please enter a valid roll number.", parent=self)
+            messagebox.show_error("Error", "Please enter a valid roll number.")
             return
         if not roll_no.isdigit():
-            messagebox.showerror("Error", "Roll number should be a number.", parent=self)
+            messagebox.show_error("Error", "Roll number should be a number.")
             return
         if roll_no == 0:
-            messagebox.showerror("Error", "Roll number should not be zero.", parent=self)
+            messagebox.show_error("Error", "Roll number should not be zero.")
             return
 
         # Delete student data from database based on roll number
@@ -355,10 +355,10 @@ class DeleteStudent(ctk.CTkToplevel):
               Institution: {student["institution"]}\n 
             Do you want to delete?      
             """
-            confirmed = messagebox.askyesno("Student found!", message, parent=self)
+            confirmed = messagebox.show_yes_no("Student found!", message)
             if confirmed:
                 if db.delete_student(roll_no):
-                    messagebox.showinfo("Success", "Student deleted successfully.", parent=self)
+                    messagebox.show_info("Success", "Student deleted successfully.")
                     self.roll_no_entry.delete(0, "end")
         else:
-            messagebox.showerror("Error", "Failed to delete student. Please check the roll number and try again.", parent=self)
+            messagebox.show_error("Error", "Failed to delete student. Please check the roll number and try again.")

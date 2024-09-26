@@ -1,6 +1,7 @@
 import customtkinter as ctk
 
-from ..settings import *
+from ...settings import *
+from ... import messagebox
 
 bg = "#FCFAFF"
 fg = "#F4EBFF"
@@ -11,7 +12,7 @@ text_fg = "#53389E"
 
 class ManageNews(ctk.CTkToplevel):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__( *args, **kwargs)
 
         self.title("Toplevel - Edit News")
         self.resizable(False, False)
@@ -154,7 +155,7 @@ class ManageNews(ctk.CTkToplevel):
                     self.news_3 = news_lines[2].strip()
                     self.news_4 = news_lines[3].strip()
         except FileNotFoundError:
-            print("News file not found, starting with empty fields.")
+            messagebox.show_error("Error", "News file not found, starting with empty fields.")
 
     def save_news(self):
         # Update the news entries based on user input
@@ -166,7 +167,7 @@ class ManageNews(ctk.CTkToplevel):
         # Write the news to the file
         with open(news_txt_path, "w") as f:
             f.write(f"{self.news_1}\n{self.news_2}\n{self.news_3}\n{self.news_4}")
-            print("News updated successfully!")
+            messagebox.show_success("Success", "News updated successfully!")
 
         # Close the window
         self.destroy()

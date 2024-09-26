@@ -1,9 +1,9 @@
 import customtkinter as ctk
-from tkinter import messagebox
 import CTkTable as ctkt
 
 from ... settings import *
 from ... helpers import database as db
+from ... import messagebox 
 
 # Color scheme
 bg = "#FCFAFF"
@@ -22,7 +22,7 @@ class GetResult():
         roll_no = roll_no_entry.get()
         
         if not roll_no.isdigit():
-            messagebox.showerror("Error", "Invalid Roll Number!")
+            messagebox.show_error(title="Error", message="Invalid Roll Number!")
             return
 
         result = db.get_results_4_cs_ssc(roll_no)   
@@ -41,7 +41,7 @@ class GetResult():
                     if result:
                         self.pm_hssc(result, result_frame)
                     else:
-                        messagebox.showerror("Error", "No results found for this roll number.")
+                        messagebox.show_error(title="Error", message="No results found for this roll number.")
 
     def cs_ssc(self, result, result_frame):
         name = result["name"]
