@@ -1,7 +1,9 @@
 import customtkinter as ctk
-from tkinter import messagebox, Menu
+import CTkMessagebox
+from tkinter import  Menu
 
 from ...settings import *
+from ... import messagebox
 
 import json
 import os
@@ -80,7 +82,7 @@ class ManageExams(ctk.CTkToplevel):
         Returns an empty dictionary if the file does not exist, is empty, or is not a valid JSON file.
         """
         if not os.path.exists(file_path):
-            messagebox.showerror("Error", f"The file {file_path} was not found.", parent=self)
+            messagebox.show_error("Error", f"The file {file_path} was not found.")
             return {}
 
         try:
@@ -93,10 +95,10 @@ class ManageExams(ctk.CTkToplevel):
                 data = json.loads(content)
                 return data
         except json.JSONDecodeError:
-            messagebox.showerror("Error", f"The file {file_path} is not a valid JSON file.", parent=self)
+            messagebox.show_error("Error", f"The file {file_path} is not a valid JSON file.")
             return {}
         except Exception as e:
-            messagebox.showerror("Error", f"An unexpected error occurred: {e}", parent=self)
+            messagebox.show_error("Error", f"An unexpected error occurred: {e}")
             return {}
 
     def save_data(self, file_path, data):
@@ -106,9 +108,9 @@ class ManageExams(ctk.CTkToplevel):
         try:
             with open(file_path, "w") as file:
                 json.dump(data, file, indent=2)
-            messagebox.showinfo("Success", f"Data saved successfully to {file_path}!", parent=self)
+            messagebox.show_info("Success", f"Data saved successfully to {file_path}!")
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to save data: {e}", parent=self)
+            messagebox.show_error("Error", f"Failed to save data: {e}")
 
     def save_changes(self):
         """
@@ -120,7 +122,7 @@ class ManageExams(ctk.CTkToplevel):
         content = self.textboxes[tab_name].get("1.0", ctk.END).strip()
 
         if content == self.original_content[tab_name].strip():
-            messagebox.showwarning("No Changes", "No changes detected to save.", parent=self)
+            messagebox.show_warning("No Changes", "No changes detected to save.")
             return
 
         try:
@@ -128,7 +130,7 @@ class ManageExams(ctk.CTkToplevel):
             self.save_data(self.file_paths[tab_name], json_data)  # Save JSON data back to file
             self.original_content[tab_name] = content  # Update the original content after saving
         except json.JSONDecodeError:
-            messagebox.showerror("Error", "Invalid JSON format. Please correct it.", parent=self)
+            messagebox.show_error("Error", "Invalid JSON format. Please correct it.")
 
     def select_all(self, tab_name):
         """
@@ -156,7 +158,7 @@ class ManageExams(ctk.CTkToplevel):
                 break
 
         if unsaved_changes:
-            response = messagebox.askyesno("Unsaved Changes", "There are unsaved changes. Do you want to close without saving?", parent=self)
+            response = messagebox.show_yes_no("Unsaved Changes", "There are unsaved changes. Do you want to close without saving?")
             if response:  # If the user confirms
                 self.destroy()
         else:
@@ -180,7 +182,7 @@ class ManageExams(ctk.CTkToplevel):
             "3. Avoid using special characters or leaving any syntax errors (e.g., missing commas, mismatched brackets).\n"
             "4. Edit the data directly in the text box. Click 'Save' to apply your changes.\n"
         )
-        messagebox.showinfo("Help", help_message, parent=self)
+        messagebox.show_info("Help", help_message)
 
     def reset(self, tab_name):
         """

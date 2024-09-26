@@ -1,5 +1,7 @@
 from CTkMessagebox import CTkMessagebox
 
+from .settings import *
+
 # Color scheme
 bg = "#FCFAFF"
 fg = "#F4EBFF"
@@ -17,6 +19,7 @@ def show_info(title, message):
         icon_size=(50, 50),
         fg_color=fg,
         bg_color=fg,
+        icon=info_icon_path,
         topmost=True,
         button_color=btn_active,
         button_hover_color=btn_hvr,
@@ -34,7 +37,7 @@ def show_success(title, message):
         title=title, 
         message=message,
         option_1="Okay",
-        icon="check",
+        icon=success_icon_path,
         icon_size=(50, 50),
         fg_color=fg,
         bg_color=fg,
@@ -55,7 +58,7 @@ def show_error(title, message):
         title=title, 
         message=message,
         option_1="Okay",
-        icon="cancel",
+        icon=error_icon_path,
         icon_size=(50, 50),
         fg_color=fg,
         bg_color=fg,
@@ -75,7 +78,7 @@ def show_warning(title, message):
     CTkMessagebox(
         title=title, 
         message=message,
-        icon="warning", 
+        icon=warn_icon_path, 
         option_1="OK",
         icon_size=(50, 50),
         fg_color=fg,
@@ -95,7 +98,7 @@ def show_yes_no(title, message) -> bool:
     msg = CTkMessagebox(
         title=title, 
         message=message,
-        icon="question", 
+        icon=yes_no_icon_path, 
         option_1="Yes", 
         option_2="No",
         icon_size=(50, 50),
