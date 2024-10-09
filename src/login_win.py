@@ -1,9 +1,9 @@
-from PIL import Image, ImageTk
-from tkinter import messagebox
+from PIL import Image
 import customtkinter as ctk
 
 from .settings import *
 from .helpers import accounts
+from .components import messagebox
 
 ctk.set_appearance_mode("light")
 
@@ -223,7 +223,7 @@ class LoginGui(ctk.CTk):
         self.password = self.password_entry.get()
 
         if self.username == "" or self.password == "":
-            messagebox.showerror("Login Failed", "All fields are required!")
+            messagebox.show_error("Login Failed", "All fields are required!")
             return False
         
         if accounts.verify_account(self.username, self.password):
@@ -232,7 +232,7 @@ class LoginGui(ctk.CTk):
             return True
     
         else:
-            messagebox.showerror("Login Failed", "Invalid credentials!")
+            messagebox.show_error("Login Failed", "Invalid credentials!")
             return False
 
     def create_account(self) -> None:
@@ -240,18 +240,18 @@ class LoginGui(ctk.CTk):
         self.password = self.password_entry.get()
 
         if self.username == "" or self.password == "":
-            messagebox.showerror("Signup Failed", "All fields are required!")
+            messagebox.show_error("Signup Failed", "All fields are required!")
             return
 
         if accounts.verify_account(self.username, self.password):
-            messagebox.showerror("Signup Failed", "Account already exists!")
+            messagebox.show_error("Signup Failed", "Account already exists!")
             return
 
         try:
             accounts.add_account(self.username, self.password)
-            messagebox.showinfo("Signup Successful", "Account created successfully!")
+            messagebox.show_info("Signup Successful", "Account created successfully!")
         except Exception as e:
-            messagebox.showerror("Signup Failed", f"Failed to create account: {e}")
+            messagebox.show_error("Signup Failed", f"Failed to create account: {e}")
 
     def save_current_user(self):
         with open(current_role_path, "w") as file:

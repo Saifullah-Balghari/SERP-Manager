@@ -1,6 +1,6 @@
 from CTkMessagebox import CTkMessagebox
 
-from .settings import *
+from ..settings import *
 
 # Color scheme
 bg = "#FCFAFF"

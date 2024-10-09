@@ -8,7 +8,8 @@ base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
 
 # Paths
 current_role_path = os.path.join(base_path, "current_role.txt")
-default_pdfs_path = os.path.join(base_path, "papers")
+default_pdfs_path = os.path.join(base_path,"pdfs", "papers")
+news_pdfs_path = os.path.join(base_path,"pdfs", "news")
 cache_folder_path = os.path.join(base_path, "cache")
 acc_json_path = os.path.join(base_path, "json", "accounts.json")
 current_role_path = os.path.join(base_path, "current_role.txt")
@@ -50,6 +51,12 @@ try:
     yes_no_icon_path = os.path.join(base_path, "icons", "yes_no.png")
     warn_icon_path = os.path.join(base_path, "icons", "warn.png")
     info_icon_path = os.path.join(base_path, "icons", "info.png")
+
+    # Socials icons
+    instagram_icon_path = os.path.join(base_path, "icons", "instagram.png")
+    linkedin_icon_path = os.path.join(base_path, "icons", "linkedin.png")
+    github_icon_path = os.path.join(base_path, "icons", "github.png")
+    youtube_icon_path = os.path.join(base_path, "icons", "youtube.png")
 
     # Icons of Subjects(books) icons
     maths_icon_path = os.path.join(base_path, "icons", "math.png")
@@ -118,3 +125,9 @@ def setup_icons():
     icons["add_icon"] = ImageTk.PhotoImage(Image.open(add_exams_icon_path).resize((60, 60), Image.LANCZOS))
     icons["get_icon"] = ImageTk.PhotoImage(Image.open(get_std_icon_path).resize((60, 60), Image.LANCZOS))
     icons["del_icon"] = ImageTk.PhotoImage(Image.open(delete_icon_path).resize((60, 60), Image.LANCZOS))
+
+    icons["github"] = ImageTk.PhotoImage(Image.open(github_icon_path).resize((60, 60), Image.LANCZOS))
+    icons["youtube"] = ImageTk.PhotoImage(Image.open(youtube_icon_path).resize((60, 60), Image.LANCZOS))
+    icons["instagram"] = ImageTk.PhotoImage(Image.open(instagram_icon_path).resize((60, 60), Image.LANCZOS))
+    icons["linkedin"] = ImageTk.PhotoImage(Image.open(linkedin_icon_path).resize((60, 60), Image.LANCZOS))
+    

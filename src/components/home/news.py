@@ -1,6 +1,10 @@
 import customtkinter as ctk
 
 from ... settings import *
+from .. import messagebox 
+
+import os
+import platform
 
 # Color scheme
 bg = "#FCFAFF"
@@ -10,21 +14,12 @@ btn_hvr = "#7F56D9"
 btn_active = "#6941C6"
 text_fg = "#53389E"
 
+
 class GetNews():
     def __init__(self, news_n_updates, image):
 
-        with open(news_txt_path, "rb") as f:
-            lines = f.readlines()
-
-        self.news_1 = lines[0].strip() if len(lines) > 0 else ""
-        self.news_2 = lines[1].strip() if len(lines) > 1 else ""
-        self.news_3 = lines[2].strip() if len(lines) > 2 else ""
-        self.news_4 = lines[3].strip() if len(lines) > 3 else ""
+        self.read_news_file()
     
-        self.widgets(news_n_updates, image)
-
-    def widgets(self, news_n_updates, image):
-
         title_label = ctk.CTkLabel(
             news_n_updates,
             fg_color=bg,
@@ -41,78 +36,54 @@ class GetNews():
         news_frame = ctk.CTkFrame(news_n_updates, fg_color=bg)
         news_frame.pack(fill="x", padx=10, pady=10)
 
-        # news 1
-        news_1_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
-        news_1_frame.pack(fill="x", padx=5, pady=5)
+        for _, news_item in enumerate(self.news_list):
+            news_button = ctk.CTkButton(
+                news_frame,
+                text=news_item,
+                fg_color=fg,
+                hover_color=btn_hvr,
+                border_width=1,
+                border_color=btn_active,
+                text_color=text_fg,
+                anchor="w",
+                compound="left",
+                image=icons["arrow_icon"],
+                font=("Helvetica", -14),
+                command=lambda n=news_item: self.open_pdf_for_news(n)
+            )
+            news_button.pack(fill="x", expand=True, padx=5, pady=5, ipadx=2, ipady=5)
 
-        news_arrow = ctk.CTkLabel(
-            news_1_frame,
-            image=icons["arrow_icon"],
-            text=""
-        )
-        news_arrow.pack(side="left", padx=5, pady=5)
+    def read_news_file(self):
+        try:
+            with open(news_txt_path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
 
-        news_1_text = ctk.CTkLabel(
-            news_1_frame,
-            text=self.news_1,
-            text_color=text_fg,
-            font=("Helvetica", -14)
-        )
-        news_1_text.pack(side="left", padx=5, pady=5)
+            self.news_list = [line.strip() for line in lines if line.strip()]
+            return self.news_list
 
-        # news 2
-        news_2_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
-        news_2_frame.pack(fill="x", padx=5, pady=5)
+        except FileNotFoundError:
+            messagebox.show_error("Error", f"News file not found at '{news_txt_path}'.")
+            return []
 
-        news_arrow = ctk.CTkLabel(
-            news_2_frame,
-            image=icons["arrow_icon"],
-            text=""
-        )
-        news_arrow.pack(side="left", padx=5, pady=5)
+    def open_pdf_for_news(self, news_item):
 
-        news_2_text = ctk.CTkLabel(
-            news_2_frame,
-            text=self.news_2,
-            text_color=text_fg,
-            font=("Helvetica", -14)
-        )
-        news_2_text.pack(side="left", padx=5, pady=5)
+        pdf_files = [f for f in os.listdir(news_pdfs_path) if f.startswith(news_item) and f.endswith(".pdf")]
 
-        # news 3
-        news_3_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
-        news_3_frame.pack(fill="x", padx=5, pady=5)
+        if pdf_files:
+            pdf_path = os.path.join(news_pdfs_path, pdf_files[0])
+            self.open_pdf(pdf_path)
+        else:
+            messagebox.show_error("Error Opening", f"No PDF found for '{news_item}'")
 
-        news_arrow = ctk.CTkLabel(
-            news_3_frame,
-            image=icons["arrow_icon"],
-            text=""
-        )
-        news_arrow.pack(side="left", padx=5, pady=5)
-
-        news_3_text = ctk.CTkLabel(
-            news_3_frame,
-            text=self.news_3,
-            text_color=text_fg,
-            font=("Helvetica", -14)
-        )
-        news_3_text.pack(side="left", padx=5, pady=5)
-
-        # news 4
-        news_4_frame = ctk.CTkFrame(news_frame, fg_color=fg, border_width=1, border_color=btn_active)
-        news_4_frame.pack(fill="x", padx=5, pady=5)
-
-        news_arrow = ctk.CTkLabel(
-            news_4_frame,
-            image=icons["arrow_icon"],
-            text=""
-        )
-        news_arrow.pack(side="left", padx=5, pady=5)
-
-        news_4_text = ctk.CTkLabel(
-            news_4_frame,
-            text=self.news_4,
-            text_color=text_fg,
-            font=("Helvetica", -14)
-        )
-        news_4_text.pack(side="left", padx=5, pady=5)
+    def open_pdf(self, pdf_path):
+        try:
+            if platform.system() == "Linux":
+                os.system(f"xdg-open \"{pdf_path}\"")
+            elif platform.system() == "Darwin":
+                os.system(f"open \"{pdf_path}\"")
+            elif platform.system() == "Windows":
+                os.system(f"start \"\" \"{pdf_path}\"")
+            else:
+                messagebox.show_error("Error", "Unsupported OS")
+        except Exception as e:
+            messagebox.show_error("OS Error", f"Error opening PDF: {e}")

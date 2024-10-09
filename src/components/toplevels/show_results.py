@@ -3,7 +3,7 @@ from  PIL import Image, ImageTk
 
 from ...settings import *
 from ...helpers import database as db
-from ... import messagebox
+from ...components import messagebox
 
 # Color scheme
 bg = "#FCFAFF"

@@ -20,8 +20,9 @@ from .components.toplevels import show_results
 from .components.results import get_results
 from .components.examination import datesheet
 from .components.home import news
+from .components import messagebox
+from .components import tooltip
 
-from . import messagebox
 from .helpers import accounts
 from .settings import *
 
@@ -396,7 +397,7 @@ class SERPManagerGUI(ctk.CTk):
         # Contact us button
         contact_us_button = ctk.CTkButton(
             buttons_frame,
-            text="About Us",
+            text="Contact Us",
             command=lambda: contact_us.ContactUs(self),
             text_color=text_fg_2,
             height=12,
@@ -818,12 +819,14 @@ class SERPManagerGUI(ctk.CTk):
             tile_frame.grid_propagate(False)
 
             file_name = os.path.basename(pdf_path)
+            file_name_short = file_name
+
             if len(file_name) > 15:
-                file_name = file_name[:15] + "..."
+                file_name_short = file_name[:15] + "..."
 
             tile_button = ctk.CTkButton(
                 tile_frame,
-                text=file_name,
+                text=file_name_short,
                 image=img_tk,                   
                 compound="top",
                 border_width=1, 
@@ -834,6 +837,7 @@ class SERPManagerGUI(ctk.CTk):
                 command=lambda path=pdf_path: self.open_pdf(path)
             )
             tile_button.pack(fill="both", side="top", padx=0, pady=0, ipadx=7, ipady=15)
+            tooltip.show(widget=tile_button, message=file_name)
 
     def open_pdf(self, pdf_path):
         try:
@@ -855,7 +859,7 @@ class SERPManagerGUI(ctk.CTk):
 
             pdf_files = [f for f in os.listdir(directory) if f.endswith('.pdf')]
             if not pdf_files:
-                messagebox.show_error("Error", "No PDF files found in the directory", error_icon_path)
+                messagebox.show_error("Error", "No PDF files found in the directory")
                 return
 
             row = 0

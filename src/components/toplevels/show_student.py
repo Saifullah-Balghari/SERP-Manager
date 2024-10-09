@@ -2,7 +2,7 @@ import customtkinter as ctk
 from  PIL import Image, ImageTk
 
 from ...settings import *
-from ... import messagebox 
+from ...components import messagebox 
 from ...helpers import database as db
 
 # Color scheme

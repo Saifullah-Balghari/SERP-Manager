@@ -1,9 +1,9 @@
 import customtkinter as ctk
 import CTkTable as ctkt
 
-from ... settings import *
-from ... helpers import database as db
-from ... import messagebox 
+from ...settings import *
+from ...helpers import database as db
+from ...components import messagebox 
 
 # Color scheme
 bg = "#FCFAFF"
