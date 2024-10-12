@@ -17,7 +17,7 @@ class ContactUs(ctk.CTkToplevel):
 
         self.title("Toplevel - Contact Us")
         self.geometry("600x300")
-        self.resizable(0, 0)
+        self.resizable(0, 0) 
         self.configure(fg_color=fg)
         self.attributes("-topmost", True)
         self.update()
