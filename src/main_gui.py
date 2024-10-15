@@ -230,13 +230,13 @@ class SERPManagerGUI(ctk.CTk):
             )
         main_scrollable_frame.pack(fill="both", expand="true", padx=5, pady=5)
 
-        # Wellcome message frame
-        wellcome_message_frame = ctk.CTkFrame(main_scrollable_frame, height=60, fg_color=bg)
-        wellcome_message_frame.pack(side="top", fill="x", padx=5, pady=5)
+        # Welcome message frame
+        welcome_message_frame = ctk.CTkFrame(main_scrollable_frame, height=60, fg_color=bg)
+        welcome_message_frame.pack(side="top", fill="x", padx=5, pady=5)
 
         # Title Label
         logo_label = ctk.CTkLabel(
-            wellcome_message_frame,
+            welcome_message_frame,
             text="Welcome To SERP-Manager",
             text_color=text_fg,
             font=("Helvetica", -32, "bold")
@@ -245,7 +245,7 @@ class SERPManagerGUI(ctk.CTk):
 
         # Introduction Label
         intro_label = ctk.CTkLabel(
-            wellcome_message_frame,
+            welcome_message_frame,
             text="Manage examinations, results, and much more...",
             text_color="grey",
             font=("Helvetica", -14)
