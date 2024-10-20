@@ -1,7 +1,7 @@
 import customtkinter as ctk
 
-from ...settings import *
-from ...components import messagebox
+from ...helpers.settings import *
+from ...helpers import messagebox
 
 import json
 

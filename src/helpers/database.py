@@ -1,6 +1,6 @@
 import sqlite3
 
-from ..settings import *
+from .settings import *
 
 connection = sqlite3.connect(f"{base_path}/serp.db")
 c = connection.cursor()
@@ -176,6 +176,30 @@ def delete_student(roll_no):
         with connection:
             c.execute('''
             DELETE FROM students 
+            WHERE roll_number = ?
+            ''', (roll_no,)
+            )
+        with connection:
+            c.execute('''
+            DELETE FROM ssc_cs_results
+            WHERE roll_number = ?
+            ''', (roll_no,)
+            )
+        with connection:
+            c.execute('''
+            DELETE FROM ssc_pm_results
+            WHERE roll_number = ?
+            ''', (roll_no,)
+            )
+        with connection:
+            c.execute('''
+            DELETE FROM hssc_cs_results
+            WHERE roll_number = ?
+            ''', (roll_no,)
+            )
+        with connection:
+            c.execute('''
+            DELETE FROM hssc_pm_results
             WHERE roll_number = ?
             ''', (roll_no,)
             )

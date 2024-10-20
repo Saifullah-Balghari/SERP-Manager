@@ -1,8 +1,8 @@
 import customtkinter as ctk
 from tkinter import  Menu
 
-from ...settings import *
-from ...components import messagebox
+from ...helpers.settings import *
+from ...helpers import messagebox
 
 import json
 import os

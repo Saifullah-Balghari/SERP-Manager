@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from ...settings import *
+from ...helpers.settings import *
 
 import webbrowser
 

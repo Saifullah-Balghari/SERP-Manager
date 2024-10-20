@@ -1,4 +1,5 @@
-from ..settings import *
+
+from .settings import *
 
 import json
 from datetime import datetime

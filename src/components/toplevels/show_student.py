@@ -1,8 +1,8 @@
 import customtkinter as ctk
 from  PIL import Image, ImageTk
 
-from ...settings import *
-from ...components import messagebox 
+from ...helpers.settings import *
+from ...helpers import messagebox 
 from ...helpers import database as db
 
 # Color scheme

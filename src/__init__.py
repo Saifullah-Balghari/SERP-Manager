@@ -6,8 +6,8 @@
 
 __version__ = "beta 1.0.0"
 
-from . import login_win
-from . import main_gui
+from .components import (login_win,
+                         main_gui)
 
 root = login_win.LoginGui()
 def login():

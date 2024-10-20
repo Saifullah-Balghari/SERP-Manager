@@ -1,10 +1,9 @@
 from PIL import Image
 import customtkinter as ctk
 
-from .settings import *
-from .helpers import accounts
-from .components import messagebox
-
+from ..helpers.settings import *
+from ..helpers import accounts
+from ..helpers import messagebox
 ctk.set_appearance_mode("light")
 
 bg = "#FCFAFF"
@@ -21,9 +20,9 @@ class LoginGui(ctk.CTk):
 
         self.title("Login Menu")
 
-        self.side_img = CTkImage(Image.open(side_icon_path), size=(300, 480))
-        self.name_icon = CTkImage(Image.open(name_icon_path), size=(20,20))
-        self.password_icon = CTkImage(Image.open(password_icon_path), size=(18,18))                     
+        self.side_img = ctk.CTkImage(Image.open(side_icon_path), size=(300, 480))
+        self.name_icon = ctk.CTkImage(Image.open(name_icon_path), size=(20,20))
+        self.password_icon = ctk.CTkImage(Image.open(password_icon_path), size=(18,18))                     
 
         self.login_frame = ctk.CTkFrame(self, fg_color="#FFF", corner_radius=0)
         self.login_frame.grid(sticky="nsew")

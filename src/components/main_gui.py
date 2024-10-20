@@ -11,20 +11,20 @@ from pdf2image import convert_from_path
 from PIL import Image, ImageTk      # pillow
 
 # Local imports
-from .components.toplevels import contact_us
-from .components.toplevels import manage_news
-from .components.toplevels import show_profile
-from .components.toplevels import manage_exams
-from .components.toplevels import show_student
-from .components.toplevels import show_results
-from .components.results import get_results
-from .components.examination import datesheet
-from .components.home import news
-from .components import messagebox
-from .components import tooltip
+from .toplevels import contact_us
+from .toplevels import manage_news
+from .toplevels import show_profile
+from .toplevels import manage_exams
+from .toplevels import show_student
+from .toplevels import show_results
+from .examination import datesheet
+from .results import get_results
+from .home import news
 
-from .helpers import accounts
-from .settings import *
+from ..helpers import tooltip
+from ..helpers import accounts
+from ..helpers import messagebox
+from ..helpers.settings import *
 
 # Inbuilt imports
 import platform
