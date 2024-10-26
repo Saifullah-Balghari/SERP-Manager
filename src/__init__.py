@@ -4,8 +4,6 @@
 # This is a simple GUI Application that can be used as an Examinations, Results and Paper Manager.
 # As of now this project is a personal side project and is not intended for commercial use or distribution.
 
-__version__ = "beta 1.0.0"
-
 from .components import (login_win,
                          main_gui)
 
