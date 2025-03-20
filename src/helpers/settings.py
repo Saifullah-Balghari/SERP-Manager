@@ -3,8 +3,7 @@ from PIL import Image, ImageTk
 
 import os
 
-# Set the default path as "..\..\..\..\..\..\SERP-Manager"
-base_path = r'/home/sbalghari/Documents/GitHub/SERP-Manager'
+base_path = os.path.expanduser("~/Documents/Github/SERP-Manager")
 
 # Paths
 current_role_path = os.path.join(base_path, "current_role.txt")

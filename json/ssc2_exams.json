@@ -1,1 +1,74 @@
-{}
+{
+  "subjects": [
+    {
+      "subject_name": "Chemistry",
+      "date": "10-09-2024",
+      "day": "Tuesday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Urdu",
+      "date": "14-09-2024",
+      "day": "Saturday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Mathematics",
+      "date": "18-09-2024",
+      "day": "Wednesday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Islamiyat",
+      "date": "20-09-2024",
+      "day": "Friday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Computer Science",
+      "date": "23-09-2024",
+      "day": "Monday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Biology",
+      "date": "23-09-2024",
+      "day": "Monday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Physics",
+      "date": "30-09-2024",
+      "day": "Monday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Pakistan Studies",
+      "date": "28-09-2024",
+      "day": "Saturday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Biology",
+      "date": "01-10-2024",
+      "day": "Tuesday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    },
+    {
+      "subject_name": "Computer Science",
+      "date": "01-10-2024",
+      "day": "Tuesday",
+      "time": "03:00 - 06:00",
+      "Exam": "SSC 2nd Annual 2024"
+    }
+  ]
+}
