@@ -4,7 +4,6 @@ SERP Manager is a Python-based GUI application for managing exam schedules, stud
 
 ## Screenshots
 
-![Screenshot1](https://github.com/Saifullah-Balghari/SERP-Manager/blob/main/assets/s1.png)
 ![Screenshot2](https://github.com/Saifullah-Balghari/SERP-Manager/blob/main/assets/s2.png)
 ![Screenshot3](https://github.com/Saifullah-Balghari/SERP-Manager/blob/main/assets/s3.png)
 ![Screenshot4](https://github.com/Saifullah-Balghari/SERP-Manager/blob/main/assets/s4.png)
