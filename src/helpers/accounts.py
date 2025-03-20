@@ -1,3 +1,4 @@
+# I tried using pymongo for this but due my slow internet i can't
 
 from .settings import *
 
